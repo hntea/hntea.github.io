@@ -1,237 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-18T21:42:56+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">利用 github Pages 与 jekyll 建立个人博客</title><link href="http://localhost:4000/%E5%88%A9%E7%94%A8-Github-pages-%E4%B8%8E-Jekyll-%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="alternate" type="text/html" title="利用 github Pages 与 jekyll 建立个人博客" /><published>2017-01-18T00:00:00+08:00</published><updated>2017-01-18T00:00:00+08:00</updated><id>http://localhost:4000/利用 Github-pages 与 Jekyll 建立个人博客</id><content type="html" xml:base="http://localhost:4000/%E5%88%A9%E7%94%A8-Github-pages-%E4%B8%8E-Jekyll-%E5%BB%BA%E7%AB%8B%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">&lt;p&gt;#Github-pages + Jekyll 组合搭建个人博客&lt;/p&gt;
-
-&lt;p&gt;##说明：&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;系统环境：ubuntu14.04&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;##安装依赖环境&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://www.ruby-lang.org/en/documentation/installation/#apt&quot;&gt;Ruby Install&lt;/a&gt;&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;注意版本：Ruby version &amp;gt;= 2.0&lt;/li&gt;
-      &lt;li&gt;若使用下面安装方式，其版本太老
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- sudo apt-get install ruby-full
-&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;直接下载最新源码包并解压，进入源码目录
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
-  ./configure
-  make
-  sudo make install
-&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://rubygems.org/pages/download&quot;&gt;RubyGems Install&lt;/a&gt;&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;进入官网下载源码，解压进入目录&lt;/li&gt;
-      &lt;li&gt;执行
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- cd rubygems-2.6.8/
- sudo ruby setup.rb
-&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions&quot;&gt;NodeJS Install&lt;/a&gt;&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;安装最新版本：
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
- sudo apt-get install -y nodejs
-&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;Python2.7 或以上&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;#安装 jekyll&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;安装&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- sudo gem install jekyll
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;查看安装版本号&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- $ jekyll --version
- $ gem list jekyll
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;更新
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- gem update jekyll
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;##安装GIT-GUI&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;安装&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- sudo apt-get install git-gui
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;启动&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- git gui
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;配置&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;##使用 jeklly&lt;/p&gt;
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;创建博客本地博客站点&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;创建
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- jeklly new blog	
-&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;如提示错误信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll 3.3.1 | Error:  bundler&lt;/code&gt;,是由于该工具没有安装导致的，执行
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- gem install bundler
-&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;启动jeklly本地服务对博客进行预览&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;启动服务
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- jeklly server
-&lt;/code&gt;
- &lt;strong&gt;注意：&lt;/strong&gt; 启动服务时应该进入刚创建的 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录中&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- http://localhost:4000
-&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;添加博客文件&lt;/p&gt;
-
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;进入 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog/_posts/&lt;/code&gt; 目录中,创建新的 	&lt;code class=&quot;highlighter-rouge&quot;&gt;markdown&lt;/code&gt; 文件&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;当文件博客文件创建好后，回到 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;jeklly build&lt;/code&gt; 编译，编译后生成的文件可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt;目录下查看，重启服务，即可看到网页有更新&lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;注意&lt;/p&gt;
-
-        &lt;ul&gt;
-          &lt;li&gt;文件命名必须严格遵守:YYYY-MM-DD-name-of-post.markdown 格式&lt;/li&gt;
-          &lt;li&gt;在 markdown 文件头部添加格式说明，以便转换成网页&lt;/li&gt;
-        &lt;/ul&gt;
-      &lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;githup-pages-&quot;&gt;GitHup Pages 创建&lt;/h1&gt;
-
-&lt;p&gt;这一步比较简单，登录 githup 帐号&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;创建仓库，仓库遵守命名规则：&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;username.github.io&lt;/code&gt;,username：你在githup上的用户名，如我自己的:	
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- hntea/hntea.github.io
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;设置仓库，随便选择主题即可&lt;/li&gt;
-  &lt;li&gt;访问查看效果，在浏览器中输入:&lt;code class=&quot;highlighter-rouge&quot;&gt;https://hntea.github.io/&lt;/code&gt; 即可&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h1 id=&quot;jeklly--githup-pages-&quot;&gt;将本地 Jeklly 博客部署到 GitHup Pages 上&lt;/h1&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;克隆仓库到本地
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- git clone https://github.com/hntea/hntea.github.io
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;将上面创建的 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt; 文件夹下的所有目录复制到&lt;strong&gt;仓库下&lt;/strong&gt;
- &lt;code class=&quot;highlighter-rouge&quot;&gt;
- cp blog/* ./hntea.githup.io/
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;提交到本地仓库&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- git add --all
- git commit -m &quot;信息记录&quot;
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;上传到githup仓库的主分支&lt;/p&gt;
-
-    &lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;
- git push -u origin master
-&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;启动 &lt;code class=&quot;highlighter-rouge&quot;&gt;jeklly server&lt;/code&gt; 可查看网页是否生效&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;#更换主题&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;挑选：主题大全：&lt;a href=&quot;https://jekyllthemes.io/&quot;&gt;Jekyll Themes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;下载并设置：
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;下载 &lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/mmistakes/so-simple-theme.git&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓&lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt;已经有文件，记得保存好）&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;安装，执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt; 并配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;格式化，编译执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll build&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;本地服务查看：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;#购买并绑定域名&lt;/p&gt;</content><summary type="html">#Github-pages + Jekyll 组合搭建个人博客</summary></entry><entry><title type="html">MathJax Example</title><link href="http://localhost:4000/blog/mathjax-example/" rel="alternate" type="text/html" title="MathJax Example" /><published>2015-08-10T20:08:50+08:00</published><updated>2015-08-10T20:08:50+08:00</updated><id>http://localhost:4000/blog/mathjax-example</id><content type="html" xml:base="http://localhost:4000/blog/mathjax-example/">&lt;p&gt;&lt;a href=&quot;http://www.mathjax.org/&quot;&gt;MathJax&lt;/a&gt; is a simple way of including Tex/LaTex/MathML based mathematics in HTML webpages. To get up and running you need to include the MathJax script in the header of your github pages page, and then write some maths. For LaTex, there are two delimiters you need to know about, one for block or displayed mathematics &lt;code class=&quot;highlighter-rouge&quot;&gt;\[ ... \]&lt;/code&gt;, and the other for inline mathematics &lt;code class=&quot;highlighter-rouge&quot;&gt;\( ... \)&lt;/code&gt;.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-18T21:43:52+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">MathJax Example</title><link href="http://localhost:4000/blog/mathjax-example/" rel="alternate" type="text/html" title="MathJax Example" /><published>2015-08-10T20:08:50+08:00</published><updated>2015-08-10T20:08:50+08:00</updated><id>http://localhost:4000/blog/mathjax-example</id><content type="html" xml:base="http://localhost:4000/blog/mathjax-example/">&lt;p&gt;&lt;a href=&quot;http://www.mathjax.org/&quot;&gt;MathJax&lt;/a&gt; is a simple way of including Tex/LaTex/MathML based mathematics in HTML webpages. To get up and running you need to include the MathJax script in the header of your github pages page, and then write some maths. For LaTex, there are two delimiters you need to know about, one for block or displayed mathematics &lt;code class=&quot;highlighter-rouge&quot;&gt;\[ ... \]&lt;/code&gt;, and the other for inline mathematics &lt;code class=&quot;highlighter-rouge&quot;&gt;\( ... \)&lt;/code&gt;.&lt;/p&gt;
 
 &lt;h2 id=&quot;usage&quot;&gt;Usage&lt;/h2&gt;
 
@@ -551,4 +318,124 @@ To add new posts, simply add a file in the _posts directory that follows the con
 
 &lt;p&gt;Occupy et selvage squid, pug brunch blog nesciunt hashtag mumblecore skateboard yr kogi. Ugh small batch swag four loko. Fap post-ironic qui tote bag farm-to-table american apparel scenester keffiyeh vero, swag non pour-over gentrify authentic pitchfork. Schlitz scenester lo-fi voluptate, tote bag irony bicycle rights pariatur vero Vice freegan wayfarers exercitation nisi shoreditch. Chambray tofu vero sed. Street art swag literally leggings, Cosby sweater mixtape PBR lomo Banksy non in pitchfork ennui McSweeney’s selfies. Odd Future Banksy non authentic.&lt;/p&gt;
 
-&lt;p&gt;Aliquip enim artisan dolor post-ironic. Pug tote bag Marfa, deserunt pour-over Portland wolf eu odio intelligentsia american apparel ugh ea. Sunt viral et, 3 wolf moon gastropub pug id. Id fashion axe est typewriter, mlkshk Portland art party aute brunch. Sint pork belly Cosby sweater, deep v mumblecore kitsch american apparel. Try-hard direct trade tumblr sint skateboard. Adipisicing bitters excepteur biodiesel, pickled gastropub aute veniam.&lt;/p&gt;</content><category term="sample-post" /><category term="readability" /><category term="test" /><category term="intro" /><summary type="html">A ton of text to test readability.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-2.jpg&quot;, &quot;credit&quot;=&gt;&quot;WeGraphics&quot;, &quot;creditlink&quot;=&gt;&quot;http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/&quot;}" /></entry></feed>
+&lt;p&gt;Aliquip enim artisan dolor post-ironic. Pug tote bag Marfa, deserunt pour-over Portland wolf eu odio intelligentsia american apparel ugh ea. Sunt viral et, 3 wolf moon gastropub pug id. Id fashion axe est typewriter, mlkshk Portland art party aute brunch. Sint pork belly Cosby sweater, deep v mumblecore kitsch american apparel. Try-hard direct trade tumblr sint skateboard. Adipisicing bitters excepteur biodiesel, pickled gastropub aute veniam.&lt;/p&gt;</content><category term="sample-post" /><category term="readability" /><category term="test" /><category term="intro" /><summary type="html">A ton of text to test readability.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-2.jpg&quot;, &quot;credit&quot;=&gt;&quot;WeGraphics&quot;, &quot;creditlink&quot;=&gt;&quot;http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/&quot;}" /></entry><entry><title type="html">Sample Post</title><link href="http://localhost:4000/articles/sample-post/" rel="alternate" type="text/html" title="Sample Post" /><published>2011-03-10T00:00:00+08:00</published><updated>2011-03-10T00:00:00+08:00</updated><id>http://localhost:4000/articles/sample-post</id><content type="html" xml:base="http://localhost:4000/articles/sample-post/">&lt;p&gt;Below is just about everything you’ll need to style in the theme. Check the source code to see the many embedded elements within paragraphs.&lt;/p&gt;
+
+&lt;h1 id=&quot;heading-1&quot;&gt;Heading 1&lt;/h1&gt;
+
+&lt;h2 id=&quot;heading-2&quot;&gt;Heading 2&lt;/h2&gt;
+
+&lt;h3 id=&quot;heading-3&quot;&gt;Heading 3&lt;/h3&gt;
+
+&lt;h4 id=&quot;heading-4&quot;&gt;Heading 4&lt;/h4&gt;
+
+&lt;h5 id=&quot;heading-5&quot;&gt;Heading 5&lt;/h5&gt;
+
+&lt;h6 id=&quot;heading-6&quot;&gt;Heading 6&lt;/h6&gt;
+
+&lt;h3 id=&quot;body-text&quot;&gt;Body text&lt;/h3&gt;
+
+&lt;p&gt;Lorem ipsum dolor sit amet, test link adipiscing elit. &lt;strong&gt;This is strong&lt;/strong&gt;. Nullam dignissim convallis est. Quisque aliquam.&lt;/p&gt;
+
+&lt;p class=&quot;pull-right&quot;&gt;&lt;img src=&quot;http://localhost:4000/images/3953273590_704e3899d5_m.jpg&quot; alt=&quot;Smithsonian Image&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;em&gt;This is emphasized&lt;/em&gt;. Donec faucibus. Nunc iaculis suscipit dui. 53 = 125. Water is H&lt;sub&gt;2&lt;/sub&gt;O. Nam sit amet sem. Aliquam libero nisi, imperdiet at, tincidunt nec, gravida vehicula, nisl. The New York Times &lt;cite&gt;(That’s a citation)&lt;/cite&gt;. &lt;u&gt;Underline&lt;/u&gt;. Maecenas ornare tortor. Donec sed tellus eget sapien fringilla nonummy. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus.&lt;/p&gt;
+
+&lt;p&gt;HTML and &lt;abbr title=&quot;cascading stylesheets&quot;&gt;CSS&lt;abbr&gt; are our tools. Mauris a ante. Suspendisse quam sem, consequat at, commodo vitae, feugiat in, nunc. Morbi imperdiet augue quis tellus. Praesent mattis, massa quis luctus fermentum, turpis mi volutpat justo, eu volutpat enim diam eget metus.&lt;/abbr&gt;&lt;/abbr&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;blockquotes&quot;&gt;Blockquotes&lt;/h3&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Lorem ipsum dolor sit amet, test link adipiscing elit. Nullam dignissim convallis est. Quisque aliquam.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;list-types&quot;&gt;List Types&lt;/h2&gt;
+
+&lt;h3 id=&quot;ordered-lists&quot;&gt;Ordered Lists&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Item one
+    &lt;ol&gt;
+      &lt;li&gt;sub item one&lt;/li&gt;
+      &lt;li&gt;sub item two&lt;/li&gt;
+      &lt;li&gt;sub item three&lt;/li&gt;
+    &lt;/ol&gt;
+  &lt;/li&gt;
+  &lt;li&gt;Item two&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;unordered-lists&quot;&gt;Unordered Lists&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Item one&lt;/li&gt;
+  &lt;li&gt;Item two&lt;/li&gt;
+  &lt;li&gt;Item three&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;tables&quot;&gt;Tables&lt;/h2&gt;
+
+&lt;table class=&quot;table&quot;&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th style=&quot;text-align: left&quot;&gt;Header1&lt;/th&gt;
+      &lt;th style=&quot;text-align: center&quot;&gt;Header2&lt;/th&gt;
+      &lt;th style=&quot;text-align: right&quot;&gt;Header3&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;cell1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;cell2&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;cell3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;cell4&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;cell5&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;cell6&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;cell1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;cell2&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;cell3&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;cell4&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;cell5&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;cell6&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+  &lt;tfoot&gt;
+    &lt;tr&gt;
+      &lt;td style=&quot;text-align: left&quot;&gt;Foot1&lt;/td&gt;
+      &lt;td style=&quot;text-align: center&quot;&gt;Foot2&lt;/td&gt;
+      &lt;td style=&quot;text-align: right&quot;&gt;Foot3&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tfoot&gt;
+&lt;/table&gt;
+
+&lt;h2 id=&quot;code-snippets&quot;&gt;Code Snippets&lt;/h2&gt;
+
+&lt;p&gt;Syntax highlighting via Rouge&lt;/p&gt;
+
+&lt;div class=&quot;language-css highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nf&quot;&gt;#container&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;float&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;left&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;margin&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;-240px&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+  &lt;span class=&quot;nl&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;100%&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;Non Rouge code example&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;div id=&quot;awesome&quot;&amp;gt;
+    &amp;lt;p&amp;gt;This is great isn't it?&amp;lt;/p&amp;gt;
+&amp;lt;/div&amp;gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;buttons&quot;&gt;Buttons&lt;/h2&gt;
+
+&lt;p&gt;Make any link standout more when applying the &lt;code class=&quot;highlighter-rouge&quot;&gt;.btn&lt;/code&gt; class.&lt;/p&gt;
+
+&lt;div&gt;&lt;a href=&quot;#&quot; class=&quot;btn&quot;&gt;This is a button&lt;/a&gt;&lt;/div&gt;</content><category term="sample-post" /><summary type="html">Just about everything you'll need to style in the theme: headings, paragraphs, blockquotes, tables, code blocks, and more.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-1.jpg&quot;, &quot;credit&quot;=&gt;&quot;WeGraphics&quot;, &quot;creditlink&quot;=&gt;&quot;http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/&quot;}" /></entry></feed>

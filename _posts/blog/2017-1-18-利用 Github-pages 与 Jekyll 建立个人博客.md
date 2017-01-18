@@ -1,4 +1,15 @@
-#Github-pages + Jekyll 组合搭建个人博客
+---
+layout: post
+title: "Github-pages + Jekyll 组合搭建个人博客"
+modified:
+categories: blog
+excerpt:
+tags: []
+image:
+  feature:
+date: 2017-01-18T15:39:55-04:00
+modified: 2017-02-01T14:19:19-04:00
+---
 
 ##说明：
 
