@@ -1,11 +1,11 @@
 # Site wide configuration
 
-title: Site Title
-locale: en_US
+title: Hntea-Yixin HONG Blog
+locale: China
 description: Describe your website here.
 logo: site-logo.png
 search: true
-url: http://localhost:4000
+url: https://github.com/hntea/hntea.github.io
 
 # Jekyll configuration
 
@@ -36,7 +36,7 @@ exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.
 
 # Site owner
 owner:
-  name: Your Name
+  name: Hntea
   avatar: bio-photo.jpg
   email: you@email.com
   disqus-shortname:
