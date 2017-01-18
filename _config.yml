@@ -5,7 +5,7 @@ locale: China
 description: Describe your website here.
 logo: site-logo.png
 search: true
-url: https://github.com/hntea/hntea.github.io
+url: https://hntea.github.io
 
 # Jekyll configuration
 
@@ -38,7 +38,7 @@ exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.
 owner:
   name: Hntea
   avatar: bio-photo.jpg
-  email: you@email.com
+  email: 373424603@qq.com
   disqus-shortname:
   twitter: #username
   facebook: #username
