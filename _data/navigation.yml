@@ -1,20 +1,20 @@
 # Site navigation links
 
 
-- title: 作者
-  url: /_data/authors.yml
+- title: 关于作者
+  url: /about
 
-- title: About
-  url: /about/
+#- title: About
+#  url: /about/
 
-- title: Articles
+- title: 专题
   url: /articles/
 
-- title: Blog
+- title: 博客
   url: /blog/
 
-- title: Theme Setup
-  url: /theme-setup/
+#- title: Theme Setup
+#  url: /theme-setup/
 
-- title: Search
+- title: 搜索
   url: /search/

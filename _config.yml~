@@ -1,12 +1,12 @@
 # Site wide configuration
 
-title: Yixin-Hong Hntea
+title: Hong-YiXin
 locale: China
 description: To Be Better
 logo: site-logo.png
 search: true
-url: https://hntea.github.io
-#url: http://localhost:4000
+#url: https://hntea.github.io
+url: http://localhost:4000
 # Jekyll configuration
 
 permalink:   /:categories/:title/

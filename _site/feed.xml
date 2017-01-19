@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T15:29:52+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T03:47:30+08:00</updated><id>http://localhost:4000/</id><title type="html">Hong-Yixin</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages+Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages+Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages+Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section&quot;&gt;安装依赖环境&lt;/h1&gt;
 
@@ -14,7 +14,7 @@
 &lt;/div&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;直接下载最新源码包并解压，进入源码目录&lt;/li&gt;
+  &lt;li&gt;点击上方标题进入官网主页，直接下载最新源码包并解压，进入源码目录&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;./configure
@@ -186,7 +186,9 @@ git commit -m &quot;信息记录&quot;
 &lt;hr /&gt;
 
 &lt;h1 id=&quot;section-2&quot;&gt;更换主题&lt;/h1&gt;
+
 &lt;h2 id=&quot;section-3&quot;&gt;1.挑选中意的主题&lt;/h2&gt;
+
 &lt;p&gt;首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。&lt;/p&gt;
 
 &lt;ul&gt;
@@ -196,7 +198,7 @@ git commit -m &quot;信息记录&quot;
 &lt;h2 id=&quot;section-4&quot;&gt;2.安装配置&lt;/h2&gt;
 &lt;p&gt;这里选择 &lt;strong&gt;so-simple-theme&lt;/strong&gt; 主题进行示范：&lt;/p&gt;
 
-&lt;ul&gt;
+&lt;ol&gt;
   &lt;li&gt;
     &lt;p&gt;下载 :
 &lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/mmistakes/so-simple-theme.git&lt;/code&gt;&lt;/p&gt;
@@ -219,13 +221,13 @@ git commit -m &quot;信息记录&quot;
   &lt;li&gt;
     &lt;p&gt;对于主题中的博客，如果不想要直接删除就好了。&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ul&gt;
+&lt;/ol&gt;
 
 &lt;hr /&gt;
 
 &lt;h1 id=&quot;section-5&quot;&gt;添加博客评论&lt;/h1&gt;
 
-&lt;p&gt;由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　&lt;strong&gt;Disqus&lt;/strong&gt;，若不想被墙，那么综合考虑下来就还是使用　&lt;a href=&quot;http://dev.duoshuo.com/docs&quot;&gt;多说&lt;/a&gt;比较给好点，当然没有&lt;strong&gt;Disqus&lt;/strong&gt;功能好。至于如何添加，具体操作如下：&lt;/p&gt;
+&lt;p&gt;由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　&lt;strong&gt;Disqus&lt;/strong&gt;，若不想被墙，那么综合考虑下来就还是使用&lt;a href=&quot;http://dev.duoshuo.com/docs&quot;&gt;多说&lt;/a&gt;比较好点，当然没有&lt;strong&gt;Disqus&lt;/strong&gt;功能好。至于如何添加，具体操作如下：&lt;/p&gt;
 
 &lt;ol&gt;
   &lt;li&gt;进入&lt;a href=&quot;http://duoshuo.com/&quot;&gt;多说&lt;/a&gt;，先注册登陆
@@ -240,20 +242,17 @@ git commit -m &quot;信息记录&quot;
   &lt;li&gt;找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;div class=&quot;entry-content&quot;&amp;gt;
-	
-	
+&lt;p&gt;在尾部添加多说的代码即可，具体修改如下:&lt;/p&gt;
 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;在尾部添加多说的代码即可，具体修改如下&lt;/p&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;data-thread-key 字段改成” “{{ page.id }}”&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;data-thread-key 字段改成&quot;/blog/Github-Pages与Jekyll博客搭建&quot;
-data-title 字段改成&quot;Github-Pages与Jekyll博客搭建&quot;
-data-url 字段改成 &quot;web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/ &quot;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;比如：“http://localhost:4000//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/”&lt;/p&gt;
+  &lt;p&gt;data-title 字段改成  “{{ page.title }}”&lt;/p&gt;
+
+  &lt;p&gt;data-url 字段改成 “web site/{{ page.url }}”&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;比如：“http://localhost:4000/{{ page.url }}”&lt;/p&gt;
 
 &lt;ul&gt;
   &lt;li&gt;同时在 _config.yml 文件中添加如下代码&lt;/li&gt;
@@ -263,7 +262,6 @@ data-url 字段改成 &quot;web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%
   provider : duoshuo
   duoshuo :
     short_name : hntea //这里是你在多说注册的站点名字
-
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 

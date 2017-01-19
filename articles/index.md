@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Sample Articles
+title: 专题系列
 excerpt: "An archive of articles sorted by date."
 search_omit: true
 ---

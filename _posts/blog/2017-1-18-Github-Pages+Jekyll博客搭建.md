@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Github-Pages与Jekyll博客搭建"
+title: "Github-Pages+Jekyll博客搭建"
 modified:
 categories: blog
 excerpt:
@@ -24,7 +24,7 @@ date: 2017-01-18T15:39:55-04:00
 sudo apt-get install ruby-full
 ```
 
-- 直接下载最新源码包并解压，进入源码目录
+- 点击上方标题进入官网主页，直接下载最新源码包并解压，进入源码目录
 
 
 ```
@@ -192,7 +192,9 @@ git push -u origin master
 ---
 
 # 更换主题
+
 ## 1.挑选中意的主题
+
 首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。
 
 - 挑选：请戳主题大全链接：[<u>Jekyll Themes</u>](https://jekyllthemes.io/)
@@ -200,28 +202,28 @@ git push -u origin master
 ## 2.安装配置
   这里选择 **so-simple-theme** 主题进行示范：
 
-- 下载 :
+1. 下载 :
 `git clone https://github.com/mmistakes/so-simple-theme.git`
 
-- 进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓`_posts`已经有文件，记得保存好）
+2. 进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓`_posts`已经有文件，记得保存好）
 
-- 安装执行：`bundle install` 
+3. 安装执行：`bundle install` 
 
 
-- 格式化，编译执行：`bundle exec jekyll build`
+4. 格式化，编译执行：`bundle exec jekyll build`
 
-- 启动服务:`bundle exec jekyll serve`
+5. 启动服务:`bundle exec jekyll serve`
 
-- 配置：直接修改配置文件 `_config.yml`在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况
+6. 配置：直接修改配置文件 `_config.yml`在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况
     
-- 对于主题中的博客，如果不想要直接删除就好了。
+7. 对于主题中的博客，如果不想要直接删除就好了。
 
 
 ---
 
 # 添加博客评论
 
-由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　**Disqus**，若不想被墙，那么综合考虑下来就还是使用　[多说](http://dev.duoshuo.com/docs)比较给好点，当然没有**Disqus**功能好。至于如何添加，具体操作如下：
+由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　**Disqus**，若不想被墙，那么综合考虑下来就还是使用[多说](http://dev.duoshuo.com/docs)比较好点，当然没有**Disqus**功能好。至于如何添加，具体操作如下：
 
 1. 进入[多说](http://duoshuo.com/)，先注册登陆
 　
@@ -231,23 +233,16 @@ git push -u origin master
 
 - 找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）
 
-```
-<div class="entry-content">
-	{{ content }}
-	{% if site.owner.disqus-shortname and page.comments or site.comments %}
- 	<div id="disqus_thread"></div><!-- /#disqus_thread -->
-  {% include disqus-comments.html %}
-{% endif %}
 
-```
-在尾部添加多说的代码即可，具体修改如下
+在尾部添加多说的代码即可，具体修改如下:
 
-```
-data-thread-key 字段改成"{{ page.id }}"
-data-title 字段改成"{{ page.title }}"
-data-url 字段改成 "web site/{{ page.url }} "
-```
-比如：“http://localhost:4000/{{ page.url }}”
+>data-thread-key 字段改成" "{\{ page.id }\}"
+>
+>data-title 字段改成  "{\{ page.title }\}"
+>
+>data-url 字段改成 "web site/\{\{ page.url \}\}"
+
+比如：“http://localhost:4000/\{\{ page.url \}\}”
 
 
 - 同时在 _config.yml 文件中添加如下代码
@@ -257,7 +252,6 @@ comments :
   provider : duoshuo
   duoshuo :
     short_name : hntea //这里是你在多说注册的站点名字
-
 ```
 
 # 购买并绑定域名

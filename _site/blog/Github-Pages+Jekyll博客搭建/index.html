@@ -5,7 +5,7 @@
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
 <head>
 <meta charset="utf-8">
-<title>Github-Pages与Jekyll博客搭建 &#8211; Yixin-Hong Hntea</title>
+<title>Github-Pages+Jekyll博客搭建 &#8211; Hong-Yixin</title>
 <meta name="description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
 
 ">
@@ -13,7 +13,7 @@
 
 
 <!-- Twitter Cards -->
-<meta name="twitter:title" content="Github-Pages与Jekyll博客搭建">
+<meta name="twitter:title" content="Github-Pages+Jekyll博客搭建">
 <meta name="twitter:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
 
 ">
@@ -26,19 +26,19 @@
 <!-- Open Graph -->
 <meta property="og:locale" content="China">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Github-Pages与Jekyll博客搭建">
+<meta property="og:title" content="Github-Pages+Jekyll博客搭建">
 <meta property="og:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
 
 ">
-<meta property="og:url" content="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-<meta property="og:site_name" content="Yixin-Hong Hntea">
+<meta property="og:url" content="http://localhost:4000/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<meta property="og:site_name" content="Hong-Yixin">
 
 
 
 
 
-<link rel="canonical" href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Hntea Feed">
+<link rel="canonical" href="http://localhost:4000/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -89,22 +89,16 @@
 	    <ul>
       
 		    
-		    <li><a href="http://localhost:4000/_data/authors.yml" >作者</a></li>
+		    <li><a href="http://localhost:4000/about" >关于作者</a></li>
 		  
 		    
-		    <li><a href="http://localhost:4000/about/" >About</a></li>
+		    <li><a href="http://localhost:4000/articles/" >专题</a></li>
 		  
 		    
-		    <li><a href="http://localhost:4000/articles/" >Articles</a></li>
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
 		  
 		    
-		    <li><a href="http://localhost:4000/blog/" >Blog</a></li>
-		  
-		    
-		    <li><a href="http://localhost:4000/theme-setup/" >Theme Setup</a></li>
-		  
-		    
-		    <li><a href="http://localhost:4000/search/" >Search</a></li>
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
 		  
 	    </ul>
 	</nav>
@@ -115,9 +109,9 @@
 <header class="masthead">
 	<div class="wrap">
       
-  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Yixin-Hong Hntea"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Yixin-Hong Hntea logo" class="animated fadeInDown"></a>
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
       
-      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Yixin-Hong Hntea</a></h1>
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
 		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
 	</div>
 </header><!-- /.masthead -->
@@ -134,7 +128,7 @@
           <li><a href="http://localhost:4000/tags/#玩转系统" title="Pages tagged 玩转系统">玩转系统</a></li>
         </ul>
         
-          <h1 class="entry-title">Github-Pages与Jekyll博客搭建</h1>
+          <h1 class="entry-title">Github-Pages+Jekyll博客搭建</h1>
         
       </header>
       <footer class="entry-meta">
@@ -166,7 +160,7 @@
 </div>
 
 <ul>
-  <li>直接下载最新源码包并解压，进入源码目录</li>
+  <li>点击上方标题进入官网主页，直接下载最新源码包并解压，进入源码目录</li>
 </ul>
 
 <div class="highlighter-rouge"><pre class="highlight"><code>./configure
@@ -338,7 +332,9 @@ git commit -m "信息记录"
 <hr />
 
 <h1 id="section-2">更换主题</h1>
+
 <h2 id="section-3">1.挑选中意的主题</h2>
+
 <p>首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。</p>
 
 <ul>
@@ -348,7 +344,7 @@ git commit -m "信息记录"
 <h2 id="section-4">2.安装配置</h2>
 <p>这里选择 <strong>so-simple-theme</strong> 主题进行示范：</p>
 
-<ul>
+<ol>
   <li>
     <p>下载 :
 <code class="highlighter-rouge">git clone https://github.com/mmistakes/so-simple-theme.git</code></p>
@@ -371,13 +367,13 @@ git commit -m "信息记录"
   <li>
     <p>对于主题中的博客，如果不想要直接删除就好了。</p>
   </li>
-</ul>
+</ol>
 
 <hr />
 
 <h1 id="section-5">添加博客评论</h1>
 
-<p>由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　<strong>Disqus</strong>，若不想被墙，那么综合考虑下来就还是使用　<a href="http://dev.duoshuo.com/docs">多说</a>比较给好点，当然没有<strong>Disqus</strong>功能好。至于如何添加，具体操作如下：</p>
+<p>由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　<strong>Disqus</strong>，若不想被墙，那么综合考虑下来就还是使用<a href="http://dev.duoshuo.com/docs">多说</a>比较好点，当然没有<strong>Disqus</strong>功能好。至于如何添加，具体操作如下：</p>
 
 <ol>
   <li>进入<a href="http://duoshuo.com/">多说</a>，先注册登陆
@@ -392,20 +388,17 @@ git commit -m "信息记录"
   <li>找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）</li>
 </ul>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>&lt;div class="entry-content"&gt;
-	
-	
+<p>在尾部添加多说的代码即可，具体修改如下:</p>
 
-</code></pre>
-</div>
-<p>在尾部添加多说的代码即可，具体修改如下</p>
+<blockquote>
+  <p>data-thread-key 字段改成” “{{ page.id }}”</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>data-thread-key 字段改成"/blog/Github-Pages与Jekyll博客搭建"
-data-title 字段改成"Github-Pages与Jekyll博客搭建"
-data-url 字段改成 "web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/ "
-</code></pre>
-</div>
-<p>比如：“http://localhost:4000//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/”</p>
+  <p>data-title 字段改成  “{{ page.title }}”</p>
+
+  <p>data-url 字段改成 “web site/{{ page.url }}”</p>
+</blockquote>
+
+<p>比如：“http://localhost:4000/{{ page.url }}”</p>
 
 <ul>
   <li>同时在 _config.yml 文件中添加如下代码</li>
@@ -415,7 +408,6 @@ data-url 字段改成 "web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE
   provider : duoshuo
   duoshuo :
     short_name : hntea //这里是你在多说注册的站点名字
-
 </code></pre>
 </div>
 
@@ -425,7 +417,7 @@ data-url 字段改成 "web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE
 
         
       <!-- 多说评论框 start -->
-      <div class="ds-thread" data-thread-key="/blog/Github-Pages与Jekyll博客搭建" data-title="Github-Pages与Jekyll博客搭建" data-url="http://hntea.com//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"></div>
+      <div class="ds-thread" data-thread-key="/blog/Github-Pages+Jekyll博客搭建" data-title="Github-Pages+Jekyll博客搭建" data-url="http://hntea.com//blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"></div>
       <!-- 多说评论框 end -->
       <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
       <script type="text/javascript">

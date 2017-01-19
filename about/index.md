@@ -1,26 +1,55 @@
 ---
 layout: page
-title: About the Jekyll Theme
+title:  Hong-Yiixin 
 excerpt: "So Simple is a responsive Jekyll theme for your words and images."
 modified: 2014-08-08T19:44:38.564948-04:00
 image:
-  feature: so-simple-sample-image-4.jpg
+  feature: so-simple-sample-image-5.jpg
   credit: WeGraphics
   creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
 
-Looking for a simple, responsive, theme for your Jekyll powered blog? Well look no further. Here be **So Simple Theme**, the follow up to [**Minimal Mistakes**](http://mmistakes.github.io/minimal-mistakes) --- by designer slash illustrator [Michael Rose](http://mademistakes.com).
 
-## So Simple Theme is all about:
+我猜您肯定是帅哥或是美女，能够来到这个页面的，说明您对我有一丢丢的好奇，很高兴能受到您的关注！浪费您几分钟的时间，估计能够对我有更多的了解。
 
-* Responsive templates. Looking good on mobile, tablet, and desktop.
-* Gracefully degrading in older browsers. Compatible with Internet Explorer 9+ and all modern browsers.
-* Minimal embellishments and subtle animations.
-* Optional large feature images for posts and pages.
-* [Custom 404 page]({{ site.url }}/404.html) to get you started.
-* [Simple site search](https://github.com/christian-fei/Simple-Jekyll-Search)
-* Support for Disqus Comments
+## 从哪里开始说起呢？
+### 额，就从本科开始吧！
 
-<a markdown="0" href="{{ site.url }}/theme-setup" class="btn">Install So Simple Theme</a>
+”**自动化？**不是吧？自动化学什么的？是毕业出来后就是自动机旁边的进料工人吗？“
 
-[^1]: Example: *domain.com/category-name/post-title*
+还好还好，只是虚惊一场。
+
+对于**工科男**来说，或许不少是看不上自己的专业，从而荒废了大学那段该拼该搏的大好时光...然而，我的时间都去哪了？现在想想，大学好像少了些什么，那时我应该多看点文学、多看点新闻、或者放松一下出去走走，看看风景、又或许我可以跟同学挽起袖子玩几把LOL。可是那时，为什么我总觉得时间很少，在别人看来我总是很忙。典型的技术控，即使敲代码、焊电路板这种貌似枯燥的事也能让我乐在其中。还好，咱还是要相信功夫不负有心人！
+>本科
+>>2014年 获“中国第一届机器人旅游大赛”（上海）II轻机器人探险游季军
+>>
+>>2013年-2014 获“中国机器人大赛暨RoboCup公开赛”（合肥）Ⅲ 重机器人寻宝游亚军
+>>
+>>2013年 获“助你创业，赢在广州”大学生创业大赛省二等奖
+>>
+>>各种奖学金
+
+对的，时间都花在实验室了，大一学生会，大二开窍后混入实验当小兵，大三当队长带队，负责实验室管理。大三下学期八月份开始又开窍了，花了五个月的时间准备考研，当然，时间紧迫...还是功夫不负有心人呐。就这样我来到了**广东工业大学**...
+
+---
+### 迷幻烟酒生
+
+研究生了,稀里糊涂就一年多了，然而，这一年多我又干了什么？还是老样子啊，别人眼里我总是很忙。是吧，忙着做项目。这么久了，应该有点东西输出才能安慰一下自己吧！
+
+>研究
+>> 年度实验室最佳新人 **Best New Finder**　(然而并没有什么用)
+>>
+>> 在审专利一篇
+
+唉，没了，感觉不到爆发点。希望接下来有突破，好歹也要有 paper　！
+
+--- 
+### 如痴如醉
+- 嵌入式系统设计
+- 机器学习
+- ROS
+
+抱歉花费您这么多时间看完。我很期待能成为您的朋友，若有什么技术上的问题，您可以发我邮箱来交流，邮箱地址：**hyx_hntea@163.com**
+
+<h1 style="text-align:center">谢谢！ </h1>
+---

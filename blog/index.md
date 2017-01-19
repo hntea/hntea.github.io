@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Blog
+title: 博客栏目
 excerpt: "An archive of blog posts sorted by date."
 search_omit: true
 ---
