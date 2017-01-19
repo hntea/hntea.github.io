@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-19T10:33:18+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-19T10:48:16+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section&quot;&gt;安装依赖环境&lt;/h1&gt;
 
@@ -54,17 +54,20 @@ sudo apt-get install -y nodejs
 &lt;h2 id=&quot;jeklly&quot;&gt;1.安装 Jeklly&lt;/h2&gt;
 
 &lt;p&gt;在终端执行：&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo gem install jekyll
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;若要查看已经安装的版本号：&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jekyll --version or
 gem list jekyll
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
 &lt;p&gt;在某些情况下，如果版本过低，可以使用以下命令进行更新&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem update jekyll
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -72,10 +75,13 @@ gem list jekyll
 &lt;h2 id=&quot;jeklly-1&quot;&gt;2.使用 Jeklly&lt;/h2&gt;
 
 &lt;p&gt;&lt;strong&gt;1. 创建博客站点&lt;/strong&gt;&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jeklly new blog
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
+
 &lt;p&gt;如提示错误信息：&lt;code class=&quot;highlighter-rouge&quot;&gt;jekyll 3.3.1 | Error:  bundler&lt;/code&gt;,是由于该工具没有安装导致的，执行&lt;/p&gt;
+
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;gem install bundler
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
@@ -83,17 +89,24 @@ gem list jekyll
 &lt;p&gt;&lt;strong&gt;2. 启动jeklly本地服务对博客进行预览&lt;/strong&gt;&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;启动服务:&lt;code class=&quot;highlighter-rouge&quot;&gt;jeklly server&lt;/code&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：&lt;/p&gt;
-    &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://localhost:4000
-&lt;/code&gt;&lt;/pre&gt;
-    &lt;/div&gt;
-    &lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 启动服务时应该进入刚创建的 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录中&lt;/p&gt;
-  &lt;/li&gt;
+  &lt;li&gt;启动服务:&lt;/li&gt;
 &lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jeklly server
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;在版本不协调时，可以使用解决&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http://localhost:4000
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;strong&gt;注意：&lt;/strong&gt; 启动服务时应该进入刚创建的 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录中&lt;/p&gt;
 
 &lt;p&gt;&lt;strong&gt;3. 添加博客文件&lt;/strong&gt;&lt;/p&gt;
 
@@ -101,7 +114,18 @@ gem list jekyll
   &lt;li&gt;
     &lt;p&gt;进入 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog/_posts/&lt;/code&gt; 目录中,创建新的 &lt;code class=&quot;highlighter-rouge&quot;&gt;markdown&lt;/code&gt; 文件&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;当文件博客文件创建好后，回到 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;jeklly build&lt;/code&gt; 编译，编译后生成的文件可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt;目录下查看，重启服务，即可看到网页有更新&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;当文件博客文件创建好后，回到 &lt;code class=&quot;highlighter-rouge&quot;&gt;blog&lt;/code&gt;目录使用:&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;jeklly build
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;编译，编译后生成的文件可以在&lt;code class=&quot;highlighter-rouge&quot;&gt;_site&lt;/code&gt;目录下查看，重启服务，即可看到网页有更新，同样，当出现版本不协调是使&lt;strong&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll build&lt;/code&gt;&lt;/strong&gt; 代替&lt;/p&gt;
+
+&lt;ul&gt;
   &lt;li&gt;
     &lt;p&gt;注意&lt;/p&gt;
 

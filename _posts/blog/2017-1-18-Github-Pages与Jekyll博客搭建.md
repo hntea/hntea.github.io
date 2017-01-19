@@ -87,29 +87,54 @@ gem update jekyll
 ## 2.使用 Jeklly
 
 **1. 创建博客站点**
+
+
 ```
 jeklly new blog
 ```
+
 如提示错误信息：`jekyll 3.3.1 | Error:  bundler`,是由于该工具没有安装导致的，执行
+
+
 ```
 gem install bundler
 ```
 
 **2. 启动jeklly本地服务对博客进行预览**
 
-- 启动服务:`jeklly server`
+
+
+- 启动服务:
+
+```
+jeklly server
+```
+
+在版本不协调时，可以使用解决`bundle exec jekyll serve`
+
 
 - 打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：
+
+
 ```
 http://localhost:4000
 ```
+
+
 **注意：** 启动服务时应该进入刚创建的 `blog`目录中
 
 **3. 添加博客文件**
 
 - 进入 `blog/_posts/` 目录中,创建新的 `markdown` 文件
 
-- 当文件博客文件创建好后，回到 `blog`目录使用 `jeklly build` 编译，编译后生成的文件可以在`_site`目录下查看，重启服务，即可看到网页有更新
+- 当文件博客文件创建好后，回到 `blog`目录使用:
+
+```
+jeklly build
+```
+
+编译，编译后生成的文件可以在`_site`目录下查看，重启服务，即可看到网页有更新，同样，当出现版本不协调是使**`bundle exec jekyll build`** 代替
+
 - 注意
 
 	-	文件命名必须严格遵守:**YYYY-MM-DD-name-of-post.xxx** 格式

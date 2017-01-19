@@ -206,17 +206,20 @@ sudo apt-get install -y nodejs
 <h2 id="jeklly">1.安装 Jeklly</h2>
 
 <p>在终端执行：</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>sudo gem install jekyll
 </code></pre>
 </div>
 
 <p>若要查看已经安装的版本号：</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>jekyll --version or
 gem list jekyll
 </code></pre>
 </div>
 
 <p>在某些情况下，如果版本过低，可以使用以下命令进行更新</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>gem update jekyll
 </code></pre>
 </div>
@@ -224,10 +227,13 @@ gem list jekyll
 <h2 id="jeklly-1">2.使用 Jeklly</h2>
 
 <p><strong>1. 创建博客站点</strong></p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>jeklly new blog
 </code></pre>
 </div>
+
 <p>如提示错误信息：<code class="highlighter-rouge">jekyll 3.3.1 | Error:  bundler</code>,是由于该工具没有安装导致的，执行</p>
+
 <div class="highlighter-rouge"><pre class="highlight"><code>gem install bundler
 </code></pre>
 </div>
@@ -235,17 +241,24 @@ gem list jekyll
 <p><strong>2. 启动jeklly本地服务对博客进行预览</strong></p>
 
 <ul>
-  <li>
-    <p>启动服务:<code class="highlighter-rouge">jeklly server</code></p>
-  </li>
-  <li>
-    <p>打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:4000
-</code></pre>
-    </div>
-    <p><strong>注意：</strong> 启动服务时应该进入刚创建的 <code class="highlighter-rouge">blog</code>目录中</p>
-  </li>
+  <li>启动服务:</li>
 </ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>jeklly server
+</code></pre>
+</div>
+
+<p>在版本不协调时，可以使用解决<code class="highlighter-rouge">bundle exec jekyll serve</code></p>
+
+<ul>
+  <li>打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:4000
+</code></pre>
+</div>
+
+<p><strong>注意：</strong> 启动服务时应该进入刚创建的 <code class="highlighter-rouge">blog</code>目录中</p>
 
 <p><strong>3. 添加博客文件</strong></p>
 
@@ -253,7 +266,18 @@ gem list jekyll
   <li>
     <p>进入 <code class="highlighter-rouge">blog/_posts/</code> 目录中,创建新的 <code class="highlighter-rouge">markdown</code> 文件</p>
   </li>
-  <li>当文件博客文件创建好后，回到 <code class="highlighter-rouge">blog</code>目录使用 <code class="highlighter-rouge">jeklly build</code> 编译，编译后生成的文件可以在<code class="highlighter-rouge">_site</code>目录下查看，重启服务，即可看到网页有更新</li>
+  <li>
+    <p>当文件博客文件创建好后，回到 <code class="highlighter-rouge">blog</code>目录使用:</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>jeklly build
+</code></pre>
+</div>
+
+<p>编译，编译后生成的文件可以在<code class="highlighter-rouge">_site</code>目录下查看，重启服务，即可看到网页有更新，同样，当出现版本不协调是使<strong><code class="highlighter-rouge">bundle exec jekyll build</code></strong> 代替</p>
+
+<ul>
   <li>
     <p>注意</p>
 
