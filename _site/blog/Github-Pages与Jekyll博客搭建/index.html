@@ -1,0 +1,385 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+<head>
+<meta charset="utf-8">
+<title>Github-Pages与Jekyll博客搭建 &#8211; Yixin-Hong Hntea</title>
+<meta name="description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
+
+">
+<meta name="keywords" content="">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Github-Pages与Jekyll博客搭建">
+<meta name="twitter:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
+
+">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github-Pages与Jekyll博客搭建">
+<meta property="og:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
+
+">
+<meta property="og:url" content="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<meta property="og:site_name" content="Yixin-Hong Hntea">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Hntea Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/_data/authors.yml" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/about/" >About</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/articles/" >Articles</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >Blog</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/theme-setup/" >Theme Setup</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >Search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Yixin-Hong Hntea"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Yixin-Hong Hntea logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Yixin-Hong Hntea</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          
+        </ul>
+        
+          <h1 class="entry-title">Github-Pages与Jekyll博客搭建</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2017-01-19T03:39:55+08:00"><i class="fa fa-calendar-o"></i> January 18, 2017</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <p><strong>本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统</strong></p>
+
+<h1 id="section">安装依赖环境</h1>
+
+<h3 id="ruby-installhttpswwwruby-langorgendocumentationinstallationapt">1.<a href="https://www.ruby-lang.org/en/documentation/installation/#apt">Ruby Install</a></h3>
+
+<ul>
+  <li>注意版本：Ruby version &gt;= 2.0</li>
+  <li>若使用这种安装方式，会有版本太老的问题：</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ruby-full
+</code></pre>
+</div>
+
+<ul>
+  <li>直接下载最新源码包并解压，进入源码目录</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>./configure
+make
+sudo make install
+</code></pre>
+</div>
+
+<h3 id="rubygems-installhttpsrubygemsorgpagesdownload">2.<a href="https://rubygems.org/pages/download">RubyGems Install</a></h3>
+
+<ul>
+  <li>进入官网下载源码，解压进入目录</li>
+  <li>执行</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cd rubygems-2.6.8/
+sudo ruby setup.rb
+</code></pre>
+</div>
+
+<h3 id="nodejs-installhttpsnodejsorgendownloadpackage-managerdebian-and-ubuntu-based-linux-distributions">3.<a href="https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions">NodeJS Install</a></h3>
+
+<ul>
+  <li>安装最新版，执行以下命令</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>curl -sL https://deb.nodesource.com/setup_7.x | sudo -E bash -
+sudo apt-get install -y nodejs
+</code></pre>
+</div>
+
+<h3 id="python27-">4.Python2.7 或以上</h3>
+<hr />
+
+<h1 id="jekyll-">Jekyll 安装与使用</h1>
+
+<h2 id="jeklly">1.安装 Jeklly</h2>
+
+<p>在终端执行：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo gem install jekyll
+</code></pre>
+</div>
+<p>若要查看已经安装的版本号：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>jekyll --version or
+gem list jekyll
+</code></pre>
+</div>
+<p>在某些情况下，如果版本过低，可以使用以下命令进行更新</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>gem update jekyll
+</code></pre>
+</div>
+
+<h2 id="jeklly-1">2.使用 Jeklly</h2>
+
+<p><strong>1. 创建博客站点</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>jeklly new blog
+</code></pre>
+</div>
+<p>如提示错误信息：<code class="highlighter-rouge">jekyll 3.3.1 | Error:  bundler</code>,是由于该工具没有安装导致的，执行</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>gem install bundler
+</code></pre>
+</div>
+
+<p><strong>2. 启动jeklly本地服务对博客进行预览</strong></p>
+
+<ul>
+  <li>
+    <p>启动服务:<code class="highlighter-rouge">jeklly server</code></p>
+  </li>
+  <li>
+    <p>打开浏览器预览 Jekyll服务默认端口是4000,具体看输出地址打开即可，或者使用下面本地网址：</p>
+    <div class="highlighter-rouge"><pre class="highlight"><code>http://localhost:4000
+</code></pre>
+    </div>
+    <p><strong>注意：</strong> 启动服务时应该进入刚创建的 <code class="highlighter-rouge">blog</code>目录中</p>
+  </li>
+</ul>
+
+<p><strong>3. 添加博客文件</strong></p>
+
+<ul>
+  <li>
+    <p>进入 <code class="highlighter-rouge">blog/_posts/</code> 目录中,创建新的 <code class="highlighter-rouge">markdown</code> 文件</p>
+  </li>
+  <li>当文件博客文件创建好后，回到 <code class="highlighter-rouge">blog</code>目录使用 <code class="highlighter-rouge">jeklly build</code> 编译，编译后生成的文件可以在<code class="highlighter-rouge">_site</code>目录下查看，重启服务，即可看到网页有更新</li>
+  <li>
+    <p>注意</p>
+
+    <ul>
+      <li>文件命名必须严格遵守:<strong>YYYY-MM-DD-name-of-post.xxx</strong> 格式</li>
+      <li>在 markdown 文件头部添加格式说明，以便转换成网页</li>
+    </ul>
+  </li>
+</ul>
+
+<hr />
+
+<h1 id="jeklly--githup-pages-">将本地 Jeklly 博客部署到 GitHup Pages 上</h1>
+
+<h2 id="githup-pages-">1.GitHup Pages 创建</h2>
+
+<p>这一步比较简单，登录 githup 帐号</p>
+
+<p>1.创建仓库，仓库遵守命名规则：<code class="highlighter-rouge">username.github.io</code>username：你在githup上的用户名，如我自己的:</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hntea/hntea.github.io
+</code></pre>
+</div>
+
+<p>2.设置仓库，随便选择主题即可</p>
+
+<p>3.访问查看效果，在浏览器中输入并访问:</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>https://hntea.github.io/
+</code></pre>
+</div>
+
+<h2 id="section-1">2.部署</h2>
+
+<p><strong>1.克隆仓库到本地</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git clone https://github.com/hntea/hntea.github.io
+</code></pre>
+</div>
+
+<p><strong>2.将上面创建的 <code class="highlighter-rouge">blog</code> 文件夹下的所有目录复制到仓库下</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>cp blog/* ./hntea.githup.io/
+</code></pre>
+</div>
+
+<p><strong>3.提交到本地仓库</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git add --all
+git commit -m "信息记录"
+</code></pre>
+</div>
+<p><strong>4.上传到 githup 仓库的主分支</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>git push -u origin master
+</code></pre>
+</div>
+<p><strong>5.在终端执行 <code class="highlighter-rouge">jeklly server</code> 启动服务，可查看网页是否生效</strong></p>
+
+<hr />
+
+<h1 id="section-2">更换主题</h1>
+
+<ul>
+  <li>挑选：主题大全：<a href="https://jekyllthemes.io/">Jekyll Themes</a></li>
+  <li>这里选择 <strong>so-simple-theme</strong> 主题进行示范：
+    <ul>
+      <li>
+        <p>下载 <code class="highlighter-rouge">git clone https://github.com/mmistakes/so-simple-theme.git</code></p>
+      </li>
+      <li>
+        <p>进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓<code class="highlighter-rouge">_posts</code>已经有文件，记得保存好）</p>
+      </li>
+      <li>安装，执行：<code class="highlighter-rouge">bundle install</code> 并配置 <code class="highlighter-rouge">_config.yml</code></li>
+      <li>
+        <p>格式化，编译执行：<code class="highlighter-rouge">bundle exec jekyll build</code></p>
+      </li>
+      <li>本地服务查看：<code class="highlighter-rouge">bundle exec jekyll serve</code>;在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况</li>
+      <li>对于主题中的博客，如果不想要直接删除就好了。</li>
+    </ul>
+  </li>
+</ul>
+
+<h1 id="section-3">购买并绑定域名</h1>
+
+<p>…穷</p>
+
+        
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>
