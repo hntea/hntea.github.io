@@ -66,11 +66,13 @@ sudo apt-get install -y nodejs
 ```
 sudo gem install jekyll
 ```
+
 若要查看已经安装的版本号：
 ```
 jekyll --version or
 gem list jekyll
 ```
+
 在某些情况下，如果版本过低，可以使用以下命令进行更新
 ```
 gem update jekyll
