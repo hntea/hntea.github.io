@@ -3,7 +3,7 @@
   
     {
       "title"			: "Github-Pages+Jekyll博客搭建",
-      "link"			: "https://hntea.github.io/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/",
+      "link"			: "http://localhost:4000/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/",
       "excerpt"		: "本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统"
     }
   
@@ -15,7 +15,7 @@
   
     ,{
       "title"			: "Hong-Yiixin",
-      "link"			: "https://hntea.github.io/about/hntea/",
+      "link"			: "http://localhost:4000/about/hntea/",
       "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
     }
   
@@ -27,7 +27,7 @@
   
     ,{
       "title"			: "Hong-Yiixin",
-      "link"			: "https://hntea.github.io/about/",
+      "link"			: "http://localhost:4000/about/",
       "excerpt"		: "So Simple is a responsive Jekyll theme for your words and images."
     }
   
@@ -39,7 +39,7 @@
   
     ,{
       "title"			: "Theme Setup",
-      "link"			: "https://hntea.github.io/theme-setup/",
+      "link"			: "http://localhost:4000/theme-setup/",
       "excerpt"		: "Instructions on how to install and customize the Jekyll theme So Simple."
     }
   
