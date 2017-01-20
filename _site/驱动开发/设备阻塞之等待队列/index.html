@@ -1,0 +1,626 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>设备阻塞访问之等待队列  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动开发常用的设备阻塞访问技术">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="设备阻塞访问之等待队列 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动开发常用的设备阻塞访问技术">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设备阻塞访问之等待队列 ">
+<meta property="og:description" content="该博文主要描述linux 驱动开发常用的设备阻塞访问技术">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%98%BB%E5%A1%9E%E4%B9%8B%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%98%BB%E5%A1%9E%E4%B9%8B%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">设备阻塞访问之等待队列 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-14T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 13, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<p>a) 阻塞操作是指在执行设备操作时若不能获得资源则挂起进程，直到满足可操作的条件后再执行</p>
+
+<p>b) 被挂起的进程进入休眠状态，从调度器的运行队列移走，直到条件等待的条件被满足时进程再度被唤醒</p>
+
+<h2 id="section-1">需要阻塞访问的应用</h2>
+
+<p>a) 当应用程序使用read()或者write()等系统调用时，若设备的资源无法获取，而用户又希望等待到设备有数据自行读取或写入（阻塞方式访问数据）后才返回</p>
+
+<p>b) 优点：阻塞时进程会进入休眠状态，将CPU使用权交个其他进程</p>
+
+<h2 id="section-2">阻塞访问技术-等待队列</h2>
+
+<p>a) 基础数据结构-队列</p>
+
+<p>b) 与调度机制紧密结合</p>
+
+<p>c) 能够实现内核中的异步事件通知机制</p>
+
+<p>d) 等待队列可用来同步对系统资源的访问</p>
+
+<p><img src="http://img.blog.csdn.net/20160404153822654?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="框架图" /></p>
+
+<h2 id="section-3">等待队列基本操作</h2>
+
+<p>a) 定义等待队列头</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">wait_queue_head_t</span>  <span class="n">xxx_q</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>b) 初始化等待队列头</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">init_waitqueue_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xxx_q</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>快捷操作：DECLARE_WAIT_QUEUE_HEAD(xxx_q)：定义并初始化一个名为xxx_q的等待队列</p>
+
+<p>c) 添加等待队列——将等待队列wait添加到等待队列头q指向的等待队列链表中</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>  <span class="kt">void</span> <span class="n">add_wait_queue</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">wait_queue_t</span> <span class="o">*</span><span class="n">wait</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>d) 删除等待队列——将等待队列wait从等待队列头q指向的等待队列链表中删除</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">remove_wait_queue</span><span class="p">(</span><span class="n">wait_queue_head_t</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="n">wait_queue_t</span> <span class="o">*</span><span class="n">wait</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>e) 等待事件，condition 为布尔类型</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">wait_event</span><span class="p">(</span><span class="n">wq</span><span class="p">,</span> <span class="n">condition</span><span class="p">)</span> <span class="c1">//进程睡眠等待，直到条件为真；不能被信号打断，既进 程进入TASK_UNINTERRUPTIBLE状态
+</span>
+<span class="n">wait_event_timeout</span><span class="p">(</span><span class="n">wq</span><span class="p">,</span> <span class="n">condition</span><span class="p">,</span> <span class="n">timeout</span><span class="p">)</span><span class="err">；</span><span class="c1">//等待条件为真既返回，超时也返回
+</span>
+<span class="n">wait_event_interruptible</span><span class="p">(</span><span class="n">wq</span><span class="p">,</span> <span class="n">condition</span><span class="p">);</span><span class="c1">//可被信号打断；既进程进入TAKS_INTERRUPTIBLE状态
+</span>
+</code></pre>
+</div>
+
+<p>f) 唤醒队列</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">wake_up</span><span class="p">(</span><span class="n">wait_queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">);</span><span class="c1">//从等待队列q中唤醒状态为:
+//TASK_UNINTERRUPTIBLE，
+//TASK_INTERRUPTIBLE，
+</span><span class="n">TASK_KILLABLE</span> <span class="err">的所有进程</span>
+
+<span class="n">wake_up_interruptible</span><span class="p">(</span><span class="n">wait_queue_t</span> <span class="o">*</span><span class="n">q</span><span class="p">);</span><span class="c1">//从等待队列q中唤醒状态为TASK_INTERRUPTIBLE 的进程
+</span></code></pre>
+</div>
+
+<h2 id="section-4">程序设计流程</h2>
+
+<p>a) 定义等待队列头</p>
+
+<p>b) 初始化等待队列</p>
+
+<p>c) 在设备操作中进入等待队列，让进程睡眠，直到唤醒</p>
+
+<p>d) 在某个条件成立时唤醒等待队列</p>
+
+<hr />
+
+<h2 id="section-5">按键驱动程序阻塞访问设计</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/******************************************
+
+author : hntea
+
+date: 2016/3/16
+
+function :
+
+1.检测按键中断
+
+2.在中断底半部交个tasklet处理
+
+3.增加设备阻塞访问,当按键按下时唤醒等待队列
+
+******************************************/</span>
+
+<span class="cp">#include "key_hard.h"
+</span>
+<span class="cm">/******************************************
+
+定时器操作
+
+******************************************/</span>
+
+<span class="k">struct</span> <span class="n">timer_list</span> <span class="n">key_timer</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">key_do_timer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key1_task -------runing timer work</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数名: key_open
+
+函数功能：文件操作
+
+******************************************/</span>
+
+<span class="kt">int</span>  <span class="nf">key_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">key_hardinit</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cm">/******************************************
+
+函数名: key_read
+
+函数功能：阻塞访问测试
+
+******************************************/</span>
+
+<span class="n">wait_queue_head_t</span> <span class="n">key_queue</span><span class="p">;</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">key_val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">ssize_t</span> <span class="nf">key_read</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">,</span> <span class="kt">char</span> <span class="n">__user</span> <span class="o">*</span><span class="n">buf</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">lp</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*等待直到有数据才读取数据*/</span>
+
+<span class="n">wait_event</span><span class="p">(</span><span class="n">key_queue</span><span class="p">,</span><span class="n">key_val</span><span class="p">);</span>
+
+<span class="cm">/*将数据传递到用户空间*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">copy_to_user</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="o">&amp;</span><span class="n">key_val</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+
+<span class="n">key_val</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/*条件要记得清楚，要不下次读取就没有阻塞效果啦*/</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数名:
+
+函数功能：文件操作
+
+******************************************/</span>
+
+<span class="k">struct</span> <span class="n">file_operations</span> <span class="n">key_fop</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">read</span> <span class="o">=</span> <span class="n">key_read</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">key_open</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">miscdevice</span> <span class="n">key</span><span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">minor</span> <span class="o">=</span> <span class="n">DEV_MINIR</span> <span class="p">,</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Key"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">key_fop</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="cm">/******************************************
+
+中断底半部用任务实现
+
+******************************************/</span>
+
+<span class="cm">/*定义 task */</span>
+
+<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="n">key1_task</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="n">key2_task</span><span class="p">;</span>
+
+ 
+
+<span class="kt">void</span> <span class="nf">key1_taskfun</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*3初始化定时器*/</span>
+
+<span class="n">init_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">);</span>
+
+<span class="n">key_timer</span><span class="p">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">key_do_timer</span><span class="p">;</span>
+
+<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key1_task ------- My argument is:%ld</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">mod_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">,</span>  <span class="n">jiffies</span> <span class="o">+</span> <span class="n">HZ</span><span class="p">);</span> <span class="cm">/*1S后执行超时函数*/</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">key2_taskfun</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key2_task ------- My argument is:%ld</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key2_task ------- I try to wake up key_queue</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">key_val</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"Kernel-&gt;key_val is: %d</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="n">key_val</span><span class="p">);</span>
+
+<span class="n">wake_up</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_queue</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*关联结构体和服务函数*/</span>
+
+<span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">key1_task</span><span class="p">,</span><span class="n">key1_taskfun</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">key2_task</span><span class="p">,</span><span class="n">key2_taskfun</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数功能：中断服务函数入口
+
+******************************************/</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key1_interrupt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+  <span class="cm">/*1、顶部，硬件操作*/</span>
+
+  
+
+  <span class="cm">/*2、底部，交个工作队列来处理*/</span>
+
+    <span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key1_task</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key2_interrupt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+  <span class="cm">/*1、顶部，硬件操作*/</span>
+
+  
+
+  <span class="cm">/*2、底部，交个工作队列来处理*/</span>
+
+    <span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key2_task</span><span class="p">);</span>
+
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+ 
+
+<span class="cm">/**********************************
+
+函数名：
+
+函数功能：初始化函数
+
+**********************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*1、注册设备文件*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+
+<span class="cm">/*2、注册中断号*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span><span class="n">key1_interrupt</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span> <span class="s">"key1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"ret val is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">IRQ_EINT1</span><span class="p">,</span><span class="n">key2_interrupt</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span> <span class="s">"key2"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"ret val is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="cm">/*3、初始化等待队列*/</span>
+
+<span class="n">init_waitqueue_head</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_queue</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*注销中断*/</span>
+
+<span class="n">free_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">free_irq</span><span class="p">(</span><span class="n">IRQ_EINT1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="cm">/*注销混杂设备*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+
+<span class="cm">/*注销设备*/</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+ 
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyExit</span><span class="p">);</span>
+
+ 
+<span class="err">驱动测试</span>
+
+<span class="cp">#include&lt;stdio.h&gt;
+</span>
+<span class="cp">#include&lt;fcntl.h&gt;
+</span>
+<span class="cp">#include&lt;unistd.h&gt;
+</span>
+<span class="cp">#define PATH  "/dev/Key"
+</span>
+<span class="kt">int</span> <span class="n">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="n">key_val</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">PATH</span><span class="p">,</span><span class="n">O_RDWR</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="p">)</span>
+
+<span class="n">printf</span><span class="p">(</span><span class="s">"UserSpace ----&gt; No such file!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="o">&amp;</span><span class="n">key_val</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>
+
+ 
+
+<span class="n">printf</span><span class="p">(</span><span class="s">"</span><span class="se">\r\n</span><span class="s">UserSpace ----&gt;key_val  is: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">key_val</span><span class="p">);</span>
+
+<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/设备阻塞之等待队列" data-title="设备阻塞访问之等待队列 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%98%BB%E5%A1%9E%E4%B9%8B%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux%E5%BB%B6%E6%97%B6%E5%A4%84%E7%90%86/" class="btn" title="Linux Timer Delay ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="总线设备驱动模型 ">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

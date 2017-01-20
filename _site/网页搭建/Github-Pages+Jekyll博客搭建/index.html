@@ -3,42 +3,37 @@
 <!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
 <!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
 <!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
 <head>
 <meta charset="utf-8">
 <title>Github-Pages+Jekyll博客搭建 &#8211; Hong-Yixin</title>
-<meta name="description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
-
-">
-<meta name="keywords" content="玩转系统">
+<meta name="description" content="该博客简述如何一步步使用 Jekyll 搭建自己的博客">
+<meta name="keywords" content="Jekyll">
 
 
 <!-- Twitter Cards -->
 <meta name="twitter:title" content="Github-Pages+Jekyll博客搭建">
-<meta name="twitter:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
-
-">
+<meta name="twitter:description" content="该博客简述如何一步步使用 Jekyll 搭建自己的博客">
 
 
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hntea.github.io/images/site-logo.png">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="China">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Github-Pages+Jekyll博客搭建">
-<meta property="og:description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
-
-">
-<meta property="og:url" content="https://hntea.github.io/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<meta property="og:description" content="该博客简述如何一步步使用 Jekyll 搭建自己的博客">
+<meta property="og:url" content="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
 <meta property="og:site_name" content="Hong-Yixin">
 
 
 
 
 
-<link rel="canonical" href="https://hntea.github.io/blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
-<link href="https://hntea.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+<link rel="canonical" href="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -46,7 +41,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="https://hntea.github.io/assets/css/main.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
 <!-- Webfonts -->
 <script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
 
@@ -54,12 +49,12 @@
 
 <!-- HTML5 Shiv and Media Query Support -->
 <!--[if lt IE 9]>
-  <script src="https://hntea.github.io/assets/js/vendor/html5shiv.min.js"></script>
-  <script src="https://hntea.github.io/assets/js/vendor/respond.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
 <![endif]-->
 
 <!-- Modernizr -->
-<script src="https://hntea.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
 
 
 <!-- MathJax -->
@@ -68,37 +63,39 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.ico">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.png">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="https://hntea.github.io/images/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hntea.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
 <!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hntea.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hntea.github.io/images/apple-touch-icon-144x144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
 
 </head>
 
 <body id="post">
-
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
 <div class="navigation-wrapper">
 	<nav role="navigation" id="site-nav" class="animated drop">
 	    <ul>
       
 		    
-		    <li><a href="https://hntea.github.io/about" >关于作者</a></li>
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/articles/" >专题</a></li>
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/blog/" >博客</a></li>
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/search/" >搜索</a></li>
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
 		  
 	    </ul>
 	</nav>
@@ -109,9 +106,9 @@
 <header class="masthead">
 	<div class="wrap">
       
-  		<a href="https://hntea.github.io/" class="site-logo" rel="home" title="Hong-Yixin"><img src="https://hntea.github.io/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
       
-      <h1 class="site-title animated fadeIn"><a href="https://hntea.github.io/">Hong-Yixin</a></h1>
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
 		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
 	</div>
 </header><!-- /.masthead -->
@@ -125,7 +122,7 @@
     <div class="entry-wrapper">
       <header class="entry-header">
         <ul class="entry-tags">
-          <li><a href="https://hntea.github.io/tags/#玩转系统" title="Pages tagged 玩转系统">玩转系统</a></li>
+          <li><a href="http://localhost:4000/tags/#Jekyll" title="Pages tagged Jekyll">Jekyll</a></li>
         </ul>
         
           <h1 class="entry-title">Github-Pages+Jekyll博客搭建</h1>
@@ -134,7 +131,7 @@
       <footer class="entry-meta">
         
         
-          <img src="https://hntea.github.io/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
         
         <span class="author vcard">By <span class="fn">Hntea</span></span>
         <span class="entry-date date published"><time datetime="2017-01-19T03:39:55+08:00"><i class="fa fa-calendar-o"></i> January 18, 2017</time></span>
@@ -146,7 +143,7 @@
       <div class="entry-content">
         <p><strong>本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统</strong></p>
 
-<h1 id="section">安装依赖环境</h1>
+<h2 id="section">安装依赖环境</h2>
 
 <h3 id="uruby-installuhttpswwwruby-langorgendocumentationinstallationapt">1.<a href="https://www.ruby-lang.org/en/documentation/installation/#apt"><u>Ruby Install</u></a></h3>
 
@@ -195,9 +192,9 @@ sudo apt-get install -y nodejs
 <h3 id="python27-">4.Python2.7 或以上</h3>
 <hr />
 
-<h1 id="jekyll-">Jekyll 安装与使用</h1>
+<h2 id="jekyll-">Jekyll 安装与使用</h2>
 
-<h2 id="jeklly">1.安装 Jeklly</h2>
+<h3 id="jeklly">1.安装 Jeklly</h3>
 
 <p>在终端执行：</p>
 
@@ -218,7 +215,7 @@ gem list jekyll
 </code></pre>
 </div>
 
-<h2 id="jeklly-1">2.使用 Jeklly</h2>
+<h3 id="jeklly-1">2.使用 Jeklly</h3>
 
 <p><strong>1. 创建博客站点</strong></p>
 
@@ -284,9 +281,9 @@ gem list jekyll
 
 <hr />
 
-<h1 id="jeklly--githup-pages-">将本地 Jeklly 博客部署到 GitHup Pages 上</h1>
+<h2 id="jeklly--githup-pages-">将本地 Jeklly 博客部署到 GitHup Pages 上</h2>
 
-<h2 id="githup-pages-">1.GitHup Pages 创建</h2>
+<h3 id="githup-pages-">1.GitHup Pages 创建</h3>
 
 <p>这一步比较简单，登录 githup 帐号</p>
 
@@ -303,7 +300,7 @@ gem list jekyll
 </code></pre>
 </div>
 
-<h2 id="section-1">2.部署</h2>
+<h3 id="section-1">2.部署</h3>
 
 <p><strong>1.克隆仓库到本地</strong></p>
 
@@ -331,9 +328,9 @@ git commit -m "信息记录"
 
 <hr />
 
-<h1 id="section-2">更换主题</h1>
+<h2 id="section-2">更换主题</h2>
 
-<h2 id="section-3">1.挑选中意的主题</h2>
+<h3 id="section-3">1.挑选中意的主题</h3>
 
 <p>首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。</p>
 
@@ -341,7 +338,7 @@ git commit -m "信息记录"
   <li>挑选：请戳主题大全链接：<a href="https://jekyllthemes.io/"><u>Jekyll Themes</u></a></li>
 </ul>
 
-<h2 id="section-4">2.安装配置</h2>
+<h3 id="section-4">2.安装配置</h3>
 <p>这里选择 <strong>so-simple-theme</strong> 主题进行示范：</p>
 
 <ol>
@@ -371,7 +368,7 @@ git commit -m "信息记录"
 
 <hr />
 
-<h1 id="section-5">添加博客评论</h1>
+<h2 id="section-5">添加博客评论</h2>
 
 <p>由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　<strong>Disqus</strong>，若不想被墙，那么综合考虑下来就还是使用<a href="http://dev.duoshuo.com/docs">多说</a>比较好点，当然没有<strong>Disqus</strong>功能好。至于如何添加，具体操作如下：</p>
 
@@ -398,7 +395,7 @@ git commit -m "信息记录"
   <p>data-url 字段改成 “web site/{{ page.url }}”</p>
 </blockquote>
 
-<p>比如：“http://localhost:4000/{{ page.url }}”</p>
+<p>比如：将 data-url 修改成：“http://localhost:4000/{{ page.url }}”</p>
 
 <ul>
   <li>同时在 _config.yml 文件中添加如下代码</li>
@@ -417,7 +414,7 @@ git commit -m "信息记录"
 
         
       <!-- 多说评论框 start -->
-      <div class="ds-thread" data-thread-key="/blog/Github-Pages+Jekyll博客搭建" data-title="Github-Pages+Jekyll博客搭建" data-url="http://hntea.com//blog/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"></div>
+      <div class="ds-thread" data-thread-key="/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll博客搭建" data-title="Github-Pages+Jekyll博客搭建" data-url="http://hntea.com//%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/"></div>
       <!-- 多说评论框 end -->
       <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
       <script type="text/javascript">
@@ -435,6 +432,8 @@ git commit -m "信息记录"
       </div><!-- /.entry-content -->
     </div><!-- /.entry-wrapper -->
     <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="总线设备驱动模型 ">Previous</a>
       
       
     </nav><!-- /.pagination -->
@@ -458,19 +457,19 @@ git commit -m "信息记录"
 	
   
 	
-  <a href="https://hntea.github.io/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
 </div><!-- /.social-icons -->
 
   </footer>
 </div><!-- /.footer-wrapper -->
 
 <script type="text/javascript">
-  var BASE_URL = 'https://hntea.github.io';
+  var BASE_URL = 'http://localhost:4000';
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="https://hntea.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="https://hntea.github.io/assets/js/scripts.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
 
 
 

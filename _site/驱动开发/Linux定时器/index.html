@@ -1,0 +1,698 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>Linux Timer  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动开发中定时器的使用方法">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="Linux Timer ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动开发中定时器的使用方法">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Timer ">
+<meta property="og:description" content="该博文主要描述linux 驱动开发中定时器的使用方法">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux%E5%AE%9A%E6%97%B6%E5%99%A8/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux%E5%AE%9A%E6%97%B6%E5%99%A8/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">Linux Timer </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-12T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 11, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<p>1.定时器是对机器时钟中断的应用</p>
+
+<p>2.内核提供一组数据结构来完成定时触发工作或者完成周期性的事务</p>
+
+<p>3.操作系统中，一般不允许使用for循环来延时，一般使用定时器来完成延时功能</p>
+
+<p>4.jiffies 表当前时间，HZ表示延迟1S</p>
+
+<p>5.数据结构</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">linux</span><span class="o">/</span><span class="n">timer</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span>
+
+<span class="k">struct</span> <span class="n">timer_list</span> <span class="p">{</span>
+
+<span class="cm">/*
+
+ * All fields that change during normal runtime grouped to the
+
+ * same cacheline
+
+ */</span>
+
+<span class="k">struct</span> <span class="n">list_head</span> <span class="n">entry</span><span class="p">;</span> <span class="cm">/*定时器列表*/</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">expires</span><span class="p">;</span> <span class="cm">/*定时器到期时间，以jiffy为单位*/</span>
+
+<span class="k">struct</span> <span class="n">tvec_base</span> <span class="o">*</span><span class="n">base</span><span class="p">;</span> <span class="cm">/**/</span>
+
+ 
+
+<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">function</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">);</span><span class="cm">/*定时器到期处理函数*/</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">data</span><span class="p">;</span> <span class="cm">/*作为参数被传入定时器处理函数*/</span>
+
+<span class="kt">int</span> <span class="n">slack</span><span class="p">;</span>
+
+<span class="p">....</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h2 id="section-1">相关函数</h2>
+
+<h3 id="section-2">初始化定时器</h3>
+
+<p><strong>法一：</strong></p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#define init_timer(timer)\
+
+</span><span class="n">init_timer_key</span><span class="p">((</span><span class="n">timer</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">)</span>
+
+ 
+
+<span class="kt">void</span> <span class="n">init_timer_key</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="k">struct</span> <span class="n">lock_class_key</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">debug_init</span><span class="p">(</span><span class="n">timer</span><span class="p">);</span>
+
+<span class="n">__init_timer</span><span class="p">(</span><span class="n">timer</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="n">__init_timer</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="o">*</span><span class="n">timer</span><span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">,</span><span class="k">struct</span> <span class="n">lock_class_key</span> <span class="o">*</span><span class="n">key</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">timer</span><span class="o">-&gt;</span><span class="n">entry</span><span class="p">.</span><span class="n">next</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+
+<span class="n">timer</span><span class="o">-&gt;</span><span class="n">base</span> <span class="o">=</span> <span class="n">__raw_get_cpu_var</span><span class="p">(</span><span class="n">tvec_bases</span><span class="p">);</span>
+
+<span class="n">timer</span><span class="o">-&gt;</span><span class="n">slack</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">;</span>
+
+<span class="p">..</span>
+
+<span class="n">lockdep_init_map</span><span class="p">(</span><span class="o">&amp;</span><span class="n">timer</span><span class="o">-&gt;</span><span class="n">lockdep_map</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>注：init_timer()宏初始化timer_list结构体entry成员的next为空，并给base指针赋值</p>
+
+<p><strong>法二：</strong></p>
+
+<p>下面这个宏也可以用来初始化：给定时器结构体的成员赋值</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">TIMER_INITIALIZER</span><span class="p">(</span><span class="n">_function</span><span class="p">,</span> <span class="n">_expires</span><span class="p">,</span> <span class="n">_data</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>给定时器结构底成员赋值的快捷方式</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#define DEFINE_TIMER(_name, _function, _expires, _data) \
+
+</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="n">_name</span> <span class="o">=</span> <span class="err">\在这里帮我们定义了结构体，所以快捷</span>
+
+<span class="n">TIMER_INITIALIZER</span><span class="p">(</span><span class="n">_function</span><span class="p">,</span> <span class="n">_expires</span><span class="p">,</span> <span class="n">_data</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><strong>法三：</strong></p>
+
+<p>最后一种方法用于初始化定时器斌为成员赋值</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#define setup_timer(timer, fn, data) \
+
+</span><span class="k">do</span> <span class="p">{</span> \
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">lock_class_key</span> <span class="n">__key</span><span class="p">;</span> \
+
+<span class="n">setup_timer_key</span><span class="p">((</span><span class="n">timer</span><span class="p">),</span> <span class="err">#</span><span class="n">timer</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">__key</span><span class="p">,</span> <span class="p">(</span><span class="n">fn</span><span class="p">),</span> <span class="p">(</span><span class="n">data</span><span class="p">));</span>\
+
+<span class="p">}</span> <span class="k">while</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+
+</code></pre>
+</div>
+
+<h3 id="section-3">添加定时器（注册内核定时器）</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">add_timer</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="o">*</span><span class="n">timer</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<h3 id="section-4">删除定时器</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">del_timer</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="o">*</span><span class="n">timer</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3 id="expires">修改定时器—修改定时的超时时间expires</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">mod_timer</span><span class="p">(</span><span class="k">struct</span> <span class="n">timer_list</span> <span class="o">*</span><span class="n">timer</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">expires</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h2 id="section-5">内核定时器使用模板</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="cm">/*设备结构体*/</span>
+
+<span class="k">struct</span> <span class="n">xxx_dev</span>
+
+<span class="p">{</span>
+
+<span class="k">struct</span> <span class="n">miscdevices</span> <span class="n">misc</span><span class="p">;</span>
+
+<span class="p">....</span>
+
+<span class="n">timer_list</span> <span class="n">xxx_timer</span><span class="p">;</span> <span class="cm">/*设备具有的定时器*/</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="cm">/*定时器处理函数,实现周期运行*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">xxx_do_timer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="k">struct</span> <span class="n">xxx_dev</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">xxx_dev</span> <span class="o">*</span><span class="p">)</span><span class="n">arg</span> <span class="cm">/*循环加载，相互转换*/</span>
+
+<span class="p">....</span>
+
+<span class="cm">/*调度定时器再执行*/</span>
+
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">.</span><span class="n">expires</span> <span class="o">=</span> <span class="n">jiffies</span> <span class="o">+</span> <span class="n">delay</span><span class="p">;</span>
+
+<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">timer</span><span class="p">));</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*驱动中的某函数*/</span>
+
+<span class="n">xxx_func1</span><span class="p">(...)</span>
+
+<span class="p">{</span>
+
+<span class="k">struct</span> <span class="n">xxx_dev</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">filp</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span><span class="cm">/*使用文件结构的private_data传递结构*/</span>
+
+<span class="p">....</span>
+
+<span class="cm">/*初始化定时器*/</span>
+
+<span class="n">init_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">));</span> <span class="cm">/*注意取得是定时器的指针*/</span>
+
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">xxx_do_timer</span><span class="p">;</span>
+
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="n">dev</span><span class="p">;</span> <span class="cm">/*将结构体的参数传递给超时处理函数*/</span>
+
+<span class="cm">/*设定延时，注册定时器*/</span>
+
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">.</span><span class="n">expires</span> <span class="o">=</span> <span class="n">jiffies</span> <span class="o">+</span> <span class="n">delay</span><span class="p">;</span>
+
+<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">);</span>
+
+<span class="p">....</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*驱动中的某函数*/</span>
+
+<span class="n">xxx_func2</span><span class="p">(...)</span>
+
+<span class="p">{</span>
+
+<span class="p">....</span>
+
+<span class="cm">/*删除定时器*/</span>
+
+<span class="n">del_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">xxx_timer</span><span class="p">));</span>
+
+<span class="p">...</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<hr />
+
+<h2 id="section-6">驱动编程测试</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/******************************************
+
+author : hntea
+
+date: 2016/3/15
+
+function :
+
+1.检测按键中断
+
+2.在中断底半部交个tasklet处理
+
+3.外部中断0的tasklet 任务启动定时器
+
+4.定时器打印消息
+
+******************************************/</span>
+
+ 
+
+<span class="cp">#include "key_hard.h"
+</span>
+<span class="cm">/******************************************
+
+定时器操作
+
+******************************************/</span>
+
+ 
+
+<span class="cm">/*创建一个定时器*/</span>
+
+<span class="k">struct</span> <span class="n">timer_list</span> <span class="n">key_timer</span><span class="p">;</span>
+
+ 
+
+<span class="cm">/*定时器处理函数,实现周期运行*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">key_do_timer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">data</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"runing timer work</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数名: key_open
+
+函数功能：文件操作
+
+******************************************/</span>
+
+<span class="kt">int</span>  <span class="nf">key_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">key_hardinit</span><span class="p">();</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cm">/******************************************
+
+函数名:
+
+函数功能：文件操作
+
+******************************************/</span>
+
+<span class="k">struct</span> <span class="n">file_operations</span> <span class="n">key_fop</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">key_open</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">miscdevice</span> <span class="n">key</span><span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">minor</span> <span class="o">=</span> <span class="n">DEV_MINIR</span> <span class="p">,</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"Key"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">key_fop</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="cm">/******************************************
+
+中断底半部用任务实现
+
+******************************************/</span>
+
+<span class="cm">/*定义 task */</span>
+
+<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="n">key1_task</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="n">key2_task</span><span class="p">;</span>
+
+ 
+
+<span class="kt">void</span> <span class="nf">key1_taskfun</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key1_task ------- My argument is:%ld</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">mod_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">,</span>  <span class="n">jiffies</span> <span class="o">+</span> <span class="n">HZ</span><span class="p">);</span> <span class="cm">/*1S后执行超时函数*/</span>
+
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">key2_taskfun</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I am key2_task ------- My argument is:%ld</span><span class="se">\r\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*关联结构体和服务函数*/</span>
+
+<span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">key1_task</span><span class="p">,</span><span class="n">key1_taskfun</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">key2_task</span><span class="p">,</span><span class="n">key2_taskfun</span><span class="p">,</span><span class="mi">2</span><span class="p">);</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数功能：中断服务函数入口
+
+******************************************/</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key1_interrupt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+  <span class="cm">/*1、顶部，硬件操作*/</span>
+
+  
+
+  <span class="cm">/*2、底部，交个工作队列来处理*/</span>
+
+    <span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key1_task</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key2_interrupt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+  <span class="cm">/*1、顶部，硬件操作*/</span>
+
+  
+
+  <span class="cm">/*2、底部，交个工作队列来处理*/</span>
+
+    <span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key2_task</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+ 
+
+<span class="cm">/**********************************
+
+函数名：
+
+函数功能：初始化函数
+
+**********************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*1、注册设备文件*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+
+<span class="cm">/*2、注册中断号*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span><span class="n">key1_interrupt</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span> <span class="s">"key1"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"ret val is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">IRQ_EINT1</span><span class="p">,</span><span class="n">key2_interrupt</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span> <span class="s">"key2"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"ret val is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ret</span><span class="p">);</span>
+
+<span class="cm">/*初始化定时器*/</span>
+
+<span class="n">init_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">);</span>
+
+<span class="n">key_timer</span><span class="p">.</span><span class="n">function</span> <span class="o">=</span> <span class="n">key_do_timer</span><span class="p">;</span>
+
+<span class="cm">/*注册定时器*/</span>
+
+<span class="n">add_timer</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_timer</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*注销中断*/</span>
+
+<span class="n">free_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+<span class="n">free_irq</span><span class="p">(</span><span class="n">IRQ_EINT1</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+<span class="cm">/*注销混杂设备*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+
+<span class="cm">/*注销设备*/</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+ 
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyExit</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux定时器" data-title="Linux Timer " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux%E5%AE%9A%E6%97%B6%E5%99%A8/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E8%BD%AF%E4%B8%AD%E6%96%AD/" class="btn" title="中断分层机制之软中断">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/Linux%E5%BB%B6%E6%97%B6%E5%A4%84%E7%90%86/" class="btn" title="Linux Timer Delay ">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

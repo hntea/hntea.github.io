@@ -1,0 +1,316 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>设备驱动基础 &#8211; Hong-Yixin</title>
+<meta name="description" content="文件主要描述Linux驱动开发的基础知识">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="设备驱动基础">
+<meta name="twitter:description" content="文件主要描述Linux驱动开发的基础知识">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设备驱动基础">
+<meta property="og:description" content="文件主要描述Linux驱动开发的基础知识">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E5%9F%BA%E7%A1%80/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E5%9F%BA%E7%A1%80/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">设备驱动基础</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-02T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 01, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">设备驱动基础</h2>
+
+<h3 id="section-1">设备驱动的使用方式：</h3>
+
+<ol>
+  <li>动态加载</li>
+  <li>直接编译进内核</li>
+</ol>
+
+<p><strong>直接编译进内核的方法</strong>：（内核源码/Doucument/kbuild/…中有相应的介绍）</p>
+
+<p>.<strong>config</strong>:顶层配置文件，可以手动修改，也可以通过make menuconfig等命令配置内核自动生成；该文件对驱动进行三个方面配置：</p>
+
+<ul>
+  <li>编译成驱动模块</li>
+  <li>编译进内核</li>
+  <li>从内核中除去</li>
+</ul>
+
+<p><strong>Kconfig</strong>：连接LINUX内核的模块目录文件；功能：</p>
+
+<ul>
+  <li>用于定义make menuconfig命令显示的菜单</li>
+  <li>导入位于其他目录的Kconfig文件，make命令通过Kconfig文件的递归引用，找到内核代码中所有Kconfig文件，之后创建菜单栏</li>
+</ul>
+
+<p><strong>Makefile</strong>:一般与Kconfig文件配对，该文件用来指定如何编译</p>
+
+<p><strong>举例说明：</strong></p>
+
+<p>Konfig 文件：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>config LED_DRIVER  //用于在.config中生成CONFIG_LED_DRIVER<span class="o">=</span>y/n以便用来将驱 动编译进内核与否
+				
+bool “led driver”  // 菜单中显示的选项名
+
+<span class="nb">help</span> 		  //帮助提示
+</code></pre>
+</div>
+
+<p><strong>3.驱动程序分类：</strong></p>
+
+<ul>
+  <li>字符型设备</li>
+  <li>块设备</li>
+  <li>网络接口</li>
+  <li>其他：如SCSI</li>
+</ul>
+
+<p><strong>4.字符设备：</strong></p>
+
+<ul>
+  <li>指的存取时没有缓存的设备</li>
+  <li>可以像文件一样访问字符设备，字符设备驱动程序负责实现这些行为</li>
+</ul>
+
+<p><strong>5.块设备：</strong></p>
+
+<ul>
+  <li>块设备是文件系统的宿主，如磁盘。</li>
+  <li>大多数Unix系统中，只能将块设备看做多个块设备进行访问</li>
+  <li>块设备经常是1KB数据，LINUX允许像字符设备那样读取块设备–允许一次传输任意数目的字节</li>
+</ul>
+
+<p><strong>6.网络接口设备</strong></p>
+
+<ul>
+  <li>任何网络事务都是通过接口实现的</li>
+  <li>接口是一个硬件设备，也可以是loopback接口一样是软件工具</li>
+  <li>网路接口由内核网络子系统驱动</li>
+</ul>
+
+<p><strong>7.相关命令</strong></p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>insmod	<span class="c">#加载</span>
+lsmod 	<span class="c">#查看</span>
+rmmod	<span class="c">#卸载</span>
+depmod
+</code></pre>
+</div>
+<p>注：
+　　depmod：生成依赖文件，告诉将来的insmod要从何处调入modules。
+　　这个依赖文件是/lib/modules/$(version)/modules.dep</p>
+
+<h2 id="section-2">最简单的设备驱动框架</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include&lt;linux/init.h&gt;
+#include&lt;linux/kernel.h&gt; /*提供printk()打印函数*/
+#include&lt;linux/module.h&gt;
+
+static int xxx_init()
+{
+	return 0;
+}
+
+static void xxx_Exit(void)
+{
+
+}
+ 
+
+module_init(xxx_init); /*insmod 入口*/
+module_exit(xxx_Exit); /*rmmod 入口*/
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/设备驱动基础" data-title="设备驱动基础" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E5%9F%BA%E7%A1%80/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/android-wifi%E9%A9%B1%E5%8A%A8%E7%A7%BB%E6%A4%8D/" class="btn" title="android wifi 驱动移植">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%AC%94%E8%AE%B0-2/" class="btn" title="字符设备驱动">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

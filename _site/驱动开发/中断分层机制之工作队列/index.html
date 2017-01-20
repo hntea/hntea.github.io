@@ -1,0 +1,640 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>中断分层机制 Workqueue &#8211; Hong-Yixin</title>
+<meta name="description" content="文件主要描述linux 驱动终端处理机制">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="中断分层机制 Workqueue">
+<meta name="twitter:description" content="文件主要描述linux 驱动终端处理机制">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中断分层机制 Workqueue">
+<meta property="og:description" content="文件主要描述linux 驱动终端处理机制">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">中断分层机制 Workqueue</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-10T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 09, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <hr />
+
+<h2 id="section">工作队列概念：</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>a) 任务推后执行
+
+b) 被推后的任务由“内核线程”执行
+
+c) 允许重新调度和睡眠
+
+d) 这些被推后的工作组成一个双向链表，既称为工作队列
+</code></pre>
+</div>
+
+<h2 id="section-1">运行机制</h2>
+
+<p><img src="http://img.blog.csdn.net/20160829113834019" alt="工作队列" /></p>
+
+<p><strong>注释：</strong></p>
+
+<ol>
+  <li>
+    <p>每个CPU都有独立的工作队列</p>
+  </li>
+  <li>
+    <p>每个工作队列形成一个双向链表</p>
+  </li>
+  <li>
+    <p>执行时由内核的一个线程去处理，执行的时机不确定；只有在线程觉得CPU有能 力处理时才去去工作队列的内容去执行</p>
+  </li>
+</ol>
+
+<h2 id="section-2">工作队列的相关结构</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">work_struct</span> <span class="p">{</span>
+
+<span class="n">atomic_long_t</span> <span class="n">data</span><span class="p">;</span> <span class="cm">/*原子类型数据*/</span>
+
+<span class="k">struct</span> <span class="n">list_head</span> <span class="n">entry</span><span class="p">;</span> <span class="cm">/*链表入口*/</span>
+
+<span class="n">work_func_t</span> <span class="n">func</span><span class="p">;</span> <span class="cm">/*工作函数*/</span>
+
+<span class="cp">#ifdef CONFIG_LOCKDEP
+</span>
+<span class="k">struct</span> <span class="n">lockdep_map</span> <span class="n">lockdep_map</span><span class="p">;</span>
+
+<span class="cp">#endif
+</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">workqueue_struct</span><span class="err">；</span><span class="cm">/*好多成员*/</span>
+</code></pre>
+</div>
+
+<h2 id="section-3">工作队列实现过程和相关函数</h2>
+
+<h3 id="section-4">法一：交给内核创建默认工作队列</h3>
+
+<p>a) 定义工作队列</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">work_struct</span> <span class="n">xx_wq</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<p>b) 定义工作函数</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="n">work_func_t</span>  <span class="n">work_fun</span><span class="p">(</span><span class="n">unsingend</span> <span class="kt">int</span> <span class="n">xxx</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>c) 初始化工作队列，将工作队列与处理函数绑定</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">INIT_WORK</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xx_wq</span><span class="p">,</span> <span class="n">work_fun</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>d) 提交工作到默认队列;既工作的创建由内核自行处理</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>schedule_work(&amp;xx_wq);
+</code></pre>
+</div>
+
+<h3 id="section-5">法二：手工创建工作队列</h3>
+
+<p>a) 定义工作队列</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">work_struct</span>  <span class="n">work</span><span class="p">;</span> <span class="cm">/*定义工作*/</span>
+</code></pre>
+</div>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">workqueue_struct</span><span class="o">*</span> <span class="n">wq</span><span class="p">;</span> <span class="cm">/*定义的队列*/</span>
+</code></pre>
+</div>
+
+<p>b) 定义工作函数</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="n">work_func_t</span>  <span class="n">work_fun</span><span class="p">(</span><span class="n">unsingend</span> <span class="kt">int</span> <span class="n">xxx</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>c) 创建名字为 “mywork” 的工作队列</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">wq</span> <span class="o">=</span> <span class="n">create_workqueue</span><span class="p">(</span><span class="err">“</span><span class="n">mywork</span><span class="err">”</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>d) 初始化工作队列</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">INIT_WORK</span><span class="p">(</span><span class="o">&amp;</span><span class="n">xx_wq</span><span class="p">,</span> <span class="n">work_fun</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>e) 提交工作队列</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>int queue_work(wq, $work);
+</code></pre>
+</div>
+
+<h2 id="section-6">5.工作队列在中断分层技术的应用</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/*1.定义结构体*/
+
+struct work_struct xx_wq;
+
+/*2.编写底半部函数，既工作函数*/
+
+void xxx_do_work(unsigned long x)
+
+{
+
+...
+
+}
+
+/*4.中断处理顶半部*/
+
+static irqreturn_t xxx_interrupt(int irq, void *dev_id)
+
+{
+
+...
+
+/*提交工作 并启动调度*/
+
+schedule_work(&amp;xx_wq);
+
+...
+
+}
+
+/*5.模块加载*/
+
+module_init(xxxx)
+
+{
+
+  .....
+
+/*申请中断*/
+
+ 
+
+/*初始化工作队列，将工作队列与处理函数绑定，这个可以在open函数初始化*/
+
+INIT_WORK(&amp;xx_wq,xxx_do_work);
+
+ 
+
+       ......
+
+}
+
+/*6.模块卸载*/
+
+module_exit(yyyy)
+
+{
+
+/*释放中断*/
+
+}
+</code></pre>
+</div>
+
+<hr />
+
+<h2 id="section-7">工作队列模块测试</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+
+author : hntea
+
+date: 2016/3/14
+
+function : key interrupt  work  test
+
+*/</span>
+
+ 
+
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/miscdevice.h&gt;
+</span>
+<span class="cp">#include&lt;linux/fs.h&gt;
+</span>
+<span class="cp">#include&lt;linux/types.h&gt;
+</span>
+<span class="cp">#include&lt;linux/io.h&gt;
+</span>
+<span class="cp">#include&lt;linux/interrupt.h&gt;
+</span>
+ 
+
+<span class="cp">#define DEV_MINIR 11 </span><span class="cm">/*自己随便取咯*/</span><span class="cp">
+</span>
+<span class="cp">#define DEV_NAME "key" </span><span class="cm">/*自己随便取咯，该设备名会在 /dev目录下生成相应的设备文件*/</span><span class="cp">
+</span>
+ 
+
+<span class="cp">#define KEY_GPH0CON  0xE0200C00 </span><span class="cm">/*key_1 /key_2 EXIT0/1*/</span><span class="cp">
+</span>
+<span class="cm">/*定义 work */</span>
+
+<span class="k">struct</span> <span class="n">work_struct</span> <span class="n">work1</span><span class="p">;</span>
+
+ 
+
+<span class="cm">/******************************************
+
+函数名: key_hardinit
+
+函数功能：硬件初始化
+
+******************************************/</span>
+
+<span class="kt">void</span> <span class="nf">key_hardinit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">key_ioconfig</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">irq_mask</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="o">*</span><span class="n">irq_enable</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">temdata</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="cm">/*GPIO初始化 32位寄存器*/</span>
+	
+	<span class="n">key_ioconfig</span> <span class="o">=</span> <span class="n">ioremap</span><span class="p">(</span><span class="n">KEY_GPH0CON</span><span class="p">,</span><span class="mi">4</span><span class="p">);</span>  <span class="cm">/*按键1和2设置成外部中断*/</span>
+	
+	<span class="n">temdata</span> <span class="o">=</span> <span class="n">ioread32</span><span class="p">(</span><span class="n">key_ioconfig</span><span class="p">);</span>
+	
+	<span class="n">temdata</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="o">~</span><span class="mh">0xff</span><span class="p">);</span>
+	
+	<span class="n">temdata</span> <span class="o">|=</span> <span class="mh">0xff</span><span class="p">;</span>
+	
+	<span class="n">iowrite32</span><span class="p">(</span><span class="n">temdata</span><span class="p">,</span><span class="n">key_ioconfig</span><span class="p">);</span>
+	
+	<span class="cm">/*中断控制初始化*/</span>
+<span class="p">}</span>
+ 
+<span class="cm">/******************************************
+
+中断底半部用工作队列实现
+
+******************************************/</span>
+
+<span class="cm">/*定义服务函数,任务提交后只执行一次*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">my_work1</span><span class="p">(</span><span class="k">struct</span> <span class="n">work_struct</span> <span class="o">*</span><span class="n">work</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="n">printk</span><span class="p">(</span><span class="s">"I am work1</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	
+	<span class="n">printk</span><span class="p">(</span><span class="s">"I am work1,extern interrupt rase!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*
+
+函数名: key_interrupt
+
+函数功能：中断服务函数入口
+
+*/</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key_interrupt</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+  <span class="cm">/*1、顶部，硬件操作*/</span>
+
+
+  <span class="cm">/*2、底部，交个工作队列来处理*/</span>
+
+	<span class="n">schedule_work</span><span class="p">(</span><span class="o">&amp;</span><span class="n">work1</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*
+函数名: key_open
+
+函数功能：文件操作
+*/</span>
+
+<span class="kt">int</span>  <span class="nf">key_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filp</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="n">key_hardinit</span><span class="p">();</span>
+	
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*
+
+函数名:
+
+函数功能：文件操作
+
+*/</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">file_operations</span> <span class="n">key_fop</span> <span class="o">=</span><span class="p">{</span>
+
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">key_open</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">miscdevice</span> <span class="n">key</span><span class="o">=</span><span class="p">{</span>
+
+<span class="p">.</span><span class="n">minor</span> <span class="o">=</span> <span class="n">DEV_MINIR</span> <span class="p">,</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">DEV_NAME</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">key_fop</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="cm">/*1、注册设备文件*/</span>
+	
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+	
+	<span class="cm">/*2、注册中断号，IRQF_TRIGGER_FALLING中断号在
+	
+	: linux/arch/arm/mach-s5pv210/include/mach/irqs.h文件中有定义*/</span>
+	
+	 
+	
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span><span class="n">key_interrupt</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span> <span class="n">DEV_NAME</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	
+	<span class="cm">/*3.初始化工作*/</span>
+	
+	<span class="n">INIT_WORK</span><span class="p">(</span><span class="o">&amp;</span><span class="n">work1</span><span class="p">,</span><span class="n">my_work1</span><span class="p">);</span> 
+	
+	<span class="n">printk</span><span class="p">(</span><span class="s">"ret val is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ret</span><span class="p">);</span>
+	
+	<span class="k">if</span><span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+	
+	<span class="p">{</span>
+	
+		<span class="n">printk</span><span class="p">(</span><span class="s">"EXINT0 request fail!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	
+	<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+		
+		<span class="n">printk</span><span class="p">(</span><span class="s">"EXINT0 request sucess!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	
+	<span class="p">}</span>
+	
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	
+	<span class="cm">/*注销中断*/</span>
+	
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">IRQ_EINT0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	
+	<span class="cm">/*注销混杂设备*/</span>
+	
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key</span><span class="p">);</span>
+	
+	<span class="cm">/*注销设备*/</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+ 
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyExit</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/中断分层机制之工作队列" data-title="中断分层机制 Workqueue" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/" class="btn" title="中断分层机制 Tasklet">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E8%BD%AF%E4%B8%AD%E6%96%AD/" class="btn" title="中断分层机制之软中断">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

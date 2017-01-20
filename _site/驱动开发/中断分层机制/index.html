@@ -1,0 +1,467 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>中断分层机制 Tasklet &#8211; Hong-Yixin</title>
+<meta name="description" content="文件主要描述linux 驱动终端处理机制">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="中断分层机制 Tasklet">
+<meta name="twitter:description" content="文件主要描述linux 驱动终端处理机制">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中断分层机制 Tasklet">
+<meta property="og:description" content="文件主要描述linux 驱动终端处理机制">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">中断分层机制 Tasklet</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-09T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 08, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">中断上下文</h2>
+
+<ul>
+  <li>
+    <p>因为中断产生时会打断当前占用CPU的进程，为尽量提高进程的运行效率，不会卡顿，从而使中断服务程序分为顶半部和底半部两个部分</p>
+  </li>
+  <li>
+    <p>顶部分是用来处理应急事件，特别是硬件相关；之后将CPU使用权交个当前进程</p>
+  </li>
+  <li>
+    <p>底部分（不着急处理的，任务繁琐的）则等待CPU空闲时，既内核线程觉得有能力运行时才去执行。</p>
+  </li>
+</ul>
+
+<p><strong>注意事项</strong></p>
+
+<ul>
+  <li>
+    <p>i. 中断上下文代码绝对不可以停止运行</p>
+  </li>
+  <li>
+    <p>中断处理程序不能调用schedule_timeout()等随眠函数放弃CPU</p>
+  </li>
+  <li>
+    <p>在中断处理函数中调用一个内核API之前，应该仔细分析，确保内部不会触发阻塞等待.</p>
+  </li>
+  <li>
+    <p>为了中断处理函数中保存临界区，不能使用互斥体，应该使用自旋锁代替互斥体，只有在不得不用的时候采用</p>
+  </li>
+  <li>
+    <p>中断处理函数不能与用户空间直接交互数据，应为它们经由进程上下文与用户空间建立连接</p>
+  </li>
+  <li>
+    <p>中断函数不必是可重用的</p>
+  </li>
+  <li>
+    <p>中断函数可以被更高优先级IRQ的中断打断</p>
+  </li>
+</ul>
+
+<p>a) 快速中断不可被打断：既执行快速中断时，处理器所有中断都会被屏蔽</p>
+
+<p>b) 同步中断：有处理器本身执行某些指令产生；如：</p>
+
+<ul>
+  <li>
+    <p>异常：用于报告严重的运行时错误</p>
+
+    <p>软中断：</p>
+  </li>
+</ul>
+
+<h2 id="section-1">中断分层实现,底半部处理方法</h2>
+
+<ol>
+  <li>
+    <p>任务：struct tasklet</p>
+  </li>
+  <li>
+    <p>工作队列: struct work_struct</p>
+  </li>
+  <li>
+    <p>软中断:</p>
+  </li>
+</ol>
+
+<h2 id="tasklet-">tasklet 编程实现相关函数</h2>
+
+<ul>
+  <li>数据结构：</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">tasklet_struct</span>
+<span class="p">{</span>
+
+	<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">state</span><span class="p">;</span>
+	
+	<span class="n">atomic_t</span> <span class="n">count</span><span class="p">;</span>
+	
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">func</span><span class="p">)(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">);</span> <span class="cm">/*需要驱动完成的函数*/</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">data</span><span class="p">;</span> <span class="cm">/*传递给func函数？*/</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>主要特征</li>
+</ul>
+
+<blockquote>
+  <blockquote>
+    <p>Main feature differing them of generic softirqs: tasklet<br />
+is running only on one CPU simultaneously.<br />
+	   Main feature differing them of BHs: different tasklets<br />
+	   may be run simultaneously on different CPUs.<br /></p>
+  </blockquote>
+</blockquote>
+
+<ul>
+  <li>
+    <p>定义tasklet：<code class="highlighter-rouge">struct tasklet my_tasklet</code></p>
+  </li>
+  <li>
+    <p>定义处理函数：<code class="highlighter-rouge">void my_tasklet_func(unsigned long)</code></p>
+  </li>
+  <li>
+    <p>关联tasklet 和处理函数：</p>
+  </li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> DECLARE_TASKLET(my_tasklet,my_tasklet_func,data);
+</code></pre>
+</div>
+<p>解释：将my_tasklet 与处理函数绑定，并将data作为参数传递给my_task_func</p>
+
+<ul>
+  <li>调度（交给系统自行处理）：<code class="highlighter-rouge">tasklet_schedule(&amp;my_tasklet)</code></li>
+</ul>
+
+<hr />
+
+<h2 id="tasklet">使用tasklet作为中断底半部的设备驱动程序模板</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/*1.定义结构体*/
+
+struct tasklet_struct my_tasklet;
+
+/*2.编写底半部函数*/
+
+void xxx_do_tasklet(unsigned long x)
+
+{
+
+...
+
+}
+
+/*3.关联函数*/
+
+DECLARE_TASKLET(my_tasklet,xxx_do_tasklet,0);
+
+/*4.中断处理顶半部*/
+
+static irqreturn_t xxx_interrupt(int irq, void *dev_id)
+
+{
+
+...
+
+/*提交takslet并启动调度*/
+
+  tasklet_schedule(&amp;my_tasklet);
+
+...
+
+}
+
+/*5.模块加载*/
+
+module_init(xxxx)
+
+{
+
+  .....
+
+/*申请中断*/
+
+       ......
+
+}
+
+/*6.模块卸载*/
+
+module_exit(yyyy)
+
+{
+
+/*释放中断*/
+
+}
+</code></pre>
+</div>
+
+<h2 id="takslet">Takslet驱动测试【无中断】</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/**********************************
+
+作者：hntea
+
+时间：2016/3/14
+
+驱动功能：tasklet 模板功能测试
+
+**********************************/</span>
+
+ 
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/interrupt.h&gt;
+</span>
+<span class="cp">#include&lt;linux/time.h&gt;
+</span>
+<span class="cm">/*定义 tasklet */</span>
+
+<span class="k">struct</span> <span class="n">tasklet_struct</span> <span class="n">my_tasklet</span><span class="p">;</span>
+
+ 
+
+<span class="cm">/*定义服务函数,任务提交后只执行一次*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">my_taskfunc</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">x</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="n">printk</span><span class="p">(</span><span class="s">"I am taskfunc</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	
+	<span class="n">printk</span><span class="p">(</span><span class="s">"My argument is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">x</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*关联结构体和服务函数*/</span>
+
+<span class="n">DECLARE_TASKLET</span><span class="p">(</span><span class="n">my_tasklet</span><span class="p">,</span><span class="n">my_taskfunc</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+ 
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">irqTask_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	 <span class="n">tasklet_schedule</span><span class="p">(</span><span class="o">&amp;</span><span class="n">my_tasklet</span><span class="p">);</span> <span class="cm">/*一般提交任务在中断处理函数中提交，实现分层*/</span>
+	
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">irqTask_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="p">}</span>
+
+ 
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">irqTask_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">irqTask_exit</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/中断分层机制" data-title="中断分层机制 Tasklet" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/" class="btn" title="中断处理模型">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/" class="btn" title="中断分层机制 Workqueue">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

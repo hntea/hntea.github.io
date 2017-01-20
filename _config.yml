@@ -28,6 +28,9 @@ kramdown:
   toc_levels: 1..2
   enable_coderay: false
 
+#gems:
+#  - jemoji # 要站点支持Github表情，必须添加
+
 mathjax: true
 
 include: [".htaccess"]

@@ -1,0 +1,658 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>中断处理模型 &#8211; Hong-Yixin</title>
+<meta name="description" content="文件主要描述linux 驱动终端处理机制">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="中断处理模型">
+<meta name="twitter:description" content="文件主要描述linux 驱动终端处理机制">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="中断处理模型">
+<meta property="og:description" content="文件主要描述linux 驱动终端处理机制">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">中断处理模型</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-08T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 07, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念解析</h2>
+
+<ul>
+  <li>
+    <p>I/O操作的不确定因素以及处理器和I/O设备之间速度不匹配，设备往往通过某种硬件信号异步唤起处理器的注意</p>
+  </li>
+  <li>
+    <p>这些硬件信号就称为 中断，每个设备都被分配了一个相关的标示符，别称为中断请求号（IRQ）</p>
+  </li>
+  <li>
+    <p>处理器检测到某一 IRQ 号对应的中断产生时，它将停止工作并启动IRQ所对应的中断服务程序</p>
+  </li>
+  <li>
+    <p>共享中断：多个设备使用同一个中断源；注销区分用设备号dev_id和 服务函数区分，共享中断的多个设备在申请中断时都要使用SA_SHIRQ标志，而一个设备以SA_SHIRQ申请某中断成功的前提是之前申请该中断的所有设备也都以SA_SHIRQ标志申请</p>
+  </li>
+</ul>
+
+<h2 id="irq">分配IRQ(中断)号</h2>
+
+<ul>
+  <li>
+    <p>现代设备可直接分配</p>
+  </li>
+  <li>
+    <p>TQ210的硬件中断号是从32开始的，0-31的中断号分配给软中断</p>
+  </li>
+  <li>
+    <p>现代设备能够响应对IRQ的查询（系统启动过程中由BIOS分配）</p>
+  </li>
+  <li>
+    <p>系统中活动的IRQ列表：/proc/interrupts 文件中由记录</p>
+  </li>
+</ul>
+
+<h2 id="section-1">中断结构体详解</h2>
+
+<ul>
+  <li><strong>struct irq_desc</strong> 中的主要成员</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="o">/</span> <span class="o">*</span> <span class="err">@</span><span class="n">irq_data</span><span class="o">:</span> <span class="n">per</span> <span class="n">irq</span> <span class="n">and</span> <span class="n">chip</span> <span class="n">data</span> <span class="n">passed</span> <span class="n">down</span> <span class="n">to</span> <span class="n">chip</span> <span class="n">functions</span>
+ <span class="o">*</span> <span class="err">@</span><span class="n">action</span><span class="o">:</span> <span class="n">the</span> <span class="n">irq</span> <span class="n">action</span> <span class="n">chain</span><span class="err">，</span><span class="cm">/* IRQ action list */</span>
+
+ <span class="k">struct</span> <span class="n">irqaction</span> <span class="p">{</span>
+	
+	<span class="n">irq_handler_t</span> <span class="n">handler</span><span class="p">;</span> <span class="cm">/*用户注册的中断处理函数放在这里*/</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/*中断模式*/</span>
+	
+	<span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">;</span> <span class="cm">/*设备号*/</span>
+	
+	<span class="k">struct</span> <span class="n">irqaction</span> <span class="o">*</span><span class="n">next</span><span class="p">;</span> <span class="cm">/*将共享中断连接成单向链表*/</span>
+	
+	<span class="kt">int</span> <span class="n">irq</span><span class="p">;</span> <span class="cm">/*中断号*/</span>
+	
+	<span class="n">irq_handler_t</span> <span class="n">thread_fn</span><span class="p">;</span>
+	
+	<span class="k">struct</span> <span class="n">task_struct</span> <span class="o">*</span><span class="kr">thread</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">thread_flags</span><span class="p">;</span>
+	
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">thread_mask</span><span class="p">;</span>
+	
+	<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span> <span class="cm">/*中断设备名*/</span>
+	
+	<span class="k">struct</span> <span class="n">proc_dir_entry</span> <span class="o">*</span><span class="n">dir</span><span class="p">;</span> <span class="cm">/*pointer to the proc/irq/NN/name entry*/</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+<hr />
+
+<h2 id="linux">Linux中断驱动设计函数解析</h2>
+
+<ul>
+  <li>
+    <p>头文件：&lt;linux/interrupt.h&gt;</p>
+  </li>
+  <li>
+    <p>中断函数服务函数实现</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ 参数说明：
+	 irq：中断号 所在目录linux/arch/arm/mach-xxx/include/mach/irqs.h
+	dev_id：传递给中断处理函数的变量，无传参一般写为0
+函数返回：
+	0表示成功
+	-INCAL表示中断号无效或处理函数指针为 NULL
+	-EBUSY表示中断已经被占用且不能共享
+*/</span>
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="n">xxx_interrupt</span><span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span><span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>注册中断处理函数</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+参数说明：
+irq：中断号
+ 在源码目录linux/arch/arm/mach-xxx/include/mach/irqs.h中有定义
+hander：中断函数服务函数
+flags：中断类型标志：中断触发方式----- &lt;linux/interrupt.h&gt;
+devname：产生中断的设备名
+*/</span>
+<span class="kt">int</span> <span class="n">request_irq</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="n">irq_handler_t</span> <span class="n">handler</span><span class="p">,</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">devname</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>注销中断处理函数</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ irq:注册的中断号
+ dev_id:传递给中断处理函数的数据
+*/</span>
+<span class="kt">void</span> <span class="n">free_irq</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>使能与屏蔽中断函数解析</li>
+</ul>
+
+<p>a) 	屏蔽一个中断源</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">i</span><span class="p">.</span> <span class="kt">void</span> <span class="n">disable_irq</span><span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">)</span><span class="err">：立即返回</span>
+
+<span class="n">ii</span><span class="p">.</span> <span class="kt">void</span> <span class="n">disable_irq_nosync</span><span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">)</span><span class="err">：等待目前的中断处理完</span>
+
+<span class="n">iii</span><span class="p">.</span> <span class="kt">void</span> <span class="n">enable_irq</span><span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">)</span><span class="err">：取消屏蔽</span>
+</code></pre>
+</div>
+<p>注：这三个函数作用于可编程中断控制器，对系统内的所有CPU都生效</p>
+
+<p>b) 	屏蔽CPU内所有中断</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>i. void local_irq_restore(unsigned long flags);
+
+ii. void local_irq_enable(void)
+</code></pre>
+</div>
+
+<p>注：local_开头的方法作用范围是本CPU内，也就是上面的中断与屏蔽，只有执行该local_xxx_xxx()函数的CPU才会有响应</p>
+
+<h2 id="section-2">编程套路</h2>
+
+<ol>
+  <li>
+    <p>编写中断服务函数</p>
+  </li>
+  <li>
+    <p>请求（注册）中断号</p>
+  </li>
+  <li>
+    <p>释放（注销）中断号</p>
+  </li>
+</ol>
+
+<h2 id="section-3">模板</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;.......&gt; 头文件
+
+static irqreturn_t xxx_interrupt(int irq,void *dev_id)
+
+{
+
+.....
+
+}
+
+static int xxx_init()
+
+{
+
+int ret = 0;
+
+ret = request_irq(irq_num,xxx_interrupt,
+
+xxxflag, “devname”, 0/....)
+
+return ret;
+
+}
+
+static void xxx_exit()
+
+{
+
+free(irq,xxx_interrupt);
+
+}
+
+module_init(xxx_init);
+
+module_exit(xxx_exit);
+
+ 
+</code></pre>
+</div>
+
+<h2 id="section-4">小结：</h2>
+
+<ol>
+  <li>
+    <p>对比之前的字符设备和混杂字符设备，LINUX模块编程的套路就是</p>
+
+    <ul>
+      <li><strong>申请资源</strong></li>
+      <li><strong>注销资源</strong></li>
+    </ul>
+  </li>
+  <li>
+    <p>一个明显的特点是彼此之间没有干扰，就像使用LINUX中断的流程和使用LINUX字符设备的流程都可以分割出来，没半毛钱关系。</p>
+  </li>
+</ol>
+
+<p>8、下面就操起小刀测试</p>
+
+<p>a) 开发板：tq210</p>
+
+<p><strong>b) 注意事项：</strong></p>
+
+<p>测试该驱动时，应该查看中断号是否被使用了，如果被使用了，从新配置内核，把驱动选项中的输入设备中的按键支持去掉;命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>cat /proc/interrupts
+</code></pre>
+</div>
+<hr />
+
+<h2 id="section-5">按键中断驱动程序设计</h2>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/******************************************
+
+author : hntea
+
+date: 2016/3/14
+
+function : key interrupt test
+
+******************************************/
+
+#include&lt;linux/module.h&gt;
+
+#include&lt;linux/init.h&gt;
+
+#include&lt;linux/miscdevice.h&gt;
+
+#include&lt;linux/fs.h&gt;
+
+#include&lt;linux/types.h&gt;
+
+#include&lt;linux/io.h&gt;
+
+#include&lt;linux/interrupt.h&gt;
+
+#define DEV_MINIR 11 /*自己随便取咯*/
+
+#define DEV_NAME "key" /*自己随便取咯，该设备名会在 /dev目录下生成相应的设备文件*/
+
+#define KEY_GPH0CON  0xE0200C00 /*key_1 /key_2 EXIT0/1*/
+
+#define EXT_INT_0_CON  0xE0200E00 /*配置电平触发方式，在中断注册程序中已经解释*/
+
+#define EXT_INT_0_MASK    0xE0200F00 /*外部中断掩码寄存器*/
+
+#define VIC0INTENABLE  0xF2000010 /*中断使能寄存器*/
+
+#define EXINT0ENABLE (1) /*打开中断0*/
+
+#define EXINT1ENABLE (1&lt;&lt;1) /*打开中断1*/
+
+/******************************************
+
+函数名: key_hardinit
+
+函数功能：硬件初始化
+
+******************************************/
+
+void key_hardinit(void)
+
+{
+	
+	unsigned int *key_ioconfig = 0;
+	
+	unsigned int *irq_mask = 0;
+	
+	unsigned int *irq_enable = 0;
+	
+	unsigned int temdata = 0;
+	
+	/*GPIO初始化 32位寄存器*/
+	
+	key_ioconfig = ioremap(KEY_GPH0CON,4);  /*按键1和2设置成外部中断*/
+	
+	temdata = ioread32(key_ioconfig);
+	
+	temdata &amp;= (~0xff);
+	
+	temdata |= 0xff;
+	
+	iowrite32(temdata,key_ioconfig);
+	
+	/*中断控制初始化，这个在中断注册时内核帮我们初始化了*/
+
+}
+
+/******************************************
+
+函数名: key_interrupt
+
+函数功能：中断服务函数入口
+
+******************************************/
+
+static irqreturn_t key_interrupt (int irq, void *dev_id)
+
+{
+
+   printk("key interrupt .........\n");
+
+    printk(“i get dev_id is:%d”,(int)dev_id);
+
+    return 0;
+
+}
+
+ 
+
+/******************************************
+
+函数名: key_open
+
+函数功能：文件操作
+
+******************************************/
+
+int  key_open(struct inode *inode, struct file *filp)
+
+{
+
+	key_hardinit();
+	
+	return 0;
+
+}
+
+
+/******************************************
+
+函数名:
+
+函数功能：文件操作
+
+******************************************/
+
+struct file_operations key_fop =
+
+{
+	
+	.open = key_open,
+
+};
+
+ 
+
+struct miscdevice key=
+
+{
+
+	.minor = DEV_MINIR ,
+	
+	.name = DEV_NAME,
+	
+	.fops = &amp;key_fop,
+
+};
+
+static int keyInit(void)
+
+{
+	
+	int ret = 0;
+	
+	/*1、注册设备文件*/
+	
+	ret = misc_register(&amp;key);
+	
+	/*2、注册中断号*/
+	
+	ret = request_irq(IRQ_EINT0,key_interrupt,
+	
+	IRQF_SHARED, "key", 1); /
+	
+	 
+	
+	printk("ret val is:%d\n",ret); //-16:中断号已经被申请；-22：中断号错误
+	
+	if(ret &lt; 0)
+	
+	{
+	
+	printk("EXINT0 request fail!\n");
+	
+	}else{
+	
+	printk("EXINT0 request sucess!\n");
+	
+	}
+	
+	return 0;
+
+}
+
+static void keyExit(void)
+
+{
+
+	int ret = 0;
+	
+	/*注销中断*/
+	
+	 free_irq(IRQ_EINT0, 1);
+	
+	/*注销混杂设备*/
+	
+	ret = misc_deregister(&amp;key);
+	
+	/*注销设备*/
+
+}
+
+MODULE_LICENSE("GPL");
+
+MODULE_AUTHOR("Hntea");
+
+module_init(keyInit);
+
+module_exit(keyExit);
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/中断处理模型" data-title="中断处理模型" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%B7%B7%E6%9D%82%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="混杂字符设备驱动模型">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/" class="btn" title="中断分层机制 Tasklet">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

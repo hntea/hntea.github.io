@@ -1,0 +1,628 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>总线设备驱动模型  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动总线设备驱动模型">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="总线设备驱动模型 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动总线设备驱动模型">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="总线设备驱动模型 ">
+<meta property="og:description" content="该博文主要描述linux 驱动总线设备驱动模型">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">总线设备驱动模型 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-15T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 14, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+<p>将属于同一种接口（如USB，I2C等）的不同设备挂载在总线上，设备可以通过总线匹配到相应的驱动程序。</p>
+
+<h2 id="section-1">优点：</h2>
+
+<p>a) 支持热插拔</p>
+
+<p>b) 驱动程序可移植性提高</p>
+
+<h2 id="section-2">关系图解</h2>
+
+<h3 id="includelinuxxdeviceh">头文件#include&lt;linuxx/device.h&gt;</h3>
+
+<p><img src="http://img.blog.csdn.net/20160404154130906?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="总线原理图" /></p>
+
+<h3 id="section-3">图解说明</h3>
+
+<p>a) 总线设备包含三个结构既:</p>
+
+<ul>
+  <li>设备</li>
+  <li>设备的驱动</li>
+  <li>总线</li>
+</ul>
+
+<p>b) 设备和其驱动通过struct bus_type 结构体实现挂载在同一条总线上</p>
+
+<p>c) 总线结构体中的match匹配函数将通过设备和设备驱动结构体中的name成员来匹配，如果名字相同，则匹配上，返回0。然后调用设备驱动中的probe 函数来驱动设备；其实这里的匹配函数是搜索挂载在总线上的所有设备和驱动，然后逐个匹配</p>
+
+<h2 id="section-4">总线描述结构及函数</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">bus_type</span> <span class="p">{</span>
+
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="cm">/*总线名，在/sys/bus目录下注册的名*/</span>
+
+<span class="p">...</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">match</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">);</span><span class="cm">/*匹配函数*/</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">uevent</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">kobj_uevent_env</span> <span class="o">*</span><span class="n">env</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span><span class="cm">/*设备捕获*/</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span> <span class="cm">/*设备移除*/</span>
+
+<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+
+ 
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">pm_message_t</span> <span class="n">state</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+
+ 
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">dev_pm_ops</span> <span class="o">*</span><span class="n">pm</span><span class="p">;</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">subsys_private</span> <span class="o">*</span><span class="n">p</span><span class="p">;</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>注册
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span>  <span class="n">bus_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">);</span> <span class="c1">//注册成功将在/sys/bus下生成目录文件
+</span></code></pre>
+    </div>
+  </li>
+  <li>注销
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">bus_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="section-5">设备驱动结构描述及函数</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">device_driver</span> <span class="p">{</span>
+
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span><span class="n">name</span><span class="p">;</span><span class="cm">/*必须和设备结构体中的name名相同*/</span>
+
+<span class="k">struct</span> <span class="n">bus_type</span><span class="o">*</span><span class="n">bus</span><span class="p">;</span>
+
+<span class="p">....</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span><span class="cm">/*总线驱动匹配成功将调用该函数*/</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="n">pm_message_t</span> <span class="n">state</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="p">...</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>注册
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span>  <span class="n">driver_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>注销
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">driver_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<h2 id="section-6">设备描述结构及函数</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">device</span> <span class="p">{</span>
+
+<span class="p">....</span>
+
+<span class="k">struct</span> <span class="n">kobject</span> <span class="n">kobj</span><span class="p">;</span> <span class="cm">/*设备初始化名字之后存放到该结构体中*/</span>
+
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">init_name</span><span class="p">;</span> <span class="cm">/* initial name of the device */</span>
+
+<span class="p">...</span>
+
+ 
+
+<span class="k">struct</span> <span class="n">bus_type</span> <span class="o">*</span><span class="n">bus</span><span class="p">;</span> <span class="cm">/* type of bus device is on */</span>
+
+<span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">driver</span><span class="p">;</span> <span class="cm">/* which driver has allocated this device */</span>
+
+<span class="p">...</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>注册函数
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">__must_check</span> <span class="n">device_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+  <li>注销函数
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">device_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">);</span>
+</code></pre>
+    </div>
+  </li>
+</ul>
+
+<hr />
+
+<h1 id="section-7">程序设计</h1>
+
+<p>a) 初始化</p>
+
+<p>b) 注册</p>
+
+<p>c) 注销</p>
+
+<p>d) 总结：Linux 每一种设备都是这种套路，彼此之间相对独立，只有在某一方面通过某个结构体联系在一起</p>
+
+<h2 id="section-8">驱动程序设计</h2>
+
+<h3 id="section-9">总线创建</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/16
+
+函数功能：总线测试
+
+查看/sys/bus 目录下生成目录
+
+************************************/</span>
+
+ 
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/device.h&gt;
+</span>
+ 
+
+ 
+
+<span class="cm">/*初始化新总线*/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">newmatch</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">,</span> <span class="k">struct</span> <span class="n">device_driver</span> <span class="o">*</span><span class="n">drv</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="cm">/*总线驱动会自动去寻找匹配，这里这么写就够了*/</span>
+
+   <span class="k">return</span> <span class="o">!</span><span class="n">strncmp</span><span class="p">(</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">kobj</span><span class="p">.</span><span class="n">name</span><span class="p">,</span><span class="n">drv</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">,</span><span class="n">strlen</span><span class="p">(</span><span class="n">drv</span><span class="o">-&gt;</span><span class="n">name</span><span class="p">));</span>
+
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">bus_type</span> <span class="n">newbus</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"newbus"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">match</span> <span class="o">=</span> <span class="n">newmatch</span><span class="p">,</span> <span class="cm">/*匹配函数*/</span>
+
+<span class="p">};</span>
+
+<span class="n">EXPORT_SYMBOL</span><span class="p">(</span><span class="n">newbus</span><span class="p">);</span> <span class="cm">/*符号输出*/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">newbusInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">bus_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newbus</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">newbusExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">bus_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">newbus</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+ 
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">newbusInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">newbusExit</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+<h3 id="section-10">设备驱动创建</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/16
+
+函数功能：总线测试
+************************************/</span>
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/device.h&gt;
+</span>
+ 
+
+ 
+
+<span class="cm">/*初始化设备驱动*/</span>
+
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">bus_type</span> <span class="n">newbus</span> <span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">A_probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"I find A"</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">device_driver</span>  <span class="n">A_drv</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"A_device"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">bus</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">newbus</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">A_probe</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">a_driverInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">driver_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A_drv</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">a_driverExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">driver_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A_drv</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">a_driverInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">a_driverExit</span><span class="p">);</span>
+
+ 
+</code></pre>
+</div>
+
+<h3 id="section-11">设备创建</h3>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/16
+
+函数功能：总线测试
+
+************************************/</span>
+
+ 
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/device.h&gt;
+</span>
+ 
+
+<span class="cm">/*初始化设备*/</span>
+
+<span class="k">extern</span> <span class="k">struct</span> <span class="n">bus_type</span> <span class="n">newbus</span> <span class="p">;</span>
+
+ 
+
+<span class="cm">/*这个函数要填充，要卸载时会有警告*/</span>
+
+<span class="kt">void</span> <span class="nf">A_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+ 
+
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">device</span> <span class="n">A_dev</span><span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">init_name</span> <span class="o">=</span> <span class="s">"A_device"</span><span class="p">,</span> <span class="cm">/* initial name of the device */</span>
+
+<span class="p">.</span><span class="n">bus</span>  <span class="o">=</span> <span class="o">&amp;</span><span class="n">newbus</span><span class="p">,</span> <span class="cm">/* type of bus device is on */</span>
+
+<span class="p">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">A_release</span>
+
+<span class="p">};</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">a_deviceInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">device_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A_dev</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">a_deviceExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">device_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">A_dev</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">a_deviceInit</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">a_deviceExit</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/总线设备驱动模型" data-title="总线设备驱动模型 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%AE%BE%E5%A4%87%E9%98%BB%E5%A1%9E%E4%B9%8B%E7%AD%89%E5%BE%85%E9%98%9F%E5%88%97/" class="btn" title="设备阻塞访问之等待队列 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="btn" title="Github-Pages+Jekyll博客搭建">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

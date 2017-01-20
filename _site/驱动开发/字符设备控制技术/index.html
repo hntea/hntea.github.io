@@ -1,0 +1,836 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>字符设备控制技术 &#8211; Hong-Yixin</title>
+<meta name="description" content="文件主要描述Linux驱动开发的字符设备控制技术">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="字符设备控制技术">
+<meta name="twitter:description" content="文件主要描述Linux驱动开发的字符设备控制技术">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="字符设备控制技术">
+<meta property="og:description" content="文件主要描述Linux驱动开发的字符设备控制技术">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">字符设备控制技术</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-06T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 05, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <p>　　笔记要做的自己看起来舒服和有头绪,对于字符控制，很多时候编写上层应用程序时，使用ioctl系统调用来控制设备。
+　　</p>
+<h1 id="section">函数原型</h1>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+	fd: 要控制的设备文件描述符
+	cmd: 发送给设备的控制命令
+	…: 第3个参数是可选的参数，存在与否是依赖于控制命令(第2 个参数)。
+*/</span>
+<span class="kt">int</span> <span class="n">ioctl</span><span class="p">(</span><span class="kt">int</span> <span class="n">fd</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">cmd</span><span class="p">,...);</span>
+</code></pre>
+</div>
+
+<p>但是在Linux2.6.36之后的</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ 参数说明
+
+	 fiel:打开的设备描述符
+	
+	 cmd:传递的命令
+	
+	 arg:命令的个数
+*/</span>
+<span class="kt">long</span> <span class="p">(</span><span class="o">*</span><span class="n">unlocked_ioctl</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">);</span>
+
+<span class="kt">long</span> <span class="p">(</span><span class="o">*</span><span class="n">compat_ioctl</span><span class="p">)</span> <span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p><strong>注意：</strong></p>
+
+<ul>
+  <li>为了防止对错误设备使用正确的命令，命令号应在系统范围内是唯一的</li>
+  <li>既每个命令号都应该由多个位段组成</li>
+  <li>定义号码的方法使用四个位段</li>
+</ul>
+
+<h2 id="section-1">位段详解</h2>
+
+<ul>
+  <li>
+    <p>头文件：<code class="highlighter-rouge">&lt;linux/ioctl.h&gt;</code></p>
+  </li>
+  <li>
+    <p>type(类型)</p>
+
+    <p>i. 幻数（magic number）:选择系统中没有使用的号码，并在整个驱动程序中使用这个号码。</p>
+
+    <p>ii. 8位宽度（_IOC_TYPEBITS）</p>
+
+    <p>iii. 源码的/Document目录下magic-num.txt 记录了当前已经使用的幻数</p>
+  </li>
+  <li>
+    <p>number(号码)</p>
+
+    <p>i. 序数：8位宽度（_IOC_NRBITS）</p>
+  </li>
+  <li>
+    <p>direct(方向)</p>
+
+    <ul>
+      <li>
+        <p>如果该命令有数据传输。则它定义数据传输方向</p>
+      </li>
+      <li>
+        <p>_IOC_NONE:没有传输方向</p>
+
+        <p>_IOC_READ:</p>
+
+        <div class="highlighter-rouge"><pre class="highlight"><code>_IOC_WRITE:
+   
+_IOC_READ|_IOC_WRITE:双向传输
+</code></pre>
+        </div>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>size(尺寸)</p>
+
+    <p>i. 涉及数据的大小</p>
+
+    <p>ii. 如果想要驱动可移植，则只能认为最大尺寸可达255字节</p>
+
+    <p>iii. 如果驱动程序需要更大的尺度的数据传输，则可忽略这个字段</p>
+  </li>
+</ul>
+
+<h2 id="section-2">构造命令号码的宏</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ type：幻数
+ nr：命令编号
+*/</span>
+<span class="n">_IO</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="n">nr</span><span class="p">);</span> <span class="c1">//定义一个没有数据传输的命令号编号
+</span>
+<span class="cm">/*
+type：幻数
+nr：命令编号
+size：数据大小
+*/</span>
+ <span class="n">_IOR</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="n">nr</span><span class="p">,</span><span class="n">size</span><span class="p">)</span><span class="err">：定义一个读数据的命令编号；从设备读取参数</span>
+ 
+ <span class="n">_IOW</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="n">nr</span><span class="p">,</span><span class="n">size</span><span class="p">)</span><span class="err">：定义一个写数据的命令编号；向设备写入参数</span>
+ <span class="n">_IOWR</span><span class="p">(</span><span class="n">type</span><span class="p">,</span><span class="n">nr</span><span class="p">,</span><span class="n">size</span><span class="p">)</span><span class="err">：定义一个可读可写的命名编号</span>
+ <span class="n">_IOC_DIR</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span><span class="err">：获得命令编号中的数据传输方向</span>
+ <span class="n">_IOC_TYPE</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span><span class="err">：获取命令编号中的幻数</span>
+ <span class="n">_IOC_NR</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span><span class="err">：获取命令编号中的号码</span>
+ <span class="n">_IOC_SIZE</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span><span class="err">：获取命令编号中的尺寸</span>
+</code></pre>
+</div>
+
+<p>5.例：</p>
+
+<ul>
+  <li>新建控制文件：led_ioctl.h;编写一下代码</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code> #define LED_MAGIC ‘L’
+ #define LED_ON _IOW(LED_MAGIC,1,int)
+ #define LED_OFF _IOW(LED_MAGIC,0,int)
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>引用头文件“led_ioctl.h”</p>
+  </li>
+  <li>
+    <p>驱动程序在相应的文件中可以使用这些数据</p>
+  </li>
+  <li>
+    <p>代码模板：</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="kt">int</span> <span class="nf">xxx_ioctl</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span><span class="o">*</span> <span class="n">filp</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span><span class="n">unsignend</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">_IOC_TYPE</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">!=</span> <span class="n">xxx_IOC_MAGIC</span><span class="p">)</span> <span class="cm">/*驱动的幻数，我们在头文件中定义的*/</span><span class="p">{</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOTTY</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="n">_IOC_NR</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">xxx_MAXNR</span><span class="p">){</span>
+	<span class="k">return</span> <span class="o">-</span><span class="n">ENOTTY</span><span class="p">;</span>
+	<span class="p">}</span>
+	
+	<span class="k">switch</span><span class="p">(</span><span class="n">cmd</span><span class="p">)</span>
+	<span class="p">{</span>
+	<span class="k">case</span> <span class="n">LED_ON</span><span class="p">:</span>	
+	<span class="err">处理；</span>
+		<span class="k">break</span><span class="p">;</span>	
+	<span class="k">case</span> <span class="n">LED_OFF</span><span class="p">:</span>	
+	<span class="err">处理；</span>	
+		<span class="k">break</span><span class="p">;</span>	
+	<span class="nl">default:</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOTTY</span><span class="p">;</span>
+	<span class="k">break</span><span class="p">;</span>
+	<span class="p">}</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+<hr />
+
+<h2 id="section-3">应用程序测试</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include&lt;fcntl.h&gt;
+</span>
+<span class="cp">#include&lt;sys/ioctl.h&gt;
+</span>
+<span class="cp">#include  “led_ioctl.h”
+</span>
+<span class="cm">/*
+
+参数说明：
+
+arg:参数个数（注意，在终端输入执行命令时已近占据0号参数，我们自己的 参数从1开始）
+
+argv:参数内容
+
+*/</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">int</span> <span class="n">arg</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">fd</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	
+	<span class="kt">int</span> <span class="n">ret</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	
+	<span class="cm">/*处理终端传递过来的参数*/</span>
+	
+	<span class="n">atio</span><span class="p">();</span><span class="c1">//将终端输入的字符串转换成int型。
+</span>	
+	<span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="err">“驱动设备文件”，打开模式</span><span class="p">)</span><span class="err">；</span>
+	
+	<span class="err">判断是否成功；</span>
+	
+	<span class="cm">/*更具需要调用读写，控制函数，这里调用ioctl()*/</span>
+	
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">cmd</span><span class="p">,...);</span>
+	
+	<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h2 id="led-">LED 控制驱动程序设计</h2>
+
+<p><strong>第一步：申明控制号，保存文件为 led_ioctl.h</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#define LED_MAGIC 'L'
+
+#define TURNON_LED _IOW(LED_MAGIC,1,int)
+
+#define TURNOFF_LED _IOW(LED_MAGIC,0,int)
+
+ 
+</code></pre>
+</div>
+
+<p><strong>第二步：编写驱动</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>/**********************************************
+
+作者：hntea
+
+时间：2016/3/9
+
+功能：led 字符设备驱动+ioctl
+
+**********************************************/
+
+#include &lt;linux/init.h&gt;
+
+#include &lt;linux/module.h&gt;
+
+#include &lt;linux/fcntl.h&gt;
+
+#include &lt;linux/kernel.h&gt;
+
+#include &lt;linux/types.h&gt;
+
+#include &lt;linux/cdev.h&gt;
+
+#include &lt;linux/sched.h&gt;
+
+#include &lt;linux/slab.h&gt;
+
+#include &lt;linux/fs.h&gt;
+
+#include &lt;linux/mm.h&gt;
+
+#include &lt;linux/ioctl.h&gt;
+
+#include &lt;asm/io.h&gt;
+
+#include &lt;asm/uaccess.h&gt;
+
+#include "led_ioctl.h"
+
+#define DEV_NAME "led"
+
+#define MAJOR_NR 10
+
+#define MINIR_NR 1
+
+#define LED_ON 0x00000018
+
+#define LED_OFF 0X00000000
+
+#define CON_ADDR 0xE0200060
+
+#define DAT_ADDR 0xE0200064
+
+struct cdev led_dev; /*静态分配设备号*/
+
+dev_t dev_nm; /*设备号*/
+
+
+/*************************************************
+
+函数名： led_hardinit 实现
+
+函数参数：
+
+函数功能：led硬件初始化
+
+*************************************************/
+
+static void led_hardinit(void)
+
+{
+
+	unsigned int  tmp = 0;
+	unsigned int *led_config;
+	
+	/*找出物理地址对应的虚拟地址*/
+	
+	led_config = ioremap(CON_ADDR,4); /*该寄存器是32位数值*/
+	
+	/*读取当前寄存器状态*/
+	
+	#if 0
+	
+	tmp = ioread32(led_config);
+	
+	tmp &amp;= (~(0x11 &lt;&lt; 3));
+	
+	tmp |= (0x11 &lt;&lt; 3);
+	
+	#endif
+	
+	tmp = 0x11000;
+	
+	/*寄存器设置写回*/
+	
+	iowrite32(tmp,led_config);
+
+}
+
+static void led_on(void)
+
+{
+
+	unsigned int *led_data;
+	
+	led_data = ioremap(DAT_ADDR,4);
+	
+	iowrite32(LED_ON,led_data);
+	
+	printk("revice cmd:ledon\n");
+
+}
+
+static void led_off(void)
+
+{
+
+	unsigned int *led_data;
+	
+	led_data = ioremap(DAT_ADDR,4);
+	
+	iowrite32(LED_OFF,led_data);
+	
+	printk("revice cmd:ledoff\n");
+
+}
+
+ 
+
+/*************************************************
+
+函数名： file_operations 实现
+
+函数参数：
+
+函数功能：
+
+*************************************************/
+
+static int  led_open (struct inode *inode, struct file *fp)
+
+{
+
+int ret = 0;
+
+/*led 打开时只需要初始化相关寄存器就够*/
+
+led_hardinit();
+	return ret;
+}
+static int led_release (struct inode *inode, struct file *fp)
+{
+	return 0;
+}
+
+static long led_ioctl(struct file *fp, unsigned int cmd, unsigned long arg)
+{
+
+	/*这里可以使用命令解析宏解析幻数再判断，使代码逻辑更严谨*/
+	
+	/*命令解析*/
+	
+	switch(cmd)
+	{
+		case TURNON_LED:
+		led_on();
+			break;
+		case TURNOFF_LED:	
+		led_off();
+			break;
+		default:
+		return -ENOTTY;
+		break;
+	}
+
+return 0;
+
+}
+
+/*************************************************
+
+函数名： led_write 实现
+
+函数参数：
+
+函数功能：向led设备文件写如数据
+
+*************************************************/
+
+static ssize_t led_write(struct file *fp, const char __user *buf, size_t count, loff_t *f_pos)
+{
+
+	unsigned char count_tmp = count ; /*获取写入字节数*/
+	
+	unsigned char led_sta[2]; /*用来存放两个led的状态*/
+	
+	int i = 0;
+	
+	memset(led_sta,0,2); /*数据清零*/
+	
+	if( count &gt; 2){
+		count_tmp = 2;
+	}
+	
+	/*将数据从用户空间复制到内核空间*/
+	
+	if(copy_from_user(led_sta,buf,count_tmp)){
+	return -EFAULT;}else
+	{
+		/*控制两个led的状态*/
+		for(i=0;i&lt;2;i++)
+		{
+			/*读取当前led寄存器状态,严谨就要处理，防止数据破话而使系统奔溃*/
+			if( led_sta[i] == '1' ){
+				led_on();
+			}else{
+				led_off();
+			}
+		}
+	
+	}
+	
+	return 0;
+
+}
+
+struct file_operations ledfp={
+
+	.owner = THIS_MODULE,
+	
+	.open = led_open,
+	
+	.write = led_write,
+	
+	.unlocked_ioctl = led_ioctl,
+	
+	.release = led_release,
+
+};
+
+struct cdev cdev={
+
+	.owner = THIS_MODULE,
+	
+	.ops = &amp;ledfp,
+
+};
+
+ 
+
+static int ledInit(void)
+{
+
+	int ret = 0;
+	
+	/*1.分配设备号，0是以该数字作为主设备号分配的起始，2是次设备号（用来标识设备的个数）*/
+	
+	if((ret = alloc_chrdev_region(&amp;dev_nm, 0, 1,DEV_NAME))&lt;0)
+	{
+		printk("device num alloc err!\n");
+	}
+	
+	/*2.分配设备结构;静态分配一个全局变量*/
+	
+	printk("led major number is %d\n",MAJOR(dev_nm));
+	
+	printk("led minor number is %d\n",MINOR(dev_nm));
+	
+	/*3.初始化设备结构*/
+	
+	 cdev_init(&amp;cdev, &amp;ledfp);
+	
+	/*4.注册设备*/
+	
+	 if((ret = cdev_add(&amp;cdev,dev_nm, 1)) &lt; 0) /*最后一个参数说明设备数*/
+	
+	 {
+	
+	  printk("cdev add err!\n");
+
+	 }
+
+	 /*5.创建设备文件,现在使用 手工创建mknod*/
+
+	//device_create();
+
+	 printk("led.ko insmod success!\n");
+
+	return 0;
+
+}
+
+ 
+
+static void ledexit(void)
+{
+	/*2.注销设备号，注销设备*/
+	cdev_del(&amp;cdev);   /*注销设备*/
+	unregister_chrdev_region(dev_nm, 1); /*释放设备号*/
+	printk("led device rmmod success!\n");
+}
+
+ 
+
+ 
+
+MODULE_AUTHOR("hntea");
+
+MODULE_LICENSE("GPL");
+
+module_init(ledInit);
+
+module_exit(ledexit);
+
+ 
+</code></pre>
+</div>
+
+<p>加载驱动：手动创建 /dev/led 节点文件</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>mknod /dev/led c 主设备号 次设备号
+</code></pre>
+</div>
+
+<p><strong>第三步：编译测试应用</strong></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>#include&lt;sys/fcntl.h&gt;
+
+#include&lt;sys/types.h&gt;
+
+#include&lt;sys/stat.h&gt;
+
+#include&lt;sys/ioctl.h&gt;
+
+#include&lt;stdio.h&gt;
+
+#include "led_ioctl.h"
+
+#define DEVICE_FILE "/dev/led" 
+
+int main(int arg,char **argv)
+
+{
+
+	int fd = 0 ;
+	
+	int cmd = 0;
+	
+	int ret = 0;
+	
+	/*解析传递进来的参数*/
+	
+	if(arg &lt; 2){
+	
+	printf("Please input : &lt;cmd&gt;  &lt;0/1&gt;\n");
+	
+	return -1;
+	
+	}
+	
+	/*格式化*/
+	
+	cmd = atoi((argv[1]));
+	
+	/*设备操作*/
+	
+	if((fd  = open(DEVICE_FILE,O_RDWR))&lt; 0){
+	
+	printf("File open err!\n");
+	
+	}
+	
+	switch(cmd)
+	
+	{
+	
+		case 0:
+		
+		ret = ioctl(fd,TURNOFF_LED);
+		
+		break;
+		
+		case 1:
+		
+		ret = ioctl(fd,TURNON_LED);
+		
+		break;
+		
+		default:
+		
+		printf("Command er!\n");
+		
+		return -1;
+	
+	}
+	
+	close(fd);
+
+}
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/字符设备控制技术" data-title="字符设备控制技术" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E6%8E%A7%E5%88%B6%E6%8A%80%E6%9C%AF/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E7%AC%94%E8%AE%B0-2/" class="btn" title="字符设备驱动">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%B7%B7%E6%9D%82%E5%AD%97%E7%AC%A6%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="混杂字符设备驱动模型">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

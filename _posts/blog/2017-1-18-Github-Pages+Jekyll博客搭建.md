@@ -2,9 +2,9 @@
 layout: post
 title: "Github-Pages+Jekyll博客搭建"
 modified:
-categories: blog
-excerpt:
-tags: [玩转系统]
+categories: [网页搭建]
+excerpt: 该博客简述如何一步步使用 Jekyll 搭建自己的博客
+tags: [Jekyll]
 image:
   feature:
 date: 2017-01-18T15:39:55-04:00
@@ -12,7 +12,7 @@ date: 2017-01-18T15:39:55-04:00
 
 **本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统**
 
-# 安装依赖环境
+## 安装依赖环境
 
 ### 1.[<u>Ruby Install</u>](https://www.ruby-lang.org/en/documentation/installation/#apt)
 
@@ -58,9 +58,9 @@ sudo apt-get install -y nodejs
 ### 4.Python2.7 或以上
 ---
 
-#  Jekyll 安装与使用
+##  Jekyll 安装与使用
 
-## 1.安装 Jeklly
+### 1.安装 Jeklly
 
 在终端执行：
 
@@ -84,7 +84,7 @@ gem list jekyll
 gem update jekyll
 ```
 
-## 2.使用 Jeklly
+### 2.使用 Jeklly
 
 **1. 创建博客站点**
 
@@ -142,10 +142,10 @@ jeklly build
 
 ---
 
-# 将本地 Jeklly 博客部署到 GitHup Pages 上
+## 将本地 Jeklly 博客部署到 GitHup Pages 上
 
 
-## 1.GitHup Pages 创建
+### 1.GitHup Pages 创建
 
 这一步比较简单，登录 githup 帐号
 
@@ -163,7 +163,7 @@ hntea/hntea.github.io
 https://hntea.github.io/
 ```
 
-## 2.部署
+### 2.部署
 
 **1.克隆仓库到本地**
 
@@ -191,15 +191,15 @@ git push -u origin master
 
 ---
 
-# 更换主题
+## 更换主题
 
-## 1.挑选中意的主题
+### 1.挑选中意的主题
 
 首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。
 
 - 挑选：请戳主题大全链接：[<u>Jekyll Themes</u>](https://jekyllthemes.io/)
 
-## 2.安装配置
+### 2.安装配置
   这里选择 **so-simple-theme** 主题进行示范：
 
 1. 下载 :
@@ -221,7 +221,7 @@ git push -u origin master
 
 ---
 
-# 添加博客评论
+## 添加博客评论
 
 由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　**Disqus**，若不想被墙，那么综合考虑下来就还是使用[多说](http://dev.duoshuo.com/docs)比较好点，当然没有**Disqus**功能好。至于如何添加，具体操作如下：
 
@@ -242,7 +242,7 @@ git push -u origin master
 >
 >data-url 字段改成 "web site/\{\{ page.url \}\}"
 
-比如：“http://localhost:4000/\{\{ page.url \}\}”
+比如：将 data-url 修改成：“http://localhost:4000/\{\{ page.url \}\}”
 
 
 - 同时在 _config.yml 文件中添加如下代码
@@ -253,6 +253,7 @@ comments :
   duoshuo :
     short_name : hntea //这里是你在多说注册的站点名字
 ```
+
 
 # 购买并绑定域名
 

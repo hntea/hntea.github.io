@@ -1,14 +1,14 @@
 # Site navigation links
 
 
-- title: 关于作者
+- title: 作者
   url: /about
 
-#- title: About
-#  url: /about/
+- title: 分类
+  url: /category/
 
-- title: 专题
-  url: /articles/
+#- title: 文章
+#  url: /articles/
 
 - title: 博客
   url: /blog/
