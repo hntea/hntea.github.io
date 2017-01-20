@@ -1,0 +1,610 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>输入子系统浅析 &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="输入子系统浅析">
+<meta name="twitter:description" content="该博文主要描述linux 驱动网络设备驱动">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="输入子系统浅析">
+<meta property="og:description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">输入子系统浅析</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-20T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 19, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<p>内核对分散的，多种不同类别的输入设备进行统一处理的驱动程序。</p>
+
+<h2 id="section-1">输入子系统的优点</h2>
+
+<ul>
+  <li>
+    <p>统一物理形态各异的相似的输入设备的处理功能</p>
+  </li>
+  <li>
+    <p>提供了用于分发输入报告给用户应用程序的简单事件（event）接口。驱动程序不必创建、管理/dev节点以及相关的访问方法，因此它能方便地被调用输入API以发送鼠标移动，键盘按键或者触摸事件给用户空间</p>
+  </li>
+  <li>
+    <p>抽取了输入驱动程序的通用部分，简化驱动程序并引入一致性</p>
+  </li>
+</ul>
+
+<h2 id="section-2">输入子系统架构图</h2>
+
+<p><img src="http://img.blog.csdn.net/20160529203615775?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="架构图" /></p>
+
+<h3 id="section-3">图解：</h3>
+
+<ul>
+  <li>
+    <p>设备驱动层：将底层的硬件输入转化成统一事件形式，向输入核心汇报</p>
+  </li>
+  <li>
+    <p>输入核心层：为设备驱动层提供输入设备注册与操作接口</p>
+  </li>
+  <li>
+    <p>事件驱动层：主要作用是和用户空间层进行数据交互</p>
+  </li>
+</ul>
+
+<h2 id="section-4">输入设备驱动程序</h2>
+
+<p>/driver/input 目录下</p>
+
+<ul>
+  <li>serio：该层提供了访问老式输入硬件的库例程。为了与serio提供服务的硬件通讯，如发送命令给PS/2鼠标，需要用到：</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="n">serio_register_driver</span><span class="p">()</span> <span class="c1">//向serio注册规定的回调例程
+</span><span class="n">serio_register_port</span><span class="p">()</span> <span class="c1">//注册open/close/write/stop/start入口函数
+</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>键盘（EV_KEY/0X01）：键盘驱动程序的独特之处在于它传送数据给另外一个内核子系统（TTY层）,而不是通过/dev目录下的节点传送给用户空间。驱动文件在/dev/char目录下</li>
+</ul>
+
+ 	可以通过以下命令查看矩阵键盘的扫描码：**showkey -s **或者showkey
+<div class="highlighter-rouge"><pre class="highlight"><code>根据加载的键盘映射，键盘事件驱动程序进行键值翻译（查看loadkeys的操作帮助和/lib/kbd/keymaps中提供的映射文件）
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>鼠标：鼠标输入事件驱动称为 mousedev, 通过/dev/input/mice报告鼠标事件给用户</p>
+  </li>
+  <li>
+    <p>指点杆（EV_REL/0X02）（Trackpoint）：是一个指定设备</p>
+  </li>
+</ul>
+
+<p>详细配置选项：/sys/devices/platform/i8042/serioX/serioY</p>
+
+<ul>
+  <li>
+    <p>触摸板(EV_ABS/0x03)：</p>
+  </li>
+  <li>
+    <p>触摸驱动控制器：以N_TCH线路规程的形式实现了串行触摸控制器的设备驱动程序。由于制造过程的细微差别，同一款触摸板可能会产生略有不同的坐标范围，为了使应用程序不受影响，在使用之前一般通过GUI发起校准，如果支持自校准就不用了。</p>
+  </li>
+</ul>
+
+<h2 id="evdev-">Evdev 接口</h2>
+<p>Evdev是一个通用的输入事件驱动程序。Evdev产生的每个事件包都有如下格式：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="o">&lt;</span><span class="n">linux</span><span class="o">/</span><span class="n">input</span><span class="p">.</span><span class="n">h</span><span class="o">&gt;</span><span class="err">头文件中</span>
+
+<span class="k">struct</span> <span class="n">input_event</span> <span class="p">{</span>
+	<span class="k">struct</span> <span class="n">timeval</span> <span class="n">time</span><span class="p">;</span>
+
+	<span class="n">__u16</span> <span class="n">type</span><span class="p">;</span> <span class="cm">/*事件类型*/</span>
+
+	<span class="n">__u16</span> <span class="n">code</span><span class="p">;</span> <span class="cm">/*事件编码*/</span>
+
+	<span class="n">__s32</span> <span class="n">value</span><span class="p">;</span> <span class="cm">/*事件的数值*/</span>
+<span class="p">};</span>
+
+</code></pre>
+</div>
+
+<h2 id="section-5">调试</h2>
+
+<p>编写输入驱动程序时，可以使用evbug模块辅助调试。它dump输入子系统产生的事件对应的type,code,value元组，</p>
+
+<h2 id="section-6">输入事件驱动程序的使用</h2>
+<p><img src="http://img.blog.csdn.net/20160529203625953?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="输入事件" /></p>
+
+<h3 id="section-7">初始化：</h3>
+
+<p>1、定义结构体：struct input_dev  *xxx;</p>
+
+<p>2、结构分配：xxx = input_allocate_device();</p>
+
+<p>3、申明所支持的事件类型：set_bit(事件类型,xxx-&gt;evbit);</p>
+
+<p>4、申明该事件类型有可能产生的事件编码：set_bit(事件编码，xxx-&gt;keybit/relbit/absbit/…)</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="err">注册：</span> <span class="n">input_register_device</span><span class="p">(</span><span class="n">xxx</span><span class="p">);</span>
+<span class="err">注销：</span> <span class="n">input_unregister_device</span><span class="p">(</span><span class="n">xxx</span><span class="p">);</span>
+<span class="err">事件上报：</span> <span class="n">input_report_key</span><span class="p">(</span><span class="n">keyinput</span><span class="p">,</span><span class="n">KEY_3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+<span class="err">事件上报结束：</span> <span class="n">input_sync</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+<p>输入事件驱动注册完成会在 /dev 目录下创建eventx设备文件，</p>
+
+<p>同时在 sys/devices/virtual/input/input3 也会创建设备文件…具体要进一步分析</p>
+
+<hr />
+
+<h2 id="section-8">按键输入事件驱动程序设计</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="cm">/************************************
+作者：hntea
+时间：2016/3/16
+函数功能：平台总线测试
+问题1：input: Unspecified device as /devices/virtual/input/input3
+问题2：应用软件只能接受一次事件上报
+************************************/</span>
+<span class="cp">#include&lt;linux/init.h&gt;
+#include&lt;linux/module.h&gt;
+#include&lt;linux/device.h&gt;
+#include&lt;linux/platform_device.h&gt;
+#include&lt;linux/interrupt.h&gt;
+#include&lt;linux/fs.h&gt;
+#include&lt;linux/miscdevice.h&gt;
+#include&lt;linux/mm.h&gt;
+#include&lt;linux/io.h&gt;
+#include&lt;linux/input.h&gt;
+</span>
+<span class="k">struct</span> <span class="n">input_dev</span> <span class="o">*</span><span class="n">keyinput</span><span class="p">;</span>
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：中断处理
+
+函数参数
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key1_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="c1">// printk("key1 down!\n");
+</span>	<span class="n">input_report_key</span><span class="p">(</span><span class="n">keyinput</span><span class="p">,</span><span class="n">KEY_1</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">input_sync</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key2_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// printk("key2 down!\n");
+</span>
+	<span class="n">input_report_key</span><span class="p">(</span><span class="n">keyinput</span><span class="p">,</span><span class="n">KEY_2</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+
+	<span class="n">input_sync</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key3_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="c1">// printk("key3 down!\n");
+</span>	<span class="n">input_report_key</span><span class="p">(</span><span class="n">keyinput</span><span class="p">,</span><span class="n">KEY_3</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">input_sync</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key4_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">input_report_key</span><span class="p">(</span><span class="n">keyinput</span><span class="p">,</span><span class="n">KEY_4</span><span class="p">,</span><span class="mi">1</span><span class="p">);</span>
+	<span class="n">input_sync</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+	<span class="c1">// printk("key4 down!\n");
+</span>	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：定义平台驱动
+
+函数参数：
+
+***********************************/</span>
+
+<span class="k">struct</span> <span class="n">resource</span><span class="o">*</span> <span class="n">res_irq</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">resource</span><span class="o">*</span> <span class="n">res_iomem</span><span class="p">;</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span><span class="o">*</span> <span class="n">key_ioconfig</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">key_probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="cm">/*初始化事就交到这里*/</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">temdata</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	
+	<span class="n">printk</span><span class="p">(</span><span class="s">"Probe  Devices Success!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*1、硬件初始化*/</span>
+	   <span class="n">res_iomem</span> <span class="o">=</span>  <span class="n">platform_get_resource</span><span class="p">(</span><span class="n">pdev</span><span class="p">,</span> <span class="n">IORESOURCE_MEM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="cm">/*最后一个参数是索引*/</span>
+	   <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">end</span> <span class="o">-</span> <span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">);</span> <span class="cm">/*8个字节*/</span>
+	<span class="n">key_ioconfig</span> <span class="o">=</span> <span class="n">ioremap</span><span class="p">(</span><span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">,</span><span class="n">size</span><span class="p">);</span>  
+	<span class="n">temdata</span> <span class="o">=</span> <span class="n">ioread32</span><span class="p">(</span><span class="n">key_ioconfig</span><span class="p">);</span>
+	<span class="n">temdata</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="o">~</span><span class="mh">0xfffff</span><span class="p">);</span>
+	<span class="n">temdata</span> <span class="o">|=</span> <span class="mh">0xfffff</span><span class="p">;</span>
+	<span class="n">iowrite32</span><span class="p">(</span><span class="n">temdata</span><span class="p">,</span><span class="n">key_ioconfig</span><span class="p">);</span>
+	
+	<span class="cm">/*注册中断*/</span>
+
+	<span class="n">res_irq</span> <span class="o">=</span>  <span class="n">platform_get_resource</span><span class="p">(</span><span class="n">pdev</span><span class="p">,</span> <span class="n">IORESOURCE_IRQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	    <span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span><span class="n">key1_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key1"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">key2_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key2"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span><span class="n">key3_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key3"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span><span class="n">key4_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key4"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+	
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">key_remove</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="cm">/*释放中断*/</span>
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+	
+	<span class="cm">/*注销内存*/</span>
+	<span class="n">iounmap</span><span class="p">(</span><span class="n">key_ioconfig</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*平台驱动可以有多个*/</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">platform_driver</span> <span class="n">key_driver</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">key_probe</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="n">key_remove</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">driver</span> <span class="o">=</span> <span class="p">{</span>
+	<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"keydevices"</span><span class="p">,</span>
+	<span class="p">},</span>
+<span class="p">};</span>
+
+
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：
+
+函数参数
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyPlatformDriverInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/*平台驱动注册*/</span>
+	<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ret</span> <span class="o">=</span> <span class="n">platform_driver_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_driver</span><span class="p">))</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"platform_driver_register err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="cm">/*输入事件驱动注册*/</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">keyinput</span> <span class="o">=</span> <span class="n">input_allocate_device</span><span class="p">())){</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"input devices allocate err!"</span><span class="p">);</span>
+	<span class="p">}</span>
+
+
+	<span class="n">set_bit</span><span class="p">(</span><span class="n">EV_KEY</span><span class="p">,</span><span class="n">keyinput</span><span class="o">-&gt;</span><span class="n">evbit</span><span class="p">);</span>
+	<span class="n">set_bit</span><span class="p">(</span><span class="n">KEY_1</span><span class="p">,</span><span class="n">keyinput</span><span class="o">-&gt;</span><span class="n">keybit</span><span class="p">);</span>
+	<span class="n">set_bit</span><span class="p">(</span><span class="n">KEY_2</span><span class="p">,</span><span class="n">keyinput</span><span class="o">-&gt;</span><span class="n">keybit</span><span class="p">);</span>
+	<span class="n">set_bit</span><span class="p">(</span><span class="n">KEY_3</span><span class="p">,</span><span class="n">keyinput</span><span class="o">-&gt;</span><span class="n">keybit</span><span class="p">);</span>
+	<span class="n">set_bit</span><span class="p">(</span><span class="n">KEY_4</span><span class="p">,</span><span class="n">keyinput</span><span class="o">-&gt;</span><span class="n">keybit</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">ret</span> <span class="o">=</span> <span class="n">input_register_device</span><span class="p">(</span><span class="n">keyinput</span><span class="p">))</span> <span class="o">&lt;</span><span class="mi">0</span> <span class="p">){</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"input devices register err!"</span><span class="p">);</span>
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyPlatformDriverExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="cm">/*平台驱动注销*/</span>
+	<span class="n">platform_driver_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_driver</span><span class="p">);</span>
+	<span class="cm">/*注销输入设备*/</span>
+	<span class="n">input_unregister_device</span><span class="p">(</span><span class="n">keyinput</span><span class="p">);</span>
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyPlatformDriverInit</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyPlatformDriverExit</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+<h2 id="app">测试APP</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+
+ *      Buttons Example for Matrix V
+
+ *
+
+ *      Copyright (C) 2004 capbily - friendly-arm
+
+ * capbily@hotmail.com
+
+ */</span>
+
+<span class="cp">#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include &lt;unistd.h&gt;
+#include &lt;sys/ioctl.h&gt;
+#include &lt;sys/types.h&gt;
+#include &lt;sys/stat.h&gt;
+#include &lt;fcntl.h&gt;
+#include &lt;sys/select.h&gt;
+#include &lt;sys/time.h&gt;
+#include &lt;errno.h&gt;
+#include &lt;linux/input.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">buttons_fd</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">key_value</span><span class="p">,</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">count</span><span class="p">;</span>
+
+	<span class="k">struct</span> <span class="n">input_event</span> <span class="n">ev_key</span><span class="p">;</span>
+
+	<span class="n">buttons_fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="s">"/dev/event2"</span><span class="p">,</span> <span class="n">O_RDWR</span><span class="p">);</span>
+
+	<span class="k">if</span> <span class="p">(</span><span class="n">buttons_fd</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+		<span class="n">perror</span><span class="p">(</span><span class="s">"open device buttons"</span><span class="p">);</span>
+		<span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+	<span class="p">}</span>	
+
+	<span class="k">for</span> <span class="p">(;;)</span>
+	<span class="p">{</span>
+
+		<span class="n">count</span> <span class="o">=</span> <span class="n">read</span><span class="p">(</span><span class="n">buttons_fd</span><span class="p">,</span><span class="o">&amp;</span><span class="n">ev_key</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">input_event</span><span class="p">));</span>
+
+		<span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">count</span><span class="o">/</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">input_event</span><span class="p">);</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+		<span class="p">{</span>
+
+			<span class="k">if</span><span class="p">(</span><span class="n">EV_KEY</span><span class="o">==</span><span class="n">ev_key</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+				<span class="n">printf</span><span class="p">(</span><span class="s">"type:%d,code:%d,value:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">ev_key</span><span class="p">.</span><span class="n">type</span><span class="p">,</span><span class="n">ev_key</span><span class="p">.</span><span class="n">code</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="n">ev_key</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+
+			<span class="k">if</span><span class="p">(</span><span class="n">EV_SYN</span><span class="o">==</span><span class="n">ev_key</span><span class="p">.</span><span class="n">type</span><span class="p">)</span>
+				<span class="n">printf</span><span class="p">(</span><span class="s">"syn event</span><span class="se">\n\n</span><span class="s">"</span><span class="p">);</span>
+
+		<span class="p">}</span>
+
+		<span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="n">close</span><span class="p">(</span><span class="n">buttons_fd</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/输入子系统浅析" data-title="输入子系统浅析" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" class="btn" title="回环网卡驱动设计 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" class="btn" title="I2C子系统">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,425 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>SPI总线 &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux SPI总线">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="SPI总线">
+<meta name="twitter:description" content="该博文主要描述linux SPI总线">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SPI总线">
+<meta property="og:description" content="该博文主要描述linux SPI总线">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">SPI总线</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-22T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 21, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念：</h2>
+
+<p>SPI(Serial Peripheral Interface,串行外围设备接口)总线，串行 主-从接口；很多集成与微控制器内部。</p>
+
+<p><strong>四线制</strong>，全双共模式，速度达到几兆，四线分别为：</p>
+
+<ul>
+  <li>
+    <p>SCLK(Serial Clock)：串行时钟</p>
+  </li>
+  <li>
+    <p>CS(Chip Select)：片选，有些写着SS</p>
+  </li>
+  <li>
+    <p>MISO(Master In Slave out)：主设备输入，从设备输出</p>
+  </li>
+  <li>
+    <p>MOSI(Master Out Slave in)：主设备输出，从设备输入</p>
+  </li>
+</ul>
+
+<h2 id="section-1">架构图解</h2>
+<p><img src="http://img.blog.csdn.net/20160529205758399?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="硬件线路图" /></p>
+
+<h2 id="section-2">数据传输过程</h2>
+
+<p><img src="http://img.blog.csdn.net/20160529205805336?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="SPI传输" /></p>
+
+<p>主节点通过 MOSI 线输出数据，从节点在SIMO 处从主节点读取数据。同时，也在通过SOMI 输出MSB（最高位），主节点会在MISO处读取从节点的数据，整个过程将一直持续，直至交换完所有数据；也就是所主从实现数据交换既为一次传输过程</p>
+
+<h2 id="section-3">总线时序：</h2>
+<p><img src="http://img.blog.csdn.net/20160529205811758?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="时序" /></p>
+
+<ul>
+  <li>CPOL极性：决定时钟空闲时为高电平还是低电平</li>
+  <li>CPOL=0：CLK空闲时是低电平，CLK有效时是高电平</li>
+  <li>CPOL=1： CLK空闲时是高电平，CLK有效时是低电平</li>
+  <li>决定何时进行数据采样(读取)
+    <ul>
+      <li>CPHA=0:第一个时钟的上升沿采样</li>
+      <li>CPHA=1:第一个时钟的下降沿采样</li>
+    </ul>
+  </li>
+</ul>
+
+<p>根据CPOL和CPHA的不同组合，SPI被分为4种模式
+<img src="http://img.blog.csdn.net/20160529205818867?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="模式" /></p>
+
+<h2 id="spi0">SPI0传输时序</h2>
+<p><img src="http://img.blog.csdn.net/20160529205834133?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="SPI0" /></p>
+
+<p>TQ210 SPI控制器编程步骤：芯片手册900页
+<img src="http://img.blog.csdn.net/20160529205840899?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="data" /></p>
+
+<h2 id="linux-spi">Linux SPI总线子系统</h2>
+<h3 id="section-4">架构</h3>
+
+<p><img src="http://img.blog.csdn.net/20160529205850930?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="架构" /></p>
+
+<h4 id="spi">SPI核心</h4>
+<p>SPI控制器驱动和设备驱动之间的纽带，它提供了SPI控制器驱动和设备驱动的注册、 注销方法等。</p>
+
+<h4 id="spi-1">SPI控制器驱动</h4>
+
+<p>对 SPI控制器的驱动实现。</p>
+
+<h4 id="spi-2">SPI设备驱动</h4>
+
+<p>对 SPI从设备的驱动实现。</p>
+
+<h2 id="section-5">典型客户驱动程序</h2>
+
+<h3 id="spiprob">向SPI核心注册设备驱动：如在prob函数中：</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include&lt;linux/spi/spi.h&gt;
+</span>
+<span class="k">static</span> <span class="k">struct</span> <span class="n">spi_driver</span> <span class="n">my_spidriver</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+	<span class="p">.</span><span class="n">driver</span> <span class="o">=</span>
+	<span class="p">{</span>
+		<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="err">“</span><span class="n">myspi</span><span class="err">”</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">bus</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">spi_bus_type</span><span class="p">,</span>
+		<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+	<span class="p">}</span>
+
+	<span class="p">.</span><span class="n">prob</span> <span class="o">=</span> <span class="n">myspidevice_prob</span><span class="p">,</span>
+	<span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="n">_devexit_p</span><span class="p">(</span><span class="n">myspidevice_remove</span><span class="p">),</span>
+<span class="p">};</span>
+
+<span class="n">spi_register_driver</span><span class="p">(</span><span class="n">my_spidriver</span> <span class="p">);</span> <span class="cm">/*向SPI核心注册，在SPI总线挂载驱动*/</span>
+
+</code></pre>
+</div>
+
+<p>SPI核心创建对应于此设备的spi_device结构，当调用注册的驱动方法时，将此结构作为调用参数。</p>
+
+<h3 id="section-6">数据传输结构</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code> <span class="o">*</span> <span class="n">I</span><span class="o">/</span><span class="n">O</span> <span class="n">INTERFACEbetween</span> <span class="n">SPI</span> <span class="n">controller</span> <span class="n">and</span> <span class="n">protocol</span> <span class="n">drivers</span>
+
+ <span class="o">*</span> <span class="n">Protocol</span> <span class="n">drivers</span> <span class="n">use</span> <span class="n">a</span> <span class="n">queue</span> <span class="n">of</span> <span class="n">spi_messages</span><span class="p">,</span> <span class="n">each</span> <span class="n">transferring</span> <span class="n">data</span>
+
+ <span class="o">*</span> <span class="n">between</span> <span class="n">the</span> <span class="n">controller</span> <span class="n">and</span> <span class="n">memory</span> <span class="n">buffers</span><span class="p">.</span>
+
+<span class="k">struct</span> <span class="n">spi_transfer</span>
+
+ <span class="o">*</span> <span class="k">struct</span> <span class="n">spi_message</span> <span class="o">-</span> <span class="n">one</span> <span class="n">multi</span><span class="o">-</span><span class="n">segment</span> <span class="n">SPI</span> <span class="n">transaction</span>
+
+<span class="k">struct</span> <span class="n">spi_message</span>
+
+</code></pre>
+</div>
+
+<h3 id="section-7">关系图解</h3>
+
+<p><img src="http://img.blog.csdn.net/20160529205858430?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="图解" /></p>
+
+<h2 id="spi-3">SPI消息构造</h2>
+
+<ul>
+  <li>
+    <p>spi_message_init(struct spi_message <em>m) /</em>分配一条消息空间，并初始化 链表头*/</p>
+  </li>
+  <li>
+    <p>spi_message_add_tail(struct spi_transfer <em>t, struct spi_message *m)  /</em>将数据加入链表*/</p>
+  </li>
+</ul>
+
+<h2 id="section-8">数据通讯</h2>
+
+<ul>
+  <li>
+    <p>spi_sync()：等待操作完成</p>
+  </li>
+  <li>
+    <p>spi_async()：当数据传输完成时，异步触发对注册的回调程序的调用，如SPI中断处理函数、sysf方法或者定时器处理程序</p>
+  </li>
+</ul>
+
+<p>##　SPI数据传输例子</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include&lt;linux/spi/spi.h&gt;
+</span>
+<span class="k">struct</span> <span class="n">spi_device</span> <span class="o">*</span><span class="n">spi</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">spi_transfer</span> <span class="o">*</span><span class="n">t</span><span class="p">;</span>
+<span class="k">struct</span> <span class="n">spi_message</span> <span class="n">sm</span><span class="p">;</span>
+
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">command_buff</span><span class="p">;</span> <span class="cm">/*数据传输空间*/</span>
+
+<span class="kt">int</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/*数据长度*/</span>
+
+<span class="cm">/*1、初始化SPI消息链表*/</span>
+
+<span class="n">spi_message_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">sm</span><span class="p">);</span>
+
+<span class="cm">/*2、填充传输数据*/</span>
+
+<span class="n">t</span><span class="p">.</span><span class="n">tx_buf</span> <span class="o">=</span> <span class="n">command_buff</span><span class="p">;</span>
+
+<span class="n">t</span><span class="p">.</span><span class="n">len</span> <span class="o">=</span> <span class="n">len</span><span class="p">;</span>
+
+<span class="cm">/*3、把传输数据加入SPI消息队列*/</span>
+
+<span class="n">spi_message_add_tail</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sm</span><span class="p">);</span>
+
+<span class="cm">/*4、阻塞请求传输，将数据提交给SPI控制器*/</span>
+
+<span class="n">spi_sync</span><span class="p">(</span><span class="n">spi</span><span class="p">,</span><span class="o">&amp;</span><span class="n">sm</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>SPI控制器驱动：spi_s3c64xx.c，移植和I2C类似，不过这次比较简单，将内核配置，选择64XX的SPI驱动就行了</p>
+
+<p><img src="http://img.blog.csdn.net/20160529205904243?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="配置" /></p>
+
+<p>平台型驱动，控制器初始化在捕获函数中进行，数据传输在中断中进行，桥接控制器和设备的数据结构，平台资源初始化对应在：dev-spi.c文件中，和6410使用同一个驱动</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="k">struct</span> <span class="n">s3c24xx_spi</span> <span class="p">{</span>
+
+	<span class="cm">/* bitbang has to be first */</span>
+	<span class="k">struct</span> <span class="n">spi_bitbang</span>  <span class="n">bitbang</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">completion</span>  <span class="n">done</span><span class="p">;</span>
+	<span class="kt">void</span> <span class="n">__iomem</span> <span class="o">*</span><span class="n">regs</span><span class="p">;</span>
+	<span class="kt">int</span>  <span class="n">irq</span><span class="p">;</span>
+	<span class="kt">int</span>  <span class="n">len</span><span class="p">;</span>
+	<span class="kt">int</span>  <span class="n">count</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">fiq_handler</span>  <span class="n">fiq_handler</span><span class="p">;</span>
+	<span class="k">enum</span> <span class="n">spi_fiq_mode</span>  <span class="n">fiq_mode</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">fiq_inuse</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span>  <span class="n">fiq_claimed</span><span class="p">;</span>	 
+
+	<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">set_cs</span><span class="p">)(</span><span class="k">struct</span> <span class="n">s3c2410_spi_info</span> <span class="o">*</span><span class="n">spi</span><span class="p">,</span>
+	  <span class="kt">int</span> <span class="n">cs</span><span class="p">,</span> <span class="kt">int</span> <span class="n">pol</span><span class="p">);</span>	 
+
+	<span class="cm">/* data buffers */</span>
+	<span class="k">const</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">tx</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">rx</span><span class="p">;</span>	
+	<span class="k">struct</span> <span class="n">clk</span> <span class="o">*</span><span class="n">clk</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">resource</span> <span class="o">*</span><span class="n">ioarea</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">spi_master</span> <span class="o">*</span><span class="n">master</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">spi_device</span> <span class="o">*</span><span class="n">curdev</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+	<span class="k">struct</span> <span class="n">s3c2410_spi_info</span> <span class="o">*</span><span class="n">pdata</span><span class="p">;</span>
+<span class="p">};</span>
+
+</code></pre>
+</div>
+
+<h2 id="spispi">SPI控制器和SPI设备驱动的函数联系</h2>
+<p><img src="http://img.blog.csdn.net/20160529205909368?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="关系图" /></p>
+
+<p>（国嵌入图）</p>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI总线" data-title="SPI总线" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" class="btn" title="I2C子系统">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" class="btn" title="块设备驱动">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

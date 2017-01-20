@@ -1,0 +1,626 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>串行设备驱动模型  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动串行设备驱动模型">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="串行设备驱动模型 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动串行设备驱动模型">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="串行设备驱动模型 ">
+<meta property="og:description" content="该博文主要描述linux 驱动串行设备驱动模型">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">串行设备驱动模型 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-17T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 16, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="tty">TTY概念解析</h2>
+
+<h3 id="devttys">串口终端（/dev/ttyS*）</h3>
+
+<ul>
+  <li>串口终端是使用计算机串口连接的终端设备；Linux以字符设备来处理这种串行端口；这些端口所对应的设备名称是<strong>/dev/ttySAC0-N</strong></li>
+</ul>
+
+<h3 id="devconsole-">控制台终端（/dev/console ）</h3>
+
+<ul>
+  <li>计算机的输出设备通常被称为控制台终端，特指printk信息输出到的设备；/dev/console是一个虚拟设备；它需要映射到真正的tty上，这可以在内核启动参数中配置</li>
+</ul>
+
+<h3 id="devtty">虚拟终端（/dev/tty*）</h3>
+
+<ul>
+  <li>用户登录时，使用的是虚拟终端 ，tty0是当前使用虚拟终端的别名</li>
+</ul>
+
+<h2 id="tty-1">TTY子系统架构</h2>
+
+<ul>
+  <li>
+    <p>tty 核心：为tty驱动提供接口，隔离上层应用与底层硬件</p>
+  </li>
+  <li>
+    <p>tty线路规程:加工与tty驱动交互的数据（数据的格式化等），勾勒串行层的行为，有助于复用底层的代码来支持不同的技术</p>
+
+    <p>i. N_TTY —–&gt; /dev/ttySX    （终端）</p>
+
+    <p>ii. N_IRDA—-&gt; /dev/ircommX （红外）</p>
+
+    <p>iii. N_PPP —–&gt; ppp0</p>
+  </li>
+  <li>
+    <p>tty驱动：关注uart或者其他底层串行硬件特征的驱动程序</p>
+  </li>
+  <li>
+    <p>串行子系统有提供一些内核API</p>
+  </li>
+</ul>
+
+<h2 id="section">架构图</h2>
+
+<p><img src="http://img.blog.csdn.net/20160419230444350?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="tty1" /></p>
+
+<p><img src="http://img.blog.csdn.net/20160419230520788?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="tty2" /></p>
+
+<h2 id="dumpstack">回溯函数：dump_stack()</h2>
+
+<ul>
+  <li>使用方法：将该函数加入到要回溯的函数中去，之后内核启动会自动串口打印回溯信息</li>
+</ul>
+
+<h2 id="section-1">串口驱动重要数据结构：</h2>
+
+<ul>
+  <li>
+    <p><strong>struct uart_driver：</strong>一个结构表示一个驱动；驱动能支持多个串口</p>
+  </li>
+  <li>
+    <p><strong>struct uart_port：</strong>一个结构表示一个实在的串口：如串口0，串口1</p>
+  </li>
+  <li>
+    <p><strong>struct uart_ops：</strong>串口操作集合，TTY最终调用的读写功能都在里面定义关联函数</p>
+  </li>
+</ul>
+
+<h2 id="section-2">串口驱动为了将自身和内核联系起来，必须完成两个步骤：</h2>
+
+<ol>
+  <li>
+    <p>通过调用：<strong>uart_register_driver(struct uart_driver *);</strong>向串行核心注册</p>
+  </li>
+  <li>
+    <p>通过调用：<strong>uart_add_one_port(struct uart_driver*,struct uart_port *)</strong>，注册其支持的每个端口</p>
+  </li>
+</ol>
+
+<p>传统的UART使用TTY驱动程序为:<strong>/driver/serial/serial_core.c</strong></p>
+
+<p>USB-串行端口转换器的TTY驱动程序在目录:<strong>driver/usb/serial/usb-serial.c</strong></p>
+
+<h2 id="tty-2">TTY架构驱动追踪分析</h2>
+
+<h3 id="section-3">分析思路</h3>
+
+<ul>
+  <li>
+    <p>TTY属于字符设备</p>
+  </li>
+  <li>
+    <p>TTY为分层架构</p>
+  </li>
+</ul>
+
+<h3 id="section-4">初始化设备</h3>
+
+<ul>
+  <li>
+    <p>串口在CPU启动时引导向内核注册为平台设备</p>
+  </li>
+  <li>
+    <p>设备驱动初始化在prob函数进行</p>
+  </li>
+  <li>
+    <p>初始化需要完成以下内容：</p>
+
+    <ul>
+      <li>
+        <p>获取端口（一个端口就为一个串口）</p>
+      </li>
+      <li>
+        <p>初始化端口</p>
+      </li>
+      <li>
+        <p>添加端口</p>
+      </li>
+      <li>
+        <p>向内核申请私有空间</p>
+      </li>
+      <li>
+        <p>创建属性设备文件</p>
+      </li>
+      <li>
+        <p>提供调频支持</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160419230602304?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="流程图" /></p>
+
+<h2 id="section-5">打开设备：上层调用到底层的历程：</h2>
+
+<h3 id="section-6">上层应用</h3>
+<p>a) 思路：用户打开open函数；系统需要寻找对应的<strong>file_operations</strong></p>
+
+<p>b) file_operations 是由谁注册的？驱动中找找</p>
+
+<hr />
+
+<h3 id="section-7">底层驱动</h3>
+
+<p>c) 查看驱动只有uart_register_driver();</p>
+
+<hr />
+
+<h3 id="tty-ttyioc">TTY核心 tty_io.c</h3>
+
+<ol>
+  <li>
+    <p>进入查看，串口驱动向tty核心注册<strong>了tty_driver：tty_register_driver(normal)</strong></p>
+  </li>
+  <li>
+    <p>查看<strong>tty_register_driver():</strong> 在这里注册了字符设备</p>
+  </li>
+</ol>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>	<span class="n">cdev_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">driver</span><span class="o">-&gt;</span><span class="n">cdev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tty_fops</span><span class="p">);</span>
+	<span class="n">cdev_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">driver</span><span class="o">-&gt;</span><span class="n">cdev</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">driver</span><span class="o">-&gt;</span><span class="n">num</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>
+    <p>注册字符设备对应的操作函数集在</p>
+
+    <ul>
+      <li>
+        <p>&amp;tty_fops  –&gt; static const struct file_operations tty_fops</p>
+      </li>
+      <li>
+        <p>tty_fops.open</p>
+      </li>
+      <li>
+        <p>tty_open(struct inode *inode, struct file *filp)</p>
+      </li>
+      <li>
+        <p>在tty_open函数中对struct tty_operations uart_ops进行操作，通过下面语句</p>
+      </li>
+      <li>
+        <p>retval = tty-&gt;ops-&gt;open(tty, filp); 通过这层调用进入TTY驱动层</p>
+      </li>
+    </ul>
+  </li>
+</ol>
+
+<hr />
+
+<h3 id="tty-serialcorec">TTY驱动 serial_core.c</h3>
+
+<ol>
+  <li>
+    <p>跟踪 struct tty_operations uart_ops结构体中的open函数</p>
+  </li>
+  <li>
+    <p>进入static int uart_open(struct tty_struct *tty, struct file *filp)</p>
+  </li>
+  <li>
+    <p>该函数又调用 uart_startup()函数</p>
+  </li>
+  <li>
+    <p>该函数通过retval = uport-&gt;ops-&gt;startup(uport);进入驱动层</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="section-8">底层驱动</h2>
+
+<ol>
+  <li>
+    <p>最终调用到驱动程序中的struct uart_ops中的操作集</p>
+  </li>
+  <li>
+    <p>int (*startup)(struct uart_port *);</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="section-9">总结</h2>
+<p>用户应用 的 open 通过层层调用到达驱动函数中的 xxx_startup(…);</p>
+
+<p>在xxx_startup函数中需要完成的任务</p>
+
+<ol>
+  <li>
+    <p>使能串口接收功能：rx_enabled(port) = 1;</p>
+  </li>
+  <li>
+    <p>注册数据接收中断处理程序：request_irq();</p>
+  </li>
+  <li>
+    <p>使能发送功能：tx_enabled(port) = 1;</p>
+  </li>
+  <li>
+    <p>注册发送中断处理函数：request_irq();</p>
+  </li>
+  <li>
+    <p>出错处理</p>
+  </li>
+</ol>
+
+<h2 id="section-10">写设备</h2>
+
+<p>a) 思路：用户打开write函数；系统需要寻找对应的file_operations</p>
+
+<p>b) file_operations 是由谁注册的？驱动中找找</p>
+
+<h3 id="tty-ttyioc-1">TTY核心-tty_io.c</h3>
+
+<ul>
+  <li>
+    <p>进入查看，串口驱动向tty核心注册了tty_driver：tty_register_driver(normal)</p>
+  </li>
+  <li>
+    <p>查看tty_register_driver():在这里注册了字符设备</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">cdev_init</span><span class="p">(</span><span class="o">&amp;</span><span class="n">driver</span><span class="o">-&gt;</span><span class="n">cdev</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tty_fops</span><span class="p">);</span>
+<span class="n">cdev_add</span><span class="p">(</span><span class="o">&amp;</span><span class="n">driver</span><span class="o">-&gt;</span><span class="n">cdev</span><span class="p">,</span> <span class="n">dev</span><span class="p">,</span> <span class="n">driver</span><span class="o">-&gt;</span><span class="n">num</span><span class="p">);</span>
+</code></pre>
+</div>
+<ul>
+  <li>
+    <p>注册字符设备对应的操作函数集在</p>
+
+    <ul>
+      <li>
+        <p>&amp;tty_fops  –&gt; static const struct file_operations tty_fops</p>
+      </li>
+      <li>
+        <p>tty_fops.write函数</p>
+      </li>
+      <li>
+        <p>tty_write(struct inode *inode, struct file *filp)</p>
+      </li>
+      <li>
+        <p>在该函数中调用了：do_tty_write(ld-&gt;ops-&gt;write, tty, file, buf, count)</p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="ttyttyldiscc-nttyc">TTY线路规程tty_ldisc.c n_tty.c</h3>
+
+<ol>
+  <li>
+    <p>以上传递进来的是ld-&gt;ops  ==  struct tty_ldisc_ops *ops;</p>
+  </li>
+  <li>
+    <p>ops-&gt;write 调用到struct tty_ldisc_ops tty_ldisc_N_TTY.write函数</p>
+  </li>
+  <li>
+    <p>在n_tty_write函数中对struct tty_operations uart_ops进行操作，通过下面语句</p>
+  </li>
+  <li>
+    <p>tty-&gt;ops-&gt;write(tty, b, nr);通过这层调用进入TTY驱动层</p>
+  </li>
+</ol>
+
+<h3 id="ttyserialcorec">TTY驱动serial_core.c</h3>
+
+<ol>
+  <li>
+    <p>跟踪 struct tty_operations uart_ops结构体中的write函数</p>
+  </li>
+  <li>
+    <p>进入uart_write</p>
+  </li>
+  <li>
+    <p>该函数又调用了uart_ops结构中的uart_startup()函数</p>
+  </li>
+  <li>
+    <p>接着再调用void __uart_start(struct tty_struct *tty)</p>
+  </li>
+  <li>
+    <p>之后再进过指针传递调用驱动程序</p>
+  </li>
+</ol>
+
+<h3 id="section-11">底层驱动</h3>
+
+<ol>
+  <li>最终调用到驱动程序中的struct uart_ops中的操作集</li>
+  <li>发送函数：<code class="highlighter-rouge">void (*start_tx)(struct uart_port *);</code></li>
+</ol>
+
+<h4 id="section-12">发送函数的工作</h4>
+
+<ul>
+  <li>
+    <p>使能发送中断</p>
+  </li>
+  <li>
+    <p>具体发送在中断函数中进行</p>
+
+    <ul>
+      <li>
+        <p>判断x_char 是否为0，不为0则发送x_char (x_char用来通知数据缓存是否忙碌)</p>
+      </li>
+      <li>
+        <p>判断发送换从是否为空:<strong>uart_circ_empty()</strong>;或者是驱动设置为停止发送状态:<strong>uart_tx_stoped()</strong>，则取消发送</p>
+      </li>
+      <li>
+        <p>循环发送直到循环缓冲为空</p>
+
+        <ul>
+          <li>
+            <p>发送FIFO满，退出发送</p>
+          </li>
+          <li>
+            <p>将要发送的数据写入发送寄存器</p>
+          </li>
+          <li>
+            <p>修改循环缓冲位置</p>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <p>如果发送缓冲有空闲空间，则唤醒发送进程：<strong>uart_wake_up();</strong></p>
+      </li>
+      <li>
+        <p>如果发送缓冲为空，则关闭发送使能：<strong>uart_tx_stoped();</strong></p>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="section-13">设备读</h2>
+
+<ol>
+  <li>
+    <p>同理从用户层到驱动，最终调用到驱动的</p>
+
+    <p>其中要注意的是线路规程中的n_tty_read函数，不直接操作底层驱动的串口缓存，需要通过tty-&gt;read_buf[tty-&gt;read_tail];其中的数据是串口驱动通过发送函数（tty_push将数据推送到该buf中）</p>
+  </li>
+  <li>
+    <p>驱动中的发送函数处理流程</p>
+  </li>
+</ol>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">while</span><span class="p">(</span><span class="n">max_count</span><span class="o">--</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="cm">/*这个用来平衡系统的性能*/</span>
+<span class="p">{</span>
+
+	<span class="err">读取</span><span class="n">UPFCON</span><span class="err">寄存器</span><span class="n">rd_regl</span><span class="p">();</span>
+
+	<span class="err">读取</span><span class="n">UFSTAT</span><span class="err">寄存器</span>  <span class="n">rd_regl</span><span class="p">();</span>
+
+	<span class="err">通过以上读取的数据判断</span><span class="n">FIFO</span><span class="err">缓存是否为空，空则退出循环</span>
+
+	<span class="err">读取</span><span class="n">UERSTAT</span><span class="err">寄存器</span>
+
+	<span class="err">读取</span><span class="n">URXH</span><span class="err">，从该寄存器中取出字符</span>
+
+	<span class="err">流控处理</span>
+
+	<span class="err">根据</span><span class="n">UFSTAT</span><span class="err">记录错误类型</span>
+
+	<span class="err">如果收到的是</span><span class="n">sysrq</span><span class="err">字符，进行特出处理，调用内核函数：</span>
+
+	<span class="mi">1</span><span class="p">.</span> <span class="n">uart_handle_sysrq_char</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">ch</span><span class="p">)</span>
+
+	<span class="err">把接收到的字符送到串口驱动的</span><span class="n">uart_insert_char</span><span class="p">();</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>最后一步：将串口缓存中的数据推送到tty-&gt;read_buf中tty_flip_buffer_push();</p>
+
+<p>流控：Linux使用的是自动硬件流控 或者是 软件流控–&gt;使用x_char来通讯标识</p>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/串行总线驱动模型" data-title="串行设备驱动模型 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="平台总线驱动模型 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="网络设备驱动 ">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -9,7 +9,7 @@ image:
   creditlink: http://wegraphics.net/downloads/free-ultimate-blurred-background-pack/
 ---
 
-<h1 style="text-align:right">——您的驾到，使我万分荣幸！ </h1>
+<h1 style="text-align:right">——您的到来，使我万分荣幸！ </h1>
 
 
 ## 从哪里开始说起呢？

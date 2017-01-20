@@ -1,0 +1,651 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>USB子系统 &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux块设备驱动">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="USB子系统">
+<meta name="twitter:description" content="该博文主要描述linux块设备驱动">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="USB子系统">
+<meta property="og:description" content="该博文主要描述linux块设备驱动">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">USB子系统</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-24T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 23, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<p>USB（universal serial bus）总线：通用串行总线，是一种外部总线标准，用于规范电脑与外部设备的连接和通讯。</p>
+
+<ul>
+  <li>
+    <p>USB1.0：1.5MB/S</p>
+  </li>
+  <li>
+    <p>USB1.1（full speed）：12MB/S</p>
+  </li>
+  <li>
+    <p>USB2.0（high speed）：480MB/S</p>
+  </li>
+  <li>
+    <p>USB3.0（supper sped）：4800MB/S</p>
+  </li>
+</ul>
+
+<p><strong>USB硬件结构(4线)：电源（5V,500mA），地线，D+,D-</strong></p>
+
+<h2 id="section-1">工作原理：</h2>
+
+<p>USB端口的D＋、D－数据线上有15K左右的“高值”下拉电阻，从而使USB的数据线悬空电平为低。USB设备的D＋（高速High Speed或全速Full Speed）或D－（低速Low Speed）上具有1.5K左右的“低值”上拉电阻，而USB端口的VCC和GND引出线长于数据线，这保证了USB设备先上电后挂线，如此上拉电阻能可靠地将USB端口的相应数据线拉高，这样即可判别USB设备的接入及其速度了。通过改变D+和D-两根数据线之间的电压差来表示0/1；</p>
+
+<h2 id="section-2">拓扑结构：</h2>
+<p><img src="http://img.blog.csdn.net/20160529211209385?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="拓扑结构" />
+<img src="http://img.blog.csdn.net/20160529211217104?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="2" /></p>
+
+<p>对于每个USB系统来说，都有一个称为主机控制器的设备，该控制器和一个根Hub作为一个整体。这个根Hub下可以接多级的Hub，每个子Hub又可以接子Hub。每个USB设备作为一个节点接在不同级别的Hub上。 每条USB总线上最多可以接127个设备。</p>
+
+<h2 id="usb">常见的USB主控制器规格有：</h2>
+
+<ul>
+  <li>
+    <p>OHCI(Open HCI 开放主机接口)：主要是非PC系统上的USB芯片</p>
+  </li>
+  <li>
+    <p>UHCI：大多是Intel和Via主板上的USB控制器芯片。他们都是由USB1.1规格
+的。</p>
+  </li>
+  <li>
+    <p>EHCI(Enhanced Host Connective Interface增强主机控制器接口)：由Intel等几个厂商研发，兼容OHCI，UHCI，遵循USB2.0规范</p>
+  </li>
+  <li>
+    <p>USB OTG（on the go）控制器：这类控制器在嵌入式微控制器领域备受欢迎，采用otg控制器，每个通信终端能充当DRD(Dual-Role Device,双重角色设备)。用HNP(Host Negotiation Protocol,主机沟通协议)初始化设备连接后，这样的设备可以根据功能需要在主机模式和设备模式之间任意切换。</p>
+  </li>
+  <li>
+    <p>HCD主控制器驱动：Host Control Driver</p>
+  </li>
+</ul>
+
+<h1 id="usb-1">USB设备逻辑结构</h1>
+
+<p><img src="http://img.blog.csdn.net/20160529211223811?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="logic" /></p>
+
+<p>在USB设备的逻辑组织中，包含设备、配置、接口和端点4个层次。设备通常有一个或多个配置,配置通常有一个或多个接口,接口有零或多个端点（端点可以比喻成寄存器）。</p>
+
+<p>USB设备中的唯一可寻址的部分是设备端点，端点的作用类似于寄存器。每个端点在设备内部有唯一的端点号，这个端点号是在设备设计时给定的。主机和设备的通信最终都作用于设备上的各个端点。每个端点所支持的操作都是单向的，要么只读，要么只写。</p>
+
+<h2 id="usb-2">主机能自动设备USB设备的原因：</h2>
+
+<p>在每一个USB设备内部，包含了<strong>固定格式</strong>的数据，通过这些数据，USB主机就可以获取USB设备的类型、生产厂商等信息。这些固定格式的数据，我们就称之为<strong>USB描述符</strong>。标准的USB设备有5种USB描述符：设备描述符，配置描述符，接口描述符，端点描述符，字符串描述符。</p>
+
+<p>格式查看：《USB specification :Table-9.8》</p>
+
+<ul>
+  <li>设备描述符
+一个USB设备只有一个设备描述符，设备描述符长度为18个字节。</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160529211230401?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="描述符号" /></p>
+
+<ul>
+  <li>配置描述符：</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160529211237123?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="3" /></p>
+
+<ul>
+  <li>接口描述符：</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160529211242026?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="4" /></p>
+
+<ul>
+  <li>端点描述符</li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160529211248292?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="5" />
+<img src="http://img.blog.csdn.net/20160529211248292?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="6" /></p>
+
+<h2 id="usb-3">USB数据通讯</h2>
+
+<p>USB的数据通讯首先是基于传输（Transfer）的，传输的类型有：中断传输、批量传输、同步传输、控制传输</p>
+
+<ul>
+  <li>
+    <p>一次传输由一个或多个事务(transaction)构成,事务可分为：In事务，Out事务，Setup事务</p>
+  </li>
+  <li>
+    <p>一个事务由一个或多个包(packet)构成,包可分为：令牌包(setup)、数据包(data)、握手包(ACK)和特殊包</p>
+  </li>
+  <li>
+    <p>一个包由多个域构成,域可分为：同步域（SYNC），标识域（PID），地址域（ADDR），端点域（ENDP），帧号域（FRAM），数据域（DATA），校验域（CRC）</p>
+  </li>
+</ul>
+
+<p><img src="http://img.blog.csdn.net/20160529211254402?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="7" /></p>
+
+<h2 id="usb-4">USB枚举</h2>
+
+<p>USB设备在正常工作以前,第一件要做的事就是枚举。枚举是让主机认得这个USB设备,并且为该设备准备资源，建立好主机和设备之间的数据传递通道。
+<img src="http://img.blog.csdn.net/20160529211301873?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="8" /></p>
+
+<h2 id="usb-">USB 寻址</h2>
+
+<p>USB设备里的每个寻址单元称作 端点。每个端点分配的地址称作端点地址。每个端点地址都有与之相关的传输模式。如果一个端点的数据传输模式时批量传输模式，该端点叫做批量端点。地址为0的端点专门用来配置设备。控制管道和它相连，完成设备枚举过程.</p>
+
+<p>USB设备地址和I2C一样，并不占用CPU可寻址的空间，它们的地址空间是私有的，同样采用主从结构..</p>
+
+<h2 id="linux-usb">LINUX USB子系统驱动架构</h2>
+
+<p>开发板作为主机，挂载U盘</p>
+
+<p><img src="http://img.blog.csdn.net/20160529211311292?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="9" /></p>
+
+<p>开发板作为从设备，PC机为主机
+<img src="http://img.blog.csdn.net/20160529211317761?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="10" /></p>
+
+<p>URB（USB Request Block,USB请求块）通讯模型：USB数据传输机制使用的核心数据结构</p>
+
+<hr />
+
+<h2 id="dnw">dnw下载线执行流程</h2>
+<p><img src="http://img.blog.csdn.net/20160529211330496?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="12" /></p>
+
+<h2 id="section-3">驱动程序设计</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="cp">#include&lt;linux/init.h&gt;
+#include&lt;linux/module.h&gt;
+#include&lt;linux/types.h&gt;
+#include&lt;linux/errno.h&gt;
+#include &lt;linux/usb.h&gt;
+#include &lt;linux/fs.h&gt;
+#include &lt;linux/uaccess.h&gt;
+#include &lt;linux/slab.h&gt;
+#include &lt;linux/mm.h&gt;
+</span>
+<span class="cp">#define USB_VID_TQ210 0x04e8
+</span>
+<span class="cp">#define USB_PID_TQ210 0X1234
+</span>
+<span class="cp">#define DES_BUF_SIZE 512
+</span>
+ 
+
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">bulk_out_endaddr</span><span class="p">;</span> <span class="cm">/*目标端点地址*/</span>
+
+<span class="kt">char</span> <span class="o">*</span><span class="n">des_buffer</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">usb_device</span> <span class="o">*</span><span class="n">usb_dev</span><span class="p">;</span> <span class="cm">/*指向USB设备*/</span>
+
+ 
+
+<span class="cm">/***********************************
+
+当USB核心检测到某个设备的属性和某个驱动程序
+
+的ID匹配时（既枚举过程完成），
+
+这个驱动程序的prob函数就被khubd执行。
+
+查看从设备时先让从设备进入下载状态，在PC终端
+
+使用 lsusb 查看
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">usb_device_id</span> <span class="n">dnw_table</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">{</span> <span class="n">USB_DEVICE</span><span class="p">(</span><span class="n">USB_VID_TQ210</span><span class="p">,</span>     <span class="n">USB_PID_TQ210</span><span class="p">)</span> <span class="p">},</span>
+
+<span class="p">{</span> <span class="p">},</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="cm">/***********************************
+文件操作：
+************************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">dnw_open</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+	<span class="cm">/*分配内核空间*/</span>
+
+	<span class="n">des_buffer</span> <span class="o">=</span> <span class="n">kmalloc</span><span class="p">(</span><span class="n">DES_BUF_SIZE</span><span class="p">,</span><span class="n">GFP_KERNEL</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">ssize_t</span> <span class="n">dnw_write</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="k">const</span> <span class="n">__user</span> <span class="kt">char</span> <span class="o">*</span><span class="n">buffer</span><span class="p">,</span>
+
+ <span class="kt">size_t</span> <span class="n">count</span><span class="p">,</span> <span class="n">loff_t</span> <span class="o">*</span><span class="n">ppos</span><span class="p">){</span>
+
+	<span class="kt">size_t</span> <span class="n">toWrite</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">totalshift</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">actual_length</span><span class="p">;</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span>  <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="k">while</span><span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+
+	<span class="p">{</span>
+
+		<span class="cm">/*获取用户传输下来的数据*/</span>
+
+		<span class="cm">/*获取较小值*/</span>
+
+		 <span class="n">toWrite</span> <span class="o">=</span> <span class="n">min</span><span class="p">(</span><span class="n">count</span><span class="p">,(</span><span class="kt">size_t</span><span class="p">)</span><span class="n">DES_BUF_SIZE</span><span class="p">);</span>
+
+		 <span class="n">ret</span> <span class="o">=</span> <span class="n">copy_from_user</span><span class="p">(</span><span class="n">des_buffer</span><span class="p">,</span><span class="n">buffer</span><span class="o">+</span><span class="n">totalshift</span><span class="p">,</span><span class="n">toWrite</span><span class="p">);</span>
+
+		<span class="cm">/*将数据提交给USB主控制器*/</span>
+
+		<span class="cm">/*
+
+		usb_dev:指向需要操作的usb设备
+
+		管道操作:
+
+		usb_sndbulkpipe(usb_dev,bulk_out_endaddr)：建立usb设备与端点的批量传输管道
+
+		1)管道包括：端点地址
+
+		    数据传输方向（IN/OUT）
+
+		    数据传输模式:控制，中断，批量，等时
+
+		1）函数格式：usb_[rcv|snd][ctrl|int|bulk|isoc]pipe
+
+		actual_length：实际传输的字节数存放在这里
+
+		3*HZ：等待超时
+
+		*/</span>
+
+		<span class="n">usb_bulk_msg</span><span class="p">(</span><span class="n">usb_dev</span><span class="p">,</span><span class="n">usb_sndbulkpipe</span><span class="p">(</span><span class="n">usb_dev</span><span class="p">,</span><span class="n">bulk_out_endaddr</span><span class="p">),</span><span class="n">des_buffer</span><span class="p">,</span><span class="n">toWrite</span><span class="p">,</span><span class="o">&amp;</span><span class="n">actual_length</span><span class="p">,</span><span class="mi">3</span><span class="o">*</span><span class="n">HZ</span><span class="p">);</span>
+
+		<span class="n">count</span> <span class="o">-=</span> <span class="n">toWrite</span><span class="p">;</span>
+
+		<span class="n">totalshift</span><span class="o">+=</span><span class="n">toWrite</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dnw_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">)</span>
+
+<span class="p">{</span>
+	<span class="n">kfree</span><span class="p">(</span><span class="n">des_buffer</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/* file operations needed when we register this driver */</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">dnw_fops</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">dnw_write</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">dnw_open</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">dnw_release</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+
+<span class="k">struct</span> <span class="n">usb_class_driver</span> <span class="n">dnw_class</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"dnw%d"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">dnw_fops</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">minor_base</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+
+<span class="cm">/****************************************************************************
+
+设备捕获函数需要做的工作分析：
+
+ 
+
+1、USB是围绕URB数据传输机制展开的，所以开始应该初始化URB，URB使用步骤：
+
+1）分配内存：usb_alloc_urb():这个和网络设备差不多
+
+2）初始化：usb_fill_[control|int|bulk]_urb
+
+3）异步提交：usb_sumit_urb()：这项工作在读写操作函数中进行
+
+ 
+
+2、同步提交URB接口函数：既使用一下函数就能完成1中三步的工作,这个函数适合在读写操作中进行
+
+1）usb_[control|int|bulk]_msg()
+
+ 
+
+3、批量传输属于字符设备操作，既要初始化字符操作函数集
+
+1）usb_register_dev():该函数能将字符设备和USB总线关联在一起
+
+综合以上分析：
+
+prob只需做的就是第三步；关联字符设备
+
+其他地方需要用到那种数据结构在来这里初始化就好了
+
+****************************************************************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="n">dnw_probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">usb_interface</span> <span class="o">*</span><span class="n">intf</span><span class="p">,</span><span class="k">const</span> <span class="k">struct</span> <span class="n">usb_device_id</span> <span class="o">*</span><span class="n">id</span><span class="p">){</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"Device prob!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="cm">/* 接口设置描述 ,主机对每个接口的描述*/</span>
+
+	     <span class="k">struct</span> <span class="n">usb_host_interface</span> <span class="o">*</span><span class="n">interface</span><span class="p">;</span>
+
+	<span class="k">struct</span> <span class="n">usb_endpoint_descriptor</span> <span class="o">*</span><span class="n">endpoint</span><span class="p">;</span>
+
+	<span class="cm">/*获取USB设备，在初始化URB中使用*/</span>
+
+	 <span class="n">usb_dev</span> <span class="o">=</span> <span class="n">usb_get_dev</span><span class="p">(</span><span class="n">interface_to_usbdev</span><span class="p">(</span><span class="n">intf</span><span class="p">));</span>
+
+	<span class="cm">/*获取接口*/</span>
+	 <span class="n">interface</span> <span class="o">=</span> <span class="n">intf</span><span class="o">-&gt;</span><span class="n">cur_altsetting</span><span class="p">;</span>
+
+	<span class="cm">/*获取目标端点*/</span>
+	 <span class="k">for</span><span class="p">(</span><span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">interface</span><span class="o">-&gt;</span><span class="n">desc</span><span class="p">.</span><span class="n">bNumEndpoints</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">)</span>
+	 <span class="p">{</span>
+	     <span class="n">endpoint</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">interface</span><span class="o">-&gt;</span><span class="n">endpoint</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">desc</span><span class="p">;</span>
+	     <span class="k">if</span><span class="p">(</span><span class="n">usb_endpoint_is_bulk_out</span><span class="p">(</span><span class="n">endpoint</span><span class="p">))</span>
+	     <span class="p">{</span>
+		  <span class="n">bulk_out_endaddr</span> <span class="o">=</span> <span class="n">endpoint</span><span class="o">-&gt;</span><span class="n">bEndpointAddress</span><span class="p">;</span>
+		  <span class="k">break</span><span class="p">;</span>
+	     <span class="p">}</span>
+
+	   <span class="p">}</span>
+
+	<span class="cm">/*把字符设备和usb设备关联起来*/</span>
+
+	<span class="k">if</span><span class="p">((</span><span class="n">ret</span> <span class="o">=</span>  <span class="n">usb_register_dev</span><span class="p">(</span><span class="n">intf</span><span class="p">,</span><span class="o">&amp;</span><span class="n">dnw_class</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"usb_register_dev err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="kt">void</span> <span class="n">dnw_disconnect</span> <span class="p">(</span><span class="k">struct</span> <span class="n">usb_interface</span> <span class="o">*</span><span class="n">intf</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="n">usb_deregister_dev</span><span class="p">(</span><span class="n">intf</span><span class="p">,</span><span class="o">&amp;</span><span class="n">dnw_class</span><span class="p">);</span>
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">usb_driver</span> <span class="n">dnw_driver</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"dnw"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">dnw_probe</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">disconnect</span> <span class="o">=</span> <span class="n">dnw_disconnect</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">id_table</span> <span class="o">=</span> <span class="n">dnw_table</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+
+<span class="cm">/***********************************
+
+USB 同样是一种总线协议，所以初始化一般是向
+
+其总线注册
+
+************************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">dnw_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="cm">/*1、向usb核心注册USB设备*/</span>
+
+	<span class="kt">int</span> <span class="n">result</span><span class="p">;</span>
+
+	<span class="k">if</span> <span class="p">((</span><span class="n">result</span> <span class="o">=</span> <span class="n">usb_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dnw_driver</span><span class="p">)))</span> <span class="p">{</span>
+
+	<span class="n">err</span><span class="p">(</span><span class="s">"usb_register failed. Error number %d"</span><span class="p">,</span><span class="n">result</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">dnw_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="cm">/* deregister this driver from the USB subsystem */</span>
+	<span class="n">usb_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">dnw_driver</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">dnw_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">dnw_exit</span><span class="p">);</span>
+</code></pre>
+</div>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB子系统" data-title="USB子系统" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" class="btn" title="块设备驱动">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" class="btn" title="Github-Pages+Jekyll博客搭建">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

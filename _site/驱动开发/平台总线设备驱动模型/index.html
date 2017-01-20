@@ -1,0 +1,811 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>平台总线驱动模型  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动平台总线驱动模型">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="平台总线驱动模型 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动平台总线驱动模型">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="平台总线驱动模型 ">
+<meta property="og:description" content="该博文主要描述linux 驱动平台总线驱动模型">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">平台总线驱动模型 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-16T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 15, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<ol>
+  <li>
+    <p>一种虚拟总线，由内核创建</p>
+  </li>
+  <li>
+    <p>一般在内核代码中已近注册了相应的平台资源，在<strong>sys/bus/platform</strong>中可以查看平台的设备和驱动</p>
+  </li>
+</ol>
+
+<h3 id="documentdriver-model">平台设备：（查看内核document/driver-model目录下的文档）</h3>
+
+<ol>
+  <li>
+    <p>平台设备是一种典型的自动挂载进系统的设备</p>
+  </li>
+  <li>
+    <p>它包含有设备的端口基地址和设备外设总线</p>
+  </li>
+  <li>
+    <p>很多控制器为完善系统的集成度，在上电时自动引导平台设备到内核中去，平台设备中的资源对应的基地址是直接的物理地址，但是驱动设备获取平台资源要使用平台资源获取函数来获取对应的地址信息。</p>
+  </li>
+</ol>
+
+<h2 id="section-1">平台设备驱动开发分为两个步骤</h2>
+
+<h3 id="section-2">处理平台设备</h3>
+
+<ol>
+  <li>
+    <p>定义平台设备</p>
+  </li>
+  <li>
+    <p>注册平台设备</p>
+  </li>
+  <li>
+    <p>注销平台设备</p>
+  </li>
+</ol>
+
+<h3 id="section-3">处理平台驱动</h3>
+
+<ol>
+  <li>
+    <p>定义平台驱动</p>
+  </li>
+  <li>
+    <p>注册平台驱动</p>
+  </li>
+  <li>
+    <p>注销平台驱动</p>
+  </li>
+</ol>
+
+<h2 id="section-4">平台设备驱动模型的匹配机制</h2>
+
+<p>a) 与总线设备驱动模型的匹配机制是同一个原理</p>
+
+<p>b) 总线通过其设备名和驱动名的匹配（或者是产品的ID号进行匹配）</p>
+
+<h2 id="section-5">平台设备描述结构</h2>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">platform_device</span> <span class="p">{</span>
+
+<span class="k">const</span> <span class="kt">char</span><span class="o">*</span> <span class="n">name</span><span class="p">;</span><span class="cm">/*平台设备名，必须和匹配的驱动名同名*/</span>
+
+<span class="kt">int</span> <span class="n">id</span><span class="p">;</span> <span class="cm">/*设备编号，配合设备名使用*/</span>
+
+<span class="k">struct</span> <span class="n">devicedev</span><span class="p">;</span><span class="cm">/*总线设备，平台驱动需要调用释放函数*/</span>
+
+<span class="n">u32num_resources</span><span class="p">;</span><span class="cm">/*资源数量.，看资源的种类*/</span>
+
+<span class="k">struct</span> <span class="n">resource</span><span class="o">*</span> <span class="n">resource</span><span class="p">;</span><span class="cm">/*设备资源*/</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">platform_device_id</span> <span class="o">*</span><span class="n">id_entry</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">mfd_cell</span> <span class="o">*</span><span class="n">mfd_cell</span><span class="p">;</span> <span class="cm">/* MFD cell pointer */</span>
+
+<span class="k">struct</span> <span class="n">pdev_archdata</span> <span class="n">archdata</span><span class="p">;</span> <span class="cm">/* arch specific additions */</span>
+
+ 
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>驱动比较关心的是该结构体的名字和资源；对于设备资源，对应的结构体描述为</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">resource</span> <span class="p">{</span>
+
+<span class="n">resource_size_t</span> <span class="n">start</span><span class="p">;</span><span class="cm">/*资源的起始地址*/</span>
+
+<span class="n">resource_size_t</span> <span class="n">end</span><span class="p">;</span><span class="cm">/*资源的结束地址*/</span>
+
+<span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">;</span> <span class="cm">/*资源名称*/</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">flags</span><span class="p">;</span><span class="cm">/*标识资源的类型*/</span>
+
+<span class="k">struct</span> <span class="n">resource</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span> <span class="o">*</span><span class="n">sibling</span><span class="p">,</span> <span class="o">*</span><span class="n">child</span><span class="p">;</span> <span class="cm">/*资源链表，内核自行处理*/</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h2 id="section-6">使用资源的好处是：</h2>
+
+<ul>
+  <li>
+    <p>表示某个实体的一部分，这部分被互斥地分配给设备驱动程序</p>
+  </li>
+  <li>
+    <p>一个资源表示I/O端口地址的一个范围</p>
+  </li>
+  <li>
+    <p>每个资源对应的信息存放在resource数据结构中</p>
+  </li>
+  <li>
+    <p>资源类型可以是 I/O内存、中断号、DMA等</p>
+  </li>
+</ul>
+
+<h3 id="section-7">平台设备相关函数</h3>
+
+<p>1.平台设备注册</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">platform_device_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>2.平台设备注销</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">platform_device_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>3.平台资源获取</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">resource</span> <span class="o">*</span><span class="n">platform_get_resource</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>流程：定义平台设备-&gt;注册平台设备-&gt;注销平台设备</p>
+
+<h2 id="section-8">平台驱动描述结构</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">platform_driver</span> <span class="p">{</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">probe</span><span class="p">)(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">remove</span><span class="p">)(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="kt">void</span> <span class="p">(</span><span class="o">*</span><span class="n">shutdown</span><span class="p">)(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">suspend</span><span class="p">)(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">,</span> <span class="n">pm_message_t</span> <span class="n">state</span><span class="p">);</span>
+
+<span class="kt">int</span> <span class="p">(</span><span class="o">*</span><span class="n">resume</span><span class="p">)(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="p">);</span>
+
+<span class="k">struct</span> <span class="n">device_driver</span> <span class="n">driver</span><span class="p">;</span><span class="cm">/*需要初始化其中的name成员来匹配平台设备*/</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">platform_device_id</span> <span class="o">*</span><span class="n">id_table</span><span class="p">;</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<h3 id="section-9">使用规范：</h3>
+
+<ol>
+  <li>
+    <p>由于平台设备已经初始化了相应的平台资源，既硬件资源，所以在该驱动使用 时，使用平台资源获取函数，然后再进行io映射初始化即可</p>
+  </li>
+  <li>
+    <p>注意平台结构中driver.name需要和平台设备匹配</p>
+  </li>
+  <li>
+    <p>初始化一般放在设备捕获函数中进行</p>
+  </li>
+  <li>
+    <p>资源的释放对应在remove对应的函数中</p>
+  </li>
+  <li>
+    <p>模块入口函数只需要进行平台驱动的 注册/注销 就行了</p>
+  </li>
+</ol>
+
+<p><strong>注册函数：</strong></p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code> <span class="kt">int</span> <span class="n">platform_driver_register</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_driver</span> <span class="o">*</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p><strong>注销函数：</strong></p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">platform_driver_unregister</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_driver</span> <span class="o">*</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h2 id="section-10">驱动程序设计</h2>
+
+<h3 id="section-11">平台设备</h3>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/16
+
+函数功能：平台总线测试
+
+************************************/</span>
+
+ 
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/device.h&gt;
+</span>
+<span class="cp">#include&lt;linux/platform_device.h&gt;
+</span>
+<span class="cp">#include&lt;linux/interrupt.h&gt;
+</span>
+<span class="cp">#include&lt;linux/fs.h&gt;
+</span>
+<span class="cp">#include&lt;linux/miscdevice.h&gt;
+</span>
+<span class="cp">#include&lt;linux/mm.h&gt;
+</span>
+<span class="cp">#include&lt;linux/io.h&gt;
+</span>
+
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：混杂设备初始化
+
+函数参数
+
+***********************************/</span>
+
+<span class="kt">int</span> <span class="nf">key_open</span> <span class="p">(</span><span class="k">struct</span> <span class="n">inode</span> <span class="o">*</span><span class="n">inode</span><span class="p">,</span> <span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">filep</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">file_operations</span> <span class="n">key_fops</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">key_open</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">miscdevice</span> <span class="n">key_miscdev</span> <span class="o">=</span>
+
+<span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"keydevices"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">minor</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">key_fops</span><span class="p">,</span>
+
+<span class="p">};</span>
+
+ 
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：中断处理
+
+函数参数
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key1_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"key1 down!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key2_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"key2 down!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key3_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"key3 down!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="n">irqreturn_t</span> <span class="nf">key4_hander</span> <span class="p">(</span><span class="kt">int</span> <span class="n">irq</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">dev_id</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"key4 down!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：定义平台驱动
+
+函数参数：
+
+***********************************/</span>
+
+<span class="k">struct</span> <span class="n">resource</span><span class="o">*</span> <span class="n">res_irq</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="n">resource</span><span class="o">*</span> <span class="n">res_iomem</span><span class="p">;</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span><span class="o">*</span> <span class="n">key_ioconfig</span><span class="p">;</span>
+
+<span class="kt">int</span> <span class="nf">key_probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">size</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">temdata</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+	 
+
+	<span class="n">printk</span><span class="p">(</span><span class="s">"Probe  Devices Success!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="cm">/*初始化事就交到这里*/</span>
+
+	<span class="cm">/*注册混杂设备*/</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">misc_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_miscdev</span><span class="p">);</span>
+
+	<span class="cm">/*注册中断*/</span>
+
+	<span class="n">res_irq</span> <span class="o">=</span>  <span class="n">platform_get_resource</span><span class="p">(</span><span class="n">pdev</span><span class="p">,</span> <span class="n">IORESOURCE_IRQ</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	    <span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span><span class="n">key1_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key1"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span><span class="n">key2_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key2"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span><span class="n">key3_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key3"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">ret</span> <span class="o">=</span> <span class="n">request_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span><span class="n">key4_hander</span><span class="p">,</span><span class="n">IRQF_TRIGGER_FALLING</span><span class="p">,</span><span class="s">"key4"</span><span class="p">,</span><span class="mi">0</span><span class="p">);</span>
+
+	<span class="cm">/*硬件初始化*/</span>
+
+	   <span class="n">res_iomem</span> <span class="o">=</span>  <span class="n">platform_get_resource</span><span class="p">(</span><span class="n">pdev</span><span class="p">,</span> <span class="n">IORESOURCE_MEM</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span> <span class="cm">/*最后一个参数是索引*/</span>
+
+	   <span class="n">size</span> <span class="o">=</span> <span class="p">(</span><span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">end</span> <span class="o">-</span> <span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">);</span> <span class="cm">/*8个字节*/</span>
+
+	<span class="n">key_ioconfig</span> <span class="o">=</span> <span class="n">ioremap</span><span class="p">(</span><span class="n">res_iomem</span><span class="o">-&gt;</span><span class="n">start</span><span class="p">,</span><span class="n">size</span><span class="p">);</span>  
+
+	<span class="n">temdata</span> <span class="o">=</span> <span class="n">ioread32</span><span class="p">(</span><span class="n">key_ioconfig</span><span class="p">);</span>
+
+	<span class="n">temdata</span> <span class="o">&amp;=</span> <span class="p">(</span><span class="o">~</span><span class="mh">0xfffff</span><span class="p">);</span>
+
+	<span class="n">temdata</span> <span class="o">|=</span> <span class="mh">0xfffff</span><span class="p">;</span>
+
+	<span class="n">iowrite32</span><span class="p">(</span><span class="n">temdata</span><span class="p">,</span><span class="n">key_ioconfig</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="nf">key_remove</span><span class="p">(</span><span class="k">struct</span> <span class="n">platform_device</span> <span class="o">*</span><span class="n">pdev</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="cm">/*注销设备*/</span>
+
+	<span class="n">misc_deregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_miscdev</span><span class="p">);</span>
+
+	<span class="cm">/*释放中断*/</span>
+
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="n">free_irq</span><span class="p">(</span><span class="n">res_irq</span><span class="o">-&gt;</span><span class="n">start</span> <span class="o">+</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+
+	<span class="cm">/*注销内存*/</span>
+
+	<span class="n">iounmap</span><span class="p">(</span><span class="n">key_ioconfig</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*平台驱动成员初始化*/</span>
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">platform_driver</span> <span class="n">key_driver</span> <span class="o">=</span> <span class="p">{</span>
+
+	<span class="p">.</span><span class="n">probe</span> <span class="o">=</span> <span class="n">key_probe</span><span class="p">,</span>
+
+	<span class="p">.</span><span class="n">remove</span> <span class="o">=</span> <span class="n">key_remove</span><span class="p">,</span>
+
+	<span class="p">.</span><span class="n">driver</span> <span class="o">=</span> <span class="p">{</span>
+
+	<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+
+	<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"keydevices"</span><span class="p">,</span>
+
+<span class="p">},</span>
+
+<span class="p">};</span>
+
+
+<span class="cm">/***********************************
+
+函数名：
+
+函数功能：
+
+函数参数
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyPlatformDriverInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*平台驱动注册*/</span>
+
+<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ret</span> <span class="o">=</span> <span class="n">platform_driver_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_driver</span><span class="p">))</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"platform_driver_register err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyPlatformDriverExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="cm">/*平台驱动注销*/</span>
+
+<span class="n">platform_driver_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_driver</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+ 
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+
+ 
+
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyPlatformDriverInit</span><span class="p">);</span>
+
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyPlatformDriverExit</span><span class="p">);</span>
+
+ <span class="err">```</span>
+
+ 
+<span class="cp">### 平台设备
+</span>
+<span class="err">```</span><span class="n">c</span>
+<span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/16
+
+函数功能：平台总线测试
+
+************************************/</span>
+
+<span class="cp">#include&lt;linux/init.h&gt;
+</span>
+<span class="cp">#include&lt;linux/module.h&gt;
+</span>
+<span class="cp">#include&lt;linux/device.h&gt;
+</span>
+<span class="cp">#include&lt;linux/platform_device.h&gt;
+</span>
+<span class="cp">#include&lt;linux/interrupt.h&gt;
+</span>
+<span class="cp">#define KEY_GPH0CON  0xE0200C00
+</span>
+<span class="cm">/*定义平台资源*/</span>
+
+<span class="kt">void</span> <span class="n">key_release</span><span class="p">(</span><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="n">printk</span><span class="p">(</span><span class="s">"key  source release!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="k">struct</span> <span class="n">resource</span> <span class="n">key_resource</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="cm">/*IO端口资源*/</span>
+
+<span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">KEY_GPH0CON</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">end</span> <span class="o">=</span> <span class="n">KEY_GPH0CON</span> <span class="o">+</span> <span class="mi">8</span><span class="p">,</span> <span class="cm">/*配置寄存器加上数据寄存器，每个寄存器四个字节*/</span>
+
+<span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">IORESOURCE_MEM</span><span class="p">,</span> <span class="p">},</span>
+
+<span class="cm">/*外部中断资源*/</span>
+
+<span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span><span class="p">{</span>
+
+<span class="p">.</span><span class="n">start</span> <span class="o">=</span> <span class="n">IRQ_EINT0</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">end</span> <span class="o">=</span>  <span class="n">IRQ_EINT5</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">flags</span> <span class="o">=</span> <span class="n">IORESOURCE_IRQ</span><span class="p">,},</span>
+
+<span class="p">};</span>
+
+<span class="cm">/*定义平台设备*/</span>
+
+<span class="k">struct</span> <span class="n">platform_device</span>  <span class="n">key_devices</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="s">"keydevices"</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">id</span>  <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">num_resources</span> <span class="o">=</span>  <span class="n">ARRAY_SIZE</span><span class="p">(</span><span class="n">key_resource</span><span class="p">),</span> <span class="cm">/*用宏来求资源类型的数量*/</span>
+
+<span class="p">.</span><span class="n">resource</span> <span class="o">=</span> <span class="n">key_resource</span><span class="p">,</span>
+
+<span class="p">.</span><span class="n">dev</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">key_release</span><span class="p">,},</span>
+
+<span class="p">};</span>
+
+
+<span class="cm">/*设备注册*/</span>
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">keyPlatformDeviceInit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">platform_device_register</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_devices</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="cm">/*设备卸载*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">keyPlatformDeviceExit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+ <span class="n">platform_device_unregister</span><span class="p">(</span><span class="o">&amp;</span><span class="n">key_devices</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">keyPlatformDeviceInit</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">keyPlatformDeviceExit</span><span class="p">);</span>
+</code></pre>
+</div>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/平台总线设备驱动模型" data-title="平台总线驱动模型 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="总线设备驱动模型 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="串行设备驱动模型 ">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

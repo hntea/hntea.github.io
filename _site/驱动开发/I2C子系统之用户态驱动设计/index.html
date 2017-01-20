@@ -1,0 +1,631 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>I2C子系统 &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux I2C子系统">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="I2C子系统">
+<meta name="twitter:description" content="该博文主要描述linux I2C子系统">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="I2C子系统">
+<meta property="og:description" content="该博文主要描述linux I2C子系统">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">I2C子系统</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-21T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 20, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">子系统架构</h2>
+
+<p><img src="http://img.blog.csdn.net/20160529204139047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="i2c" /></p>
+
+<h3 id="i2c">I2C核心</h3>
+<p>I2C 总线和 I2C设备驱动的中间枢纽，它提供了I2C总线驱动和设备驱动的注册、注销方法等。</p>
+
+<h3 id="i2c-dev">i2c-dev</h3>
+
+<h2 id="section-1">通用驱动</h2>
+<h3 id="i2c-1">I2C控制器（适配器）驱动</h3>
+
+<p>对I2C 控制器驱动的实现，属于总线驱动程序，通常由适配器驱动(i2c_adapter)和adapter.algo成员（算法驱动程序；控制器（适配器）可在CPU外部，也可以集成在CPU 内部</p>
+
+<h3 id="i2c-2">I2C设备驱动</h3>
+<p>对 I2C从设备的驱动实现，如AT24C02的驱动</p>
+
+<p><strong>i2c-dev</strong>允许在用户态模式下实现I2C客户驱动程序。</p>
+
+<p><img src="http://img.blog.csdn.net/20160529204202313?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="i2c架构" /></p>
+
+<h3 id="section-2">图解：</h3>
+
+<ul>
+  <li>通路1：用户程序直接通过/sys；/dev设备文件通过I2C设备驱动直接访问i2c设备.</li>
+  <li>通路2：直接使用用户态驱动通过i2c-dev（通用驱动程序），经过I2C核心控制适配器（struct i2c_adapter）驱动和算法（struct i2c_algorithm）驱动再控制I2C设备</li>
+</ul>
+
+<h2 id="section-3">通路2追踪分析</h2>
+<p>利用i2c-dev通用驱动开发用户态驱动</p>
+
+<p>用户态驱动经过 i2c-dev，在这里面做了些什么？</p>
+
+<hr />
+
+<h2 id="i2c-dev-1">i2c-dev</h2>
+
+<p>在模块初始化时除了注册通用字符设备外，使用以下语句：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/* Keep track of adapters which will be added or removed later */</span>
+
+<span class="n">res</span> <span class="o">=</span> <span class="n">bus_register_notifier</span><span class="p">(</span><span class="o">&amp;</span><span class="n">i2c_bus_type</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">i2cdev_notifier</span><span class="p">);</span>
+
+<span class="cm">/* Bind to already existing adapters right away */</span>
+
+<span class="n">i2c_for_each_dev</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="n">i2cdev_attach_adapter</span><span class="p">);</span>
+
+</code></pre>
+</div>
+
+<p>主要看的是第二条，绑定已经存在的控制器（适配器），在这里面偷偷的干了啥</p>
+
+<p>相关结构：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">i2c_adapter</span> <span class="o">*</span><span class="n">adap</span><span class="p">;</span> <span class="cm">/*适配器，用来描述一个i2c控制器的结构体*/</span>
+</code></pre>
+</div>
+
+<p>好像也没干什么，获取设备的设备器，再分配空间，之后通过</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">i2c_dev</span><span class="o">-&gt;</span><span class="n">dev</span> <span class="o">=</span> <span class="n">device_create</span><span class="p">(</span><span class="n">i2c_dev_class</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">adap</span><span class="o">-&gt;</span><span class="n">dev</span><span class="p">,</span>
+
+     <span class="n">MKDEV</span><span class="p">(</span><span class="n">I2C_MAJOR</span><span class="p">,</span> <span class="n">adap</span><span class="o">-&gt;</span><span class="n">nr</span><span class="p">),</span> <span class="nb">NULL</span><span class="p">,</span>
+
+     <span class="s">"i2c-%d"</span><span class="p">,</span> <span class="n">adap</span><span class="o">-&gt;</span><span class="n">nr</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<p>向核心注册驱动：主要说明的是device_create这个函数：既在sys文件下创建设备文件</p>
+
+<p>文件所在类名是
+<img src="http://img.blog.csdn.net/20160529204210002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="at" /></p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">device_create</span><span class="p">(</span><span class="k">struct</span> <span class="n">class</span> <span class="o">*</span><span class="n">class</span><span class="p">,</span> <span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span>
+     <span class="n">dev_t</span> <span class="n">devt</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">drvdata</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span>
+ <span class="err">```</span>
+
+<span class="err">既然创建了设备文件，那么接下来应该是对应的文件操作集吧！继续找找看</span>
+
+<span class="err">```</span><span class="n">c</span>
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">file_operations</span> <span class="n">i2cdev_fops</span> <span class="o">=</span> <span class="p">{</span>
+<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+<span class="p">.</span><span class="n">llseek</span> <span class="o">=</span> <span class="n">no_llseek</span><span class="p">,</span>
+<span class="p">.</span><span class="n">read</span> <span class="o">=</span> <span class="n">i2cdev_read</span><span class="p">,</span>
+<span class="p">.</span><span class="n">write</span> <span class="o">=</span> <span class="n">i2cdev_write</span><span class="p">,</span>
+<span class="p">.</span><span class="n">unlocked_ioctl</span> <span class="o">=</span> <span class="n">i2cdev_ioctl</span><span class="p">,</span> <span class="cm">/*这个对用户态驱动来说就重要啦！*/</span>
+<span class="p">.</span><span class="n">open</span> <span class="o">=</span> <span class="n">i2cdev_open</span><span class="p">,</span>
+<span class="p">.</span><span class="n">release</span> <span class="o">=</span> <span class="n">i2cdev_release</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+<hr />
+<h2 id="i2c-corec">i2c-core.c</h2>
+
+<p>进击open函数，这里面做怎么搞？</p>
+
+<p>注意了，下面的调用函数已近进入核心 i2c-core.c文件了</p>
+
+<ul>
+  <li>
+    <p>首先遍历i2c设备链表，获取次设备号</p>
+  </li>
+  <li>
+    <p>再获取i2c设备的第N个设配器：adap = i2c_get_adapter(i2c_dev-&gt;adap-&gt;nr);</p>
+  </li>
+  <li>
+    <p>最后调用：i2c_put_adapter(adap);创建一个未指定的从设备，也就是分配一段空间</p>
+  </li>
+</ul>
+
+<p>话说设备号，设配器这些哪来？肯定是设配器驱动程序啦！</p>
+
+<p>TQ210的i2c设配器（控制器）驱动程序在i2c-s3c2410.c文件中，进去里面看看就知道了。</p>
+
+<hr />
+
+<h2 id="i2c-s3c2410c">i2c-s3c2410.c</h2>
+
+<p>对于集成在芯片上的i2c控制器驱动一般linux内核帮我们实现了，所以我们就不用操心了，但还是来看看怎么操作的吧。</p>
+
+<ul>
+  <li>平台设备初始化….直接来到捕获函数看看，里面就是对控制器初始化，中断注册之类的；最重要的就是ret = i2c_add_numbered_adapter(&amp;i2c-&gt;adap);这里面又调用了status = i2c_register_adapter(adap);向总线添加I2C控制器。(该函数是i2c-core.c文件的，这样脉络就出来啦！)</li>
+</ul>
+
+<p>之后数据的传输在初始化中注册的中断函数中进行。好了。。。清楚了。回到用户层去</p>
+
+<hr />
+
+<h2 id="section-4">用户空间</h2>
+
+<p>在这层如何编写用户层次驱动呢？你想的没错，就是通过file_operations 结构操作对应的设备文件，其中有一个注释：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+
+ * After opening an instance of this character special file, a file
+
+ * descriptor starts out associated only with an i2c_adapter (and bus).
+
+ *
+
+ * Using the I2C_RDWR ioctl(), you can then *immediately* issue i2c_msg
+
+ * traffic to any devices on the bus used by that adapter.  That's because
+
+ * the i2c_msg vectors embed all the addressing information they need, and
+
+ * are submitted directly to an i2c_adapter.  However, SMBus-only adapters
+
+ * don't support that interface.
+
+ *
+
+ * To use read()/write() system calls on that file descriptor, or to use
+
+ * SMBus interfaces (and work with SMBus-only hosts!), you must first issue
+
+ * an I2C_SLAVE (or I2C_SLAVE_FORCE) ioctl.  That configures an anonymous
+
+ * (never registered) i2c_client so it holds the addressing information
+
+ * needed by those system calls and by this SMBus interface.
+
+ */</span>
+</code></pre>
+</div>
+
+<p>所以说，如果想要直接操作I2C设备，那么我们就要来操作对应的ioctl函数啦！怎么操作呢？来分析一下</p>
+
+<p>把整个代码给cp 过来了：</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="kt">long</span> <span class="nf">i2cdev_ioctl</span><span class="p">(</span><span class="k">struct</span> <span class="n">file</span> <span class="o">*</span><span class="n">file</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">cmd</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="k">struct</span> <span class="n">i2c_client</span> <span class="o">*</span><span class="n">client</span> <span class="o">=</span> <span class="n">file</span><span class="o">-&gt;</span><span class="n">private_data</span><span class="p">;</span>
+
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">funcs</span><span class="p">;</span>
+
+	<span class="k">switch</span> <span class="p">(</span><span class="n">cmd</span><span class="p">)</span> <span class="p">{</span>
+
+		<span class="k">case</span> <span class="n">I2C_SLAVE</span><span class="p">:</span>
+
+		<span class="k">case</span> <span class="n">I2C_SLAVE_FORCE</span><span class="p">:</span>
+
+		<span class="cm">/* NOTE:  devices set up to work with "new style" drivers
+
+		 * can't use I2C_SLAVE, even when the device node is not
+
+		 * bound to a driver.  Only I2C_SLAVE_FORCE will work.
+
+		 *
+
+		 * Setting the PEC flag here won't affect kernel drivers,
+
+		 * which will be using the i2c_client node registered with
+
+		 * the driver model core.  Likewise, when that client has
+
+		 * the PEC flag already set, the i2c-dev driver won't see
+
+		 * (or use) this setting.
+
+		 */</span>
+
+		<span class="k">if</span> <span class="p">((</span><span class="n">arg</span> <span class="o">&gt;</span> <span class="mh">0x3ff</span><span class="p">)</span> <span class="o">||</span><span class="p">(((</span><span class="n">client</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;</span> <span class="n">I2C_M_TEN</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">arg</span> <span class="o">&gt;</span> <span class="mh">0x7f</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EINVAL</span><span class="p">;</span>
+
+		<span class="k">if</span> <span class="p">(</span><span class="n">cmd</span> <span class="o">==</span> <span class="n">I2C_SLAVE</span> <span class="o">&amp;&amp;</span> <span class="n">i2cdev_check_addr</span><span class="p">(</span><span class="n">client</span><span class="o">-&gt;</span><span class="n">adapter</span><span class="p">,</span> <span class="n">arg</span><span class="p">))</span>
+			<span class="k">return</span> <span class="o">-</span><span class="n">EBUSY</span><span class="p">;</span>
+
+		<span class="cm">/* REVISIT: address could become busy later */</span>
+
+		<span class="n">client</span><span class="o">-&gt;</span><span class="n">addr</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+
+		<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+		<span class="k">case</span> <span class="n">I2C_TENBIT</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+				<span class="n">client</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">I2C_M_TEN</span><span class="p">;</span>
+			<span class="k">else</span>
+				<span class="n">client</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">I2C_M_TEN</span><span class="p">;</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+			<span class="k">case</span> <span class="n">I2C_PEC</span><span class="p">:</span>
+			<span class="k">if</span> <span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+				<span class="n">client</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">|=</span> <span class="n">I2C_CLIENT_PEC</span><span class="p">;</span>
+			<span class="k">else</span>
+				<span class="n">client</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">&amp;=</span> <span class="o">~</span><span class="n">I2C_CLIENT_PEC</span><span class="p">;</span>
+			<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+		<span class="k">case</span> <span class="n">I2C_FUNCS</span><span class="p">:</span>
+			<span class="n">funcs</span> <span class="o">=</span> <span class="n">i2c_get_functionality</span><span class="p">(</span><span class="n">client</span><span class="o">-&gt;</span><span class="n">adapter</span><span class="p">);</span>
+			<span class="k">return</span> <span class="n">put_user</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="p">(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__user</span> <span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">);</span>
+
+		<span class="k">case</span> <span class="n">I2C_RDWR</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">i2cdev_ioctl_rdrw</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">arg</span><span class="p">);</span>
+		<span class="k">case</span> <span class="n">I2C_SMBUS</span><span class="p">:</span>
+			<span class="k">return</span> <span class="n">i2cdev_ioctl_smbus</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">arg</span><span class="p">);</span>
+		<span class="k">case</span> <span class="n">I2C_RETRIES</span><span class="p">:</span>
+			<span class="n">client</span><span class="o">-&gt;</span><span class="n">adapter</span><span class="o">-&gt;</span><span class="n">retries</span> <span class="o">=</span> <span class="n">arg</span><span class="p">;</span>
+		<span class="k">break</span><span class="p">;</span>
+		<span class="k">case</span> <span class="n">I2C_TIMEOUT</span><span class="p">:</span>
+
+			<span class="cm">/* For historical reasons, user-space sets the timeout
+
+			 * value in units of 10 ms.
+
+			 */</span>
+
+			<span class="n">client</span><span class="o">-&gt;</span><span class="n">adapter</span><span class="o">-&gt;</span><span class="n">timeout</span> <span class="o">=</span> <span class="n">msecs_to_jiffies</span><span class="p">(</span><span class="n">arg</span> <span class="o">*</span> <span class="mi">10</span><span class="p">);</span>
+		<span class="k">break</span><span class="p">;</span>
+		<span class="nl">default:</span>
+
+		<span class="cm">/* NOTE:  returning a fault code here could cause trouble
+
+		 * in buggy userspace code.  Some old kernel bugs returned
+
+		 * zero in this case, and userspace code might accidentally
+
+		 * have depended on that bug.
+
+		 */</span>
+
+		<span class="k">return</span> <span class="o">-</span><span class="n">ENOTTY</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>如果我么要对i2c设备进行操作，那么就是读写操作了，当我们发送控制信号I2C_RDWR就可以进行操作了，进入</p>
+
+<p>static noinline int i2cdev_ioctl_rdrw(struct i2c_client *client,unsigned long arg)，查看函数信息：</p>
+
+<p>第一眼就看到重要数据结构：</p>
+
+<p>struct i2c_msg *rdwr_pa;</p>
+
+<p>该函数通过copy_from_user(&amp;rdwr_arg,</p>
+
+<p>(struct i2c_rdwr_ioctl_data __user <em>)arg,/</em>重点就在这个消怎么构造*/</p>
+
+<p>sizeof(rdwr_arg))</p>
+
+<p>将用户程序传递进来的“消息”复制到指定的位置去，之后调用</p>
+
+<p>res = i2c_transfer(client-&gt;adapter, rdwr_pa, rdwr_arg.nmsgs); 向下一层传递消息….</p>
+
+<p>这样就清楚了：我们怎么编写用户态驱动呢？关键就是“消息”如何来构造的问题了</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">i2c_msg</span> <span class="p">{</span>
+
+<span class="n">__u16</span> <span class="n">addr</span><span class="p">;</span> <span class="cm">/* slave address */</span>
+
+<span class="n">__u16</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/*读写标志，在协议那里说明了，0或1*/</span>
+
+<span class="n">__u16</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* msg length*/</span>
+
+<span class="n">__u8</span> <span class="o">*</span><span class="n">buf</span><span class="p">;</span> <span class="cm">/* pointer to msg data */</span>
+
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>来了，现在就来试一下用户层如何来操作我的E2PROM….</p>
+
+<p>问题是我们要针对哪个设备文件呢？其实在注册设配器的驱动时里面有一个总线号，如果没有指明，默认是0，也就是i2c-0，如果是用户操作，那么对应操作/dev/i2c-0文件就好了</p>
+
+<h2 id="section-5">补充一下：设备模型关系</h2>
+<p><img src="http://img.blog.csdn.net/20160529204216596?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="设备模型关系" /></p>
+
+<hr />
+
+<h2 id="section-6">用户态驱动程序设计</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="cp">#include&lt;stdio.h&gt;
+#include&lt;sys/ioctl.h&gt;
+#include&lt;sys/types.h&gt;
+#include&lt;sys/stat.h&gt;
+#include&lt;fcntl.h&gt;
+#include&lt;stdlib.h&gt;
+</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span>  <span class="n">__u64</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">__u32</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">__u16</span><span class="p">;</span>
+<span class="k">typedef</span> <span class="kt">unsigned</span> <span class="kt">char</span>    <span class="n">__u8</span><span class="p">;</span>
+
+<span class="cp">#define I2C_RDWR 0x0707 </span><span class="cm">/* Combined R/W transfer (one STOP only) */</span><span class="cp">
+</span>
+<span class="cp">#define PATH  "/dev/i2c-0"
+</span>
+<span class="cm">/*数据消息*/</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">i2c_msg</span> <span class="p">{</span>
+	<span class="n">__u16</span> <span class="n">addr</span><span class="p">;</span> <span class="cm">/* slave address */</span>
+	<span class="n">__u16</span> <span class="n">flags</span><span class="p">;</span> <span class="cm">/*读写标志，下面这些定义都是它的标志*/</span>
+	<span class="n">__u16</span> <span class="n">len</span><span class="p">;</span> <span class="cm">/* msg length*/</span>
+	<span class="n">__u8</span> <span class="o">*</span><span class="n">buf</span><span class="p">;</span> <span class="cm">/* pointer to msg data */</span>
+<span class="p">}</span><span class="n">I2C_MSG</span><span class="p">;</span>
+
+ 
+
+<span class="cm">/* 传递给驱动的结构体 */</span>
+
+<span class="k">typedef</span> <span class="k">struct</span> <span class="n">i2c_rdwr_ioctl_data</span> <span class="p">{</span>
+	<span class="n">I2C_MSG</span>  <span class="o">*</span><span class="n">msgs</span><span class="p">;</span> <span class="cm">/* pointers to i2c_msgs */</span>
+	<span class="n">__u32</span> <span class="n">nmsgs</span><span class="p">;</span> <span class="cm">/* number of i2c_msgs */</span>
+<span class="p">}</span><span class="n">I2C_CtlData</span><span class="p">;</span>
+
+ 
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">fd</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="cm">/*定义通过控制函数传递给驱动的数据*/</span>
+	<span class="n">I2C_CtlData</span>  <span class="n">e2p_Data</span><span class="p">;</span>
+
+	<span class="cm">/*指针类型的必须分配空间，要不会段错误*/</span>
+	<span class="cm">/*这里分配最大的消息空间，因为随机读数据需要两个消息*/</span>
+	<span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span> <span class="o">=</span> <span class="p">(</span><span class="n">I2C_MSG</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="k">sizeof</span><span class="p">(</span><span class="n">I2C_MSG</span><span class="p">));</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="n">__u8</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span> <span class="cm">/*给指针分配两个字节*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">buf</span> <span class="o">=</span> <span class="p">(</span><span class="n">__u8</span> <span class="o">*</span><span class="p">)</span><span class="n">malloc</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+	<span class="cm">/*打开设备文件*/</span>
+	<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">fd</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">PATH</span><span class="p">,</span><span class="n">O_RDWR</span><span class="p">))</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"No such file!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+
+	<span class="cm">/*向i2c设备写入数据*/</span>
+
+	<span class="cm">/*构建写消息*/</span>
+	<span class="n">e2p_Data</span><span class="p">.</span><span class="n">nmsgs</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/*写只有一条消息*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/*0表示主设备向从设备写数据*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">addr</span> <span class="o">=</span> <span class="mh">0x50</span><span class="p">;</span> <span class="cm">/*看电路查看芯片手册*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">len</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="cm">/*消息长度，每个消息需要两个字节，一个地址，一个数据*/</span>
+
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0X12</span><span class="p">;</span> <span class="cm">/*将数据方到芯片的0x12地址处*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">buf</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0x11</span><span class="p">;</span> <span class="cm">/*消息数据*/</span>
+	
+	<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ret</span> <span class="o">=</span> <span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">I2C_RDWR</span><span class="p">,(</span><span class="kt">unsigned</span> <span class="kt">long</span><span class="p">)</span><span class="o">&amp;</span><span class="n">e2p_Data</span><span class="p">))</span> <span class="o">&lt;</span><span class="mi">0</span><span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Control err in write data ! fd is %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">fd</span><span class="p">);</span>
+
+	<span class="cm">/*读取i2c设备数据*/</span>
+
+	<span class="cm">/*构建读消息*/</span>
+
+	<span class="n">e2p_Data</span><span class="p">.</span><span class="n">nmsgs</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="cm">/*读取数据需要两条消息，一条为写，一条读*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">len</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/*消息长度，只读一个数据*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">addr</span> <span class="o">=</span> <span class="mh">0x50</span><span class="p">;</span> <span class="cm">/*芯片片选地址*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/*0表示写*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mh">0X12</span><span class="p">;</span> <span class="cm">/*读取0x12地址*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">len</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/*读一个数据*/</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">addr</span> <span class="o">=</span> <span class="mh">0x50</span><span class="p">;</span>
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">flags</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="cm">/*1表示读取数据*/</span> 
+	<span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="cm">/*将数据存放到此处*/</span>
+
+	<span class="k">if</span><span class="p">(</span> <span class="p">(</span><span class="n">ret</span> <span class="o">=</span> <span class="n">ioctl</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span><span class="n">I2C_RDWR</span><span class="p">,(</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="p">)</span><span class="o">&amp;</span><span class="n">e2p_Data</span><span class="p">))</span> <span class="o">&lt;</span><span class="mi">0</span> <span class="p">)</span>
+		<span class="n">printf</span><span class="p">(</span><span class="s">"Control err in read data! fd is:%d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">fd</span><span class="p">);</span>
+
+	<span class="cm">/*关闭设备文件*/</span>
+	<span class="n">printf</span><span class="p">(</span><span class="s">"read data form e2prom is : %x</span><span class="se">\n</span><span class="s">"</span><span class="p">,(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">buf</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+
+	<span class="n">free</span><span class="p">((</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">1</span><span class="p">]).</span><span class="n">buf</span> <span class="p">);</span>
+	<span class="n">free</span><span class="p">((</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]).</span><span class="n">buf</span><span class="p">);</span>
+	<span class="n">free</span><span class="p">(</span><span class="n">e2p_Data</span><span class="p">.</span><span class="n">msgs</span><span class="p">);</span>
+	<span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>出错啦！怎么解决呢？从新配置一下内核，打开I2C-总线所有调试信息：
+<img src="http://img.blog.csdn.net/20160529204222658?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="err" /></p>
+
+<p>写的时候有响应，读的时候无响应了，怎么回事？第二个消息包错了吗？</p>
+
+<p>要追踪一下了，是不是在等待应答那里超时了？速度太快，咻咻咻的就以为超时了，应该是在控制器驱动中的中断收发。先这样吧，原理清楚了。问题等我有时间再来慢慢解决！</p>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C子系统之用户态驱动设计" data-title="I2C子系统" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" class="btn" title="输入子系统浅析">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" class="btn" title="SPI总线">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

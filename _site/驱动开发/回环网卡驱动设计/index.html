@@ -1,0 +1,510 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>回环网卡驱动设计  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="回环网卡驱动设计 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动网络设备驱动">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="回环网卡驱动设计 ">
+<meta property="og:description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">回环网卡驱动设计 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-19T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 18, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">概念</h2>
+
+<p>回环网卡：它是一种虚拟设备，原理是自发自收,形成逻辑上的回路</p>
+
+<p><img src="http://img.blog.csdn.net/20160529202650840?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="回环网卡示意图" /></p>
+
+<h2 id="section-1">回环网卡驱动设计步骤</h2>
+
+<h3 id="section-2">设备初始化：</h3>
+
+<ul>
+  <li>分配网卡设备</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ * 参数1：私有空间
+ * 设备名："lo"
+ * 回调函数：用来初始化设备,初始化数据包格式，关联操作函数集合
+*/</span>
+<span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">alloc_netdev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">"lo"</span><span class="p">,</span> <span class="n">loopback_setup</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>向内核注册网络设备：</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">err</span> <span class="o">=</span> <span class="n">register_netdev</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>错误跳转到注销：</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">free_netdev</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>将注册好的设备回传给内核，不然会报错</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">net</span><span class="o">-&gt;</span><span class="n">loopback_dev</span> <span class="o">=</span> <span class="n">dev</span><span class="p">;</span>
+</code></pre>
+</div>
+
+<h2 id="section-3">初始化回调函数</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="kt">void</span> <span class="n">loopback_setup</span><span class="p">(</span><span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>
+    <p>初始化数据格式 dev-&gt;mtu（网卡最大接收包长度）、网卡类型标志dev-&gt;flags等</p>
+  </li>
+  <li>
+    <p>关联操作函数：</p>
+  </li>
+</ol>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">dev</span><span class="o">-&gt;</span><span class="n">header_ops</span> <span class="o">=</span> <span class="err">ð</span><span class="n">_header_ops</span><span class="p">;</span> <span class="cm">/*这个函数是内核提供的，
+
+用来构造数据包包头*/</span>
+
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">netdev_ops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">loopback_ops</span><span class="p">;</span> <span class="cm">/*网卡操作集合*/</span>
+</code></pre>
+</div>
+
+<h2 id="section-4">编写网卡操作集合</h2>
+
+<ul>
+  <li>关联集合</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="cm">/*操作函数集合*/</span>
+
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">net_device_ops</span> <span class="n">loopback_ops</span> <span class="o">=</span> <span class="p">{</span>
+
+<span class="p">.</span><span class="n">ndo_start_xmit</span><span class="o">=</span> <span class="n">loopback_xmit</span><span class="p">,</span> <span class="cm">/*发送函数*/</span>
+
+<span class="p">.</span><span class="n">ndo_get_stats</span> <span class="o">=</span> <span class="n">loopback_get_stats</span><span class="p">,</span> <span class="cm">/*状态统计*/</span>
+
+<span class="p">};</span> 
+</code></pre>
+</div>
+
+<ul>
+  <li>数据传输：loopback_xmit,</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="n">netdev_tx_t</span> <span class="nf">loopback_xmit</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span>
+
+ <span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+
+<span class="p">{</span>
+
+<span class="cm">/*自发自收就不用停止上层协议传输数据了
+
+既不用调用netif_stop_queue(dev);*/</span>
+
+<span class="cm">/*1、填充数据包的协议类型*/</span>
+
+<span class="cm">/*2、统计包数量，长度*/</span>
+
+<span class="cm">/*3、在发送调用接收函数实现回环，将数据包丢给上层协议处理*/</span>
+
+<span class="n">ret</span> <span class="o">=</span> <span class="n">netif_rx</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>统计处理loopback_get_stats</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="k">struct</span> <span class="n">net_device_stats</span> <span class="o">*</span><span class="nf">loopback_get_stats</span><span class="p">(</span><span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+
+<span class="k">struct</span> <span class="n">net_device_stats</span> <span class="o">*</span><span class="n">stats</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">stats</span><span class="p">;</span> <span class="cm">/*接收来至*/</span>
+
+<span class="p">....</span>
+
+<span class="err">将相关状态填写到该结构体中</span>
+
+<span class="p">....</span>
+
+<span class="k">return</span> <span class="n">stats</span><span class="p">;</span> <span class="cm">/*将结构体返回给内核跟新数据*/</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>
+    <p>配置dev-&gt;ethtool_ops = &amp;loopback_ethtool_ops;（不重要）</p>
+
+    <p>该配置支持用户空间工具。这些工具负责设置和提取设备参数。ethtool工具可以为以 太网卡NIC配置参数：可以在终端查看效果ethtool -e eth0</p>
+  </li>
+</ul>
+
+<hr />
+
+<h2 id="section-5">程序设计</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cp">#include &lt;linux/kernel.h&gt;
+#include &lt;linux/jiffies.h&gt;
+#include &lt;linux/module.h&gt;
+#include &lt;linux/interrupt.h&gt;
+#include &lt;linux/fs.h&gt;
+#include &lt;linux/types.h&gt;
+#include &lt;linux/string.h&gt;
+#include &lt;linux/socket.h&gt;
+#include &lt;linux/errno.h&gt;
+#include &lt;linux/fcntl.h&gt;
+#include &lt;linux/in.h&gt;
+#include &lt;linux/init.h&gt;
+</span>
+
+<span class="cp">#include &lt;asm/system.h&gt;
+#include &lt;asm/uaccess.h&gt;
+#include &lt;asm/io.h&gt;
+</span>
+
+<span class="cp">#include &lt;linux/inet.h&gt;
+#include &lt;linux/netdevice.h&gt;
+#include &lt;linux/etherdevice.h&gt;
+#include &lt;linux/skbuff.h&gt;
+#include &lt;linux/ethtool.h&gt;
+#include &lt;net/sock.h&gt;
+#include &lt;net/checksum.h&gt;
+#include &lt;linux/if_ether.h&gt; </span><span class="cm">/* For the statistics structure. */</span><span class="cp">
+#include &lt;linux/if_arp.h&gt; </span><span class="cm">/* For ARPHRD_ETHER */</span><span class="cp">
+#include &lt;linux/ip.h&gt;
+#include &lt;linux/tcp.h&gt;
+#include &lt;linux/percpu.h&gt;
+#include &lt;net/net_namespace.h&gt;
+</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">bytes</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">packets</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cm">/*
+ * The higher levels take care of making this non-reentrant (it's
+ * called with bh's disabled).
+ */</span>
+<span class="k">static</span> <span class="n">netdev_tx_t</span> <span class="nf">loopback_xmit</span><span class="p">(</span><span class="k">struct</span> <span class="n">sk_buff</span> <span class="o">*</span><span class="n">skb</span><span class="p">,</span>
+<span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="cm">/*自发自收就不用停止上层协议传输数据了*/</span>
+
+<span class="cm">/*填充数据包的协议类型*/</span>
+<span class="n">skb</span><span class="o">-&gt;</span><span class="n">protocol</span> <span class="o">=</span> <span class="n">eth_type_trans</span><span class="p">(</span><span class="n">skb</span><span class="p">,</span><span class="n">dev</span><span class="p">);</span>
+
+<span class="cm">/*统计包数量*/</span>
+<span class="n">bytes</span> <span class="o">+=</span> <span class="n">skb</span><span class="o">-&gt;</span><span class="n">len</span><span class="p">;</span>
+<span class="n">packets</span><span class="o">++</span><span class="p">;</span>
+
+
+<span class="cm">/*在发送调用接收函数实现回环，将数据包丢给上层协议处理*/</span>
+<span class="n">ret</span> <span class="o">=</span> <span class="n">netif_rx</span><span class="p">(</span><span class="n">skb</span><span class="p">);</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">ret</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="n">printk</span><span class="p">(</span><span class="s">"send skb err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="k">struct</span> <span class="n">net_device_stats</span> <span class="o">*</span><span class="nf">loopback_get_stats</span><span class="p">(</span><span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="k">struct</span> <span class="n">net_device_stats</span> <span class="o">*</span><span class="n">stats</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">dev</span><span class="o">-&gt;</span><span class="n">stats</span><span class="p">;</span>
+
+<span class="n">stats</span><span class="o">-&gt;</span><span class="n">rx_packets</span> <span class="o">=</span> <span class="n">packets</span><span class="p">;</span>
+<span class="n">stats</span><span class="o">-&gt;</span><span class="n">tx_packets</span> <span class="o">=</span> <span class="n">packets</span><span class="p">;</span>
+<span class="n">stats</span><span class="o">-&gt;</span><span class="n">rx_bytes</span> <span class="o">=</span> <span class="n">bytes</span><span class="p">;</span>
+<span class="n">stats</span><span class="o">-&gt;</span><span class="n">tx_bytes</span> <span class="o">=</span> <span class="n">bytes</span><span class="p">;</span>
+<span class="k">return</span> <span class="n">stats</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="cm">/*操作函数集合*/</span>
+<span class="k">static</span> <span class="k">const</span> <span class="k">struct</span> <span class="n">net_device_ops</span> <span class="n">loopback_ops</span> <span class="o">=</span> <span class="p">{</span>
+<span class="p">.</span><span class="n">ndo_start_xmit</span><span class="o">=</span> <span class="n">loopback_xmit</span><span class="p">,</span><span class="cm">/*发送函数*/</span>
+<span class="p">.</span><span class="n">ndo_get_stats</span> <span class="o">=</span> <span class="n">loopback_get_stats</span><span class="p">,</span><span class="cm">/*获取相关状态，包长度，个数等*/</span>
+<span class="p">};</span>
+
+
+<span class="cm">/*
+ * The loopback device is special. There is only one instance
+ * per network namespace.
+ */</span>
+ <span class="kt">unsigned</span> <span class="kt">char</span> <span class="n">dev_addr</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">5</span><span class="p">,</span><span class="mi">6</span><span class="p">}</span> <span class="p">;</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">loopback_setup</span><span class="p">(</span><span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cm">/*1、初始化数据格式*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">mtu</span> <span class="o">=</span> <span class="p">(</span><span class="mi">16</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">)</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">+</span> <span class="mi">20</span> <span class="o">+</span> <span class="mi">12</span><span class="p">;</span><span class="cm">/* interface MTU value*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">hard_header_len</span><span class="o">=</span> <span class="n">ETH_HLEN</span><span class="p">;</span> <span class="cm">/* 14*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">addr_len</span> <span class="o">=</span> <span class="n">ETH_ALEN</span><span class="p">;</span> <span class="cm">/* 6*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">tx_queue_len</span><span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">type</span> <span class="o">=</span> <span class="n">ARPHRD_LOOPBACK</span><span class="p">;</span> <span class="cm">/* 0x0001*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">flags</span> <span class="o">=</span> <span class="n">IFF_LOOPBACK</span><span class="p">;</span> <span class="cm">/*网卡类型标志*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">dev_addr</span> <span class="o">=</span> <span class="n">dev_addr</span><span class="p">;</span> <span class="cm">/*MAC地址*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">header_ops</span><span class="o">=</span> <span class="o">&amp;</span><span class="n">eth_header_ops</span><span class="p">;</span> <span class="cm">/*这个函数是内核提供的，数据包头构造*/</span>
+<span class="n">dev</span><span class="o">-&gt;</span><span class="n">netdev_ops</span><span class="o">=</span> <span class="o">&amp;</span><span class="n">loopback_ops</span><span class="p">;</span> <span class="cm">/*网卡操作集合*/</span>
+<span class="p">}</span>
+
+
+
+
+<span class="cm">/* Setup and register the loopback device. */</span>
+<span class="k">static</span> <span class="n">__net_init</span> <span class="kt">int</span> <span class="nf">loopback_net_init</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="kt">int</span> <span class="n">err</span> <span class="o">=</span> <span class="o">-</span><span class="n">ENOMEM</span><span class="p">;</span>
+<span class="cm">/*1、分配结构*/</span>
+<span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span><span class="p">;</span>
+<span class="n">dev</span> <span class="o">=</span> <span class="n">alloc_netdev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="s">"lo"</span><span class="p">,</span><span class="n">loopback_setup</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">goto</span> <span class="n">out</span><span class="p">;</span>
+
+<span class="cm">/*2、注册网络设备*/</span>
+<span class="n">err</span> <span class="o">=</span> <span class="n">register_netdev</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="n">err</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">)</span>
+<span class="k">goto</span> <span class="n">out_free_netdev</span><span class="p">;</span>
+
+<span class="cm">/*3、向内核填充设备*/</span>
+<span class="n">net</span><span class="o">-&gt;</span><span class="n">loopback_dev</span> <span class="o">=</span> <span class="n">dev</span><span class="p">;</span>
+
+<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+
+
+<span class="nl">out_free_netdev:</span>
+<span class="n">free_netdev</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="nl">out:</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">net_eq</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">init_net</span><span class="p">))</span>
+<span class="n">panic</span><span class="p">(</span><span class="s">"loopback: Failed to register netdevice: %d</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">err</span><span class="p">);</span>
+<span class="k">return</span> <span class="n">err</span><span class="p">;</span>
+<span class="p">}</span>
+
+
+<span class="k">static</span> <span class="n">__net_exit</span> <span class="kt">void</span> <span class="nf">loopback_net_exit</span><span class="p">(</span><span class="k">struct</span> <span class="n">net</span> <span class="o">*</span><span class="n">net</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">net</span><span class="o">-&gt;</span><span class="n">loopback_dev</span><span class="p">;</span>
+<span class="n">unregister_netdev</span><span class="p">(</span><span class="n">dev</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="cm">/* Registered in net/core/dev.c */</span>
+<span class="k">struct</span> <span class="n">pernet_operations</span> <span class="n">__net_initdata</span> <span class="n">loopback_net_ops</span> <span class="o">=</span> <span class="p">{</span>
+       <span class="p">.</span><span class="n">init</span> <span class="o">=</span> <span class="n">loopback_net_init</span><span class="p">,</span>
+       <span class="p">.</span><span class="n">exit</span> <span class="o">=</span> <span class="n">loopback_net_exit</span><span class="p">,</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/回环网卡驱动设计" data-title="回环网卡驱动设计 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="网络设备驱动 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" class="btn" title="输入子系统浅析">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,619 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>块设备驱动 &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux块设备驱动">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="块设备驱动">
+<meta name="twitter:description" content="该博文主要描述linux块设备驱动">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="块设备驱动">
+<meta property="og:description" content="该博文主要描述linux块设备驱动">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">块设备驱动</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-23T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 22, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <h2 id="section">基础概念</h2>
+
+<p>块设备是一种能随机访问的存储介质，与字符设备不同，它能保存文件系统数据。</p>
+
+<ul>
+  <li>
+    <p>IDE(Integrated Driver Electrics,集成驱动电子设备)是PC中常见的存储接口技术</p>
+  </li>
+  <li>
+    <p>ATA(Advance Technology Attachment ,高级技术配件)，很老的了。</p>
+  </li>
+  <li>
+    <p>CD-ROM 和磁带等存储设备称为 ATAPI(ATA Packet Interface ,ATA包接口)</p>
+  </li>
+  <li>
+    <p>IDE/ATA 是一种并行总线技术（并行ATA或PATA），不能扩展至高速传输。</p>
+  </li>
+  <li>
+    <p>SATA(Serial ATA,串行ATA):由PATA发展而来的现代串行总线技术，支持300MB/s甚至更高的传输速度，支持热交换。</p>
+  </li>
+  <li>
+    <p>SCSI(Small Computer Interface,小型计算机系统接口)：是服务器和高端工作站选用的一种存储技术，速度比SATA快一点。逐渐发展成SAS(Serial Attached SCSI,串行附加SCSI)总线技术（串行操作）</p>
+  </li>
+</ul>
+
+<p>…</p>
+
+<p>Linux 系统中的块设备<strong>一般以512字节单位</strong>，这个只的是在对硬件上的操作，而用户可以随意获取其中的每个字节</p>
+
+<h2 id="section-1">块设备的操作：</h2>
+
+<ul>
+  <li>
+    <p>块设备格式化：mkfs.ext3 /dev/块名</p>
+  </li>
+  <li>
+    <p>挂载：mount</p>
+  </li>
+</ul>
+
+<p>注意：一定要经过1、2之后才能访问</p>
+
+<h2 id="section-2">块设备驱动系统架构</h2>
+
+<p><img src="http://img.blog.csdn.net/20160529210543089?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="块设备" /></p>
+
+<h3 id="section-3">过程解析：</h3>
+
+<ol>
+  <li>
+    <p>用户应用程序唤醒I/O系统调用来访问文件，相关文件系统操作在到达各自的文件系统 驱动前，先经过VFS</p>
+  </li>
+  <li>
+    <p>如果能在高速缓存中取到相关的文件，则返回；</p>
+  </li>
+  <li>
+    <p>否则直接进入下一层，之后通过I/O调度到达块设备</p>
+  </li>
+  <li>
+    <p>每个块设备指定的数据在请求队列中排队。文件系统驱动程序将请求加入指定块设备的请求队列，同时块驱动程序从相应的队列中取出数据，在这期间，I/O调度器操控请求队列，使磁盘访问延时最小，同时吞吐量最大。</p>
+  </li>
+</ol>
+
+<h3 id="section-4">层次作用解析：</h3>
+
+<ul>
+  <li>
+    <p>VFS：是对各种具体文件系统的一种封装 ，为用户程序访问文件提供统一的接口。</p>
+  </li>
+  <li>
+    <p>Cache：当用户发起文件访问请求的时候，首先会到Disk Cache中寻找文件是否被缓存了，如果在cache中，则直接从cache中读取。如果数据不在缓存中，就必须要到具体的文件系统中读取数据。</p>
+  </li>
+  <li>Mapping Layer：
+    <ol>
+      <li>首先确定文件系统的block size,然后计算所请求的数据包含多少个block。</li>
+      <li>调用具体文件系统的函数来访问文件的inode结构，确定所请求的数据在磁盘上的地址。</li>
+    </ol>
+  </li>
+  <li>
+    <p>Generic Block Layer：
+  Linux内核把把块设备看作是由若干个扇区组成的数据空间。上层的读写请求在通用块层被构造成一个或多个bio结构。
+<img src="http://img.blog.csdn.net/20160529210549199?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="block" /></p>
+  </li>
+  <li>I/O Scheduler LayerI/O调度层负责采用某种算法(如：电梯调度算法、限时式等)将I/O操作进行排序。</li>
+</ul>
+
+<h2 id="section-5">块设备驱动程序数据结构和方法</h2>
+
+<h3 id="section-6">重要数据结构：</h3>
+
+<p>通用磁盘（generic disk）每个磁盘对应一个<strong>gendisk</strong>结构</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">gendisk</span> <span class="p">{</span>
+
+	<span class="kt">int</span> <span class="n">major</span><span class="p">;</span> <span class="cm">/* major number of driver */</span>
+
+	<span class="kt">int</span> <span class="n">first_minor</span><span class="p">;</span>
+
+	<span class="kt">int</span> <span class="n">minors</span><span class="p">;</span>      <span class="cm">/* maximum number of minors, =1 for* disks that can't be partitioned. */</span>
+
+	<span class="kt">char</span> <span class="n">disk_name</span><span class="p">[</span><span class="n">DISK_NAME_LEN</span><span class="p">];</span> <span class="cm">/* name of major driver */</span>
+
+	<span class="p">...</span>
+
+	<span class="k">const</span> <span class="k">struct</span> <span class="n">block_device_operations</span> <span class="o">*</span><span class="n">fops</span><span class="p">;</span>
+
+	<span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">queue</span><span class="p">;</span><span class="cm">/*等待队列*/</span>
+
+	<span class="kt">void</span> <span class="o">*</span><span class="n">private_data</span><span class="p">;</span> <span class="cm">/*私有数据*/</span>
+
+	<span class="p">....</span>
+
+<span class="p">}</span><span class="err">；</span>
+
+<span class="k">struct</span> <span class="n">request</span>
+<span class="p">{</span>
+
+	<span class="p">...</span>
+
+	<span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">q</span><span class="p">;</span> <span class="cm">/*等待队列*/</span>
+
+	<span class="p">...</span>
+
+	<span class="n">sector_t</span> <span class="n">__sector</span><span class="p">;</span> <span class="cm">/* sector cursor */</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+<ul>
+  <li><strong>struct bio</strong>：
+  该结构体是块I/O操作在页级粒度的底层描述。块数据通过一个bio_vec结构体数组在内部被表示成I/O向量。每个bio_vec数组元素由三元组（页，页偏移，长度）组成，表示该I/O块的一个段。使用I/O请求也页向量的优点：可实现高效的分散、聚集操作</li>
+</ul>
+
+<hr />
+
+<h2 id="section-7">块设备驱动程序设计</h2>
+
+<h3 id="section-8">初始化：</h3>
+
+<ul>
+  <li>分配一个未使用的主设备 号，并为设备在/proc/devices中增加一个入口</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">register_blkdev</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">major</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">name</span><span class="p">)</span> 
+</code></pre>
+</div>
+
+<ul>
+  <li>初始化请求队列，返回请求队列指针</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">blk_init_queue</span><span class="p">(</span><span class="n">request_fn_proc</span> <span class="o">*</span><span class="n">rfn</span><span class="p">,</span> <span class="n">spinlock_t</span> <span class="o">*</span><span class="n">lock</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<ul>
+  <li>为等待队列设置扇区尺寸</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="n">blk_queue_logical_block_size</span><span class="p">(</span><span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">q</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">short</span> <span class="n">size</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p>硬件执行磁盘事务是以扇区为单位的，而软件子系统一般是以块为单位处理数据的。扇区大小通常是512B,块大小是4K。在初始化时需要将存储硬件所能支持的扇区大小和驱动程序在一次请求中能接受的最大扇区数通知块层，使用以上函数即可实现</p>
+
+<ul>
+  <li>分配块设备</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">gendisk</span> <span class="o">*</span><span class="n">alloc_disk</span><span class="p">(</span><span class="kt">int</span> <span class="n">minors</span><span class="p">)</span> 
+</code></pre>
+</div>
+<ul>
+  <li>
+    <p>对块设备成员进行初始化</p>
+
+    <ul>
+      <li>
+        <p>主设备号</p>
+      </li>
+      <li>
+        <p>次设备号起始，一般为0</p>
+      </li>
+      <li>
+        <p>操作函数集：</p>
+      </li>
+      <li>
+        <p>等待队列</p>
+      </li>
+      <li>
+        <p>磁盘名</p>
+      </li>
+      <li>
+        <p>使用set_capacity()填写扇区大小</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>调用add_disk()将磁盘添加到块I/O层</p>
+  </li>
+</ul>
+
+<h3 id="section-9">块设备操作</h3>
+
+<ol>
+  <li>
+    <p>块驱动程序的open方法时在诸如挂载介质的文件系统或执行文件系统检查（fsck命令）等操作期间被调用。open()中完成的任务一般依赖于硬件</p>
+  </li>
+  <li>
+    <p>如果驱动需要支持命令，则使用ioctl()方法实现，如软盘驱动支持弹出介质的命令</p>
+  </li>
+</ol>
+
+<h2 id="section-10">磁盘(块设备)访问</h2>
+
+<ol>
+  <li>
+    <p>块驱动程序不像字符设备驱动程序，它不支持read()/write()的数据传输方式。而是用称 为“请求方法”的特殊方式实现磁盘访问</p>
+  </li>
+  <li>
+    <p>有一点需要注意的是：内核在调用request()前先占用一个请求锁，这是保护相关队列不 被并发访问。因此，如果request中调用了可能引起睡眠的函数，就必须在调用前先释 放，并在返回前从新获得</p>
+  </li>
+  <li>
+    <p>实现读写请求处理函数：</p>
+    <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*取出队列*/</span>
+<span class="k">struct</span> <span class="n">request</span> <span class="o">*</span><span class="n">blk_fetch_request</span><span class="p">(</span><span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span> 
+</code></pre>
+    </div>
+    <p>之后对取出的队列数据进行操作</p>
+  </li>
+</ol>
+
+<hr />
+
+<h2 id="section-11">驱动编程</h2>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/************************************
+
+作者：hntea
+
+时间：2016/3/25
+
+函数功能：简单块设备驱动设计
+
+操作：
+
+加载驱动之后，
+
+需要格式化 /dev/myblk;
+
+之后才能通过mount 命令挂载
+
+************************************/</span>
+
+<span class="cp">#include&lt;linux/module.h&gt;
+#include&lt;linux/init.h&gt;
+#include&lt;linux/types.h&gt;
+#include&lt;linux/errno.h&gt;
+#include&lt;linux/genhd.h&gt;
+#include &lt;linux/spinlock.h&gt;
+#include&lt;linux/blkdev.h&gt;
+#include &lt;linux/vmalloc.h&gt;
+#define  SECT_SIZE 512 </span><span class="cm">/*扇区大小*/</span><span class="cp">
+#define  DISK_SIZE 512*1024 </span><span class="cm">/*块大小*/</span><span class="cp">
+</span>
+<span class="k">static</span> <span class="n">DEFINE_SPINLOCK</span><span class="p">(</span><span class="n">myblk_lock</span><span class="p">);</span> <span class="cm">/*初始化自旋锁*/</span>
+<span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">myblk_que</span> <span class="p">;</span> <span class="cm">/*定义请求队列*/</span>
+<span class="k">struct</span> <span class="n">gendisk</span> <span class="o">*</span><span class="n">myblk</span><span class="p">;</span> <span class="cm">/*定义磁盘结构*/</span>
+<span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">buf</span> <span class="p">;</span> <span class="cm">/*虚拟磁盘*/</span>
+<span class="k">static</span> <span class="kt">int</span> <span class="n">major</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+<span class="cm">/*块设备操作*/</span>
+<span class="k">static</span>  <span class="k">struct</span> <span class="n">block_device_operations</span> <span class="n">myblk_fops</span><span class="o">=</span>
+<span class="p">{</span>
+	<span class="p">.</span><span class="n">owner</span> <span class="o">=</span> <span class="n">THIS_MODULE</span><span class="p">,</span>
+<span class="p">};</span>
+
+<span class="cm">/**********************************
+
+函数功能：数据处理
+
+参数说明：
+
+dest :数据传输目的地址
+
+src :数据传输源地址
+
+sector :请求访问的起始扇区
+
+__data_len :总共需要操作多少字节数
+
+data_dir :数据传输方向
+
+***********************************/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">blk_transfer</span><span class="p">(</span><span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">dest</span><span class="p">,</span> <span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">src</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">sector</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">__data_len</span><span class="p">,</span> <span class="kt">int</span> <span class="n">data_dir</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">offset</span> <span class="o">=</span> <span class="n">sector</span> <span class="o">*</span> <span class="n">SECT_SIZE</span> <span class="p">;</span> <span class="cm">/*扇区偏移*/</span>
+	<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">nbytes</span> <span class="o">=</span> <span class="n">__data_len</span><span class="p">;</span> <span class="cm">/*写入大小*/</span>
+	<span class="kt">unsigned</span> <span class="kt">char</span><span class="o">*</span> <span class="n">d_buf</span> <span class="o">=</span> <span class="n">dest</span> <span class="p">;</span>
+	<span class="k">if</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="cm">/*向设备写入数据*/</span>
+		<span class="n">memcpy</span><span class="p">(</span><span class="n">d_buf</span><span class="o">+</span><span class="n">offset</span><span class="p">,</span><span class="n">src</span><span class="p">,</span><span class="n">nbytes</span><span class="p">);</span>
+	<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+		<span class="cm">/*向用户输出数据*/</span>
+		<span class="n">memcpy</span><span class="p">(</span><span class="n">src</span><span class="p">,</span><span class="n">d_buf</span><span class="o">+</span><span class="n">offset</span><span class="p">,</span><span class="n">nbytes</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+ 
+
+<span class="cm">/*队列处理*/</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">do_myblk_request</span><span class="p">(</span><span class="k">struct</span> <span class="n">request_queue</span> <span class="o">*</span><span class="n">q</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">request</span>  <span class="o">*</span><span class="n">rq</span><span class="p">;</span>
+	<span class="cm">/*取出队列*/</span>
+
+	<span class="n">rq</span> <span class="o">=</span> <span class="n">blk_fetch_request</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+
+	<span class="cm">/*循环获取直到队列为空*/</span>
+
+	<span class="k">while</span> <span class="p">(</span><span class="n">rq</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="cm">/*处理请求*/</span>
+		<span class="n">blk_transfer</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">buffer</span><span class="p">,</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">__sector</span><span class="p">,</span><span class="n">rq</span><span class="o">-&gt;</span><span class="n">__data_len</span><span class="p">,</span><span class="n">rq_data_dir</span><span class="p">(</span><span class="n">rq</span><span class="p">));</span>
+		<span class="cm">/*再次取出当前队列*/</span>
+		<span class="k">if</span><span class="p">(</span> <span class="o">!</span> <span class="n">__blk_end_request_cur</span><span class="p">(</span><span class="n">rq</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="p">)</span>
+			<span class="n">rq</span> <span class="o">=</span> <span class="n">blk_fetch_request</span><span class="p">(</span><span class="n">q</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+
+ 
+
+<span class="k">static</span> <span class="kt">int</span> <span class="nf">blk_init</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	<span class="cm">/*0、分配一个虚拟磁盘，既在内存中画出512K用来虚拟磁盘*/</span>
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="p">(</span><span class="n">buf</span> <span class="o">=</span> <span class="n">vmalloc</span><span class="p">(</span><span class="n">DISK_SIZE</span><span class="p">)))</span>
+	<span class="n">printk</span><span class="p">(</span><span class="s">"vmalloc err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+	<span class="cm">/*1.注册并分配主设备号*/</span>
+	<span class="k">if</span> <span class="p">((</span><span class="n">major</span> <span class="o">=</span> <span class="n">register_blkdev</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s">"myblk"</span><span class="p">))</span> <span class="o">&lt;=</span><span class="mi">0</span> <span class="p">)</span> <span class="cm">/*当major=0时自动分配一个未使用的主设备*/</span>
+	<span class="p">{</span>
+		<span class="n">printk</span><span class="p">(</span><span class="s">"alloc major num err!</span><span class="se">\n</span><span class="s">"</span><span class="p">);</span>
+		<span class="k">return</span> <span class="o">-</span><span class="n">EIO</span><span class="p">;</span>
+
+	<span class="p">}</span>
+
+	<span class="cm">/*2、初始化请求队列*/</span>
+
+	<span class="n">myblk_que</span> <span class="o">=</span> <span class="n">blk_init_queue</span><span class="p">(</span><span class="n">do_myblk_request</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">myblk_lock</span><span class="p">);</span>
+
+	<span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">myblk_que</span><span class="p">)</span>
+
+	<span class="k">return</span> <span class="o">-</span><span class="n">EIO</span><span class="p">;</span>
+
+	<span class="cm">/*3为等待队列设置扇区尺寸*/</span>
+
+	<span class="n">blk_queue_logical_block_size</span><span class="p">(</span><span class="n">myblk_que</span><span class="p">,</span> <span class="n">SECT_SIZE</span><span class="p">);</span>
+
+	<span class="cm">/*4、分配块设备,这个类似于A盘，B盘*/</span>
+
+	<span class="n">myblk</span> <span class="o">=</span> <span class="n">alloc_disk</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+
+	<span class="cm">/*5、初始化块设备*/</span>
+
+	<span class="n">myblk</span><span class="o">-&gt;</span><span class="n">major</span> <span class="o">=</span> <span class="n">major</span><span class="p">;</span>
+
+	<span class="n">myblk</span><span class="o">-&gt;</span><span class="n">first_minor</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+
+	<span class="n">myblk</span><span class="o">-&gt;</span><span class="n">fops</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">myblk_fops</span><span class="p">;</span>
+
+	<span class="n">myblk</span><span class="o">-&gt;</span><span class="n">queue</span> <span class="o">=</span> <span class="n">myblk_que</span><span class="p">;</span> <span class="cm">/*绑定队列*/</span>
+
+	<span class="n">sprintf</span><span class="p">(</span><span class="n">myblk</span><span class="o">-&gt;</span><span class="n">disk_name</span><span class="p">,</span><span class="s">"myblk"</span><span class="p">);</span>
+
+	<span class="n">set_capacity</span><span class="p">(</span><span class="n">myblk</span><span class="p">,</span><span class="mi">1024</span><span class="p">);</span>
+
+	<span class="cm">/*6、添加磁盘*/</span>
+
+	<span class="n">add_disk</span><span class="p">(</span><span class="n">myblk</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="n">ret</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="k">static</span> <span class="kt">void</span> <span class="nf">blk_exit</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+
+	<span class="n">del_gendisk</span><span class="p">(</span><span class="n">myblk</span><span class="p">);</span>
+
+	<span class="n">put_disk</span><span class="p">(</span><span class="n">myblk</span><span class="p">);</span>
+
+	<span class="n">blk_cleanup_queue</span><span class="p">(</span><span class="n">myblk_que</span><span class="p">);</span>
+
+	<span class="n">unregister_blkdev</span><span class="p">(</span><span class="n">major</span><span class="p">,</span> <span class="s">"myblk"</span><span class="p">);</span>
+
+	<span class="n">vfree</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+
+<span class="n">MODULE_LICENSE</span><span class="p">(</span><span class="s">"GPL"</span><span class="p">);</span>
+<span class="n">MODULE_AUTHOR</span><span class="p">(</span><span class="s">"Hntea"</span><span class="p">);</span>
+<span class="n">module_init</span><span class="p">(</span><span class="n">blk_init</span><span class="p">);</span>
+<span class="n">module_exit</span><span class="p">(</span><span class="n">blk_exit</span><span class="p">);</span>
+</code></pre>
+</div>
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/块设备驱动" data-title="块设备驱动" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" class="btn" title="SPI总线">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" class="btn" title="USB子系统">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

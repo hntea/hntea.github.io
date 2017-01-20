@@ -1,0 +1,403 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>网络设备驱动  &#8211; Hong-Yixin</title>
+<meta name="description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta name="keywords" content="Linux驱动">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="网络设备驱动 ">
+<meta name="twitter:description" content="该博文主要描述linux 驱动网络设备驱动">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络设备驱动 ">
+<meta property="og:description" content="该博文主要描述linux 驱动网络设备驱动">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<meta property="og:site_name" content="Hong-Yixin">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >作者</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >分类</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >博客</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >搜索</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	<div class="wrap">
+      
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Hong-Yixin"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+      
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Hong-Yixin</a></h1>
+		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
+	</div>
+</header><!-- /.masthead -->
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+        </ul>
+        
+          <h1 class="entry-title">网络设备驱动 </h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-03-18T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 17, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <p>Linux 网络类设备不在是基于文件操作（没有对应的映射到文件系统中的设备节点），而是套接字socket来实现通讯</p>
+
+<h2 id="linux-">Linux 网络子系统的架构图</h2>
+
+<p><img src="http://img.blog.csdn.net/20160419231022306?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="网络驱动架构" /></p>
+
+<h3 id="section">各层次接口功能说明：</h3>
+
+<ul>
+  <li>系统调用接口层：为应用程序提供访问网络子系统的统一方法。</li>
+  <li>协议无关层：提供通用的方法来使用传输层协议。</li>
+  <li>协议栈的实现：实现具体的网络协议</li>
+  <li>设备无关层：协议与设备驱动之前通信的通用接口</li>
+  <li>设备驱动程序：</li>
+</ul>
+
+<h2 id="section-1">驱动程序数据结构</h2>
+
+<p>数据包描述结构：<strong>struct sk_buff</strong></p>
+
+<ul>
+  <li>
+    <p>所在头文件：&lt;linux/sk_buff.h&gt;</p>
+  </li>
+  <li>
+    <p>sk_buff为Linux网络层提供高效的缓冲区处理和流量控制机制，对驱动开发来说比较关心的是sk_buff结构体中的以下数据：</p>
+  </li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">sk_buff</span>
+<span class="p">{</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">len</span><span class="p">,</span> <span class="cm">/*数据包包含的数据量*/</span>
+
+<span class="p">....</span>
+
+<span class="n">sk_buff_data_t</span> <span class="n">tail</span><span class="p">;</span> <span class="cm">/* 用于指向数据包载荷的结束*/</span>
+
+<span class="n">sk_buff_data_t</span> <span class="n">end</span><span class="p">;</span> <span class="cm">/* 用于指向数据包的结束*/</span>
+
+<span class="kt">unsigned</span> <span class="kt">char</span>    <span class="o">*</span><span class="n">head</span><span class="p">;</span> <span class="cm">/* 用于指向数据包的开始*/</span>
+
+<span class="kt">unsigned</span> <span class="kt">char</span> <span class="o">*</span><span class="n">data</span><span class="p">;</span> <span class="cm">/* 用于指向数据包载荷的开始*/</span>
+
+<span class="p">...</span>
+
+<span class="p">}</span>
+
+</code></pre>
+</div>
+
+<h3 id="struct-netdevice">网卡描述结构：struct net_device</h3>
+
+<ul>
+  <li>一个网卡结构表示一个具体设备</li>
+</ul>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">net_device</span>
+
+<span class="p">{</span>
+
+<span class="kt">char</span> <span class="n">name</span><span class="p">[</span><span class="n">IFNAMSIZ</span><span class="p">];</span> <span class="cm">/*设备接口名，如eth0 */</span>
+
+<span class="p">...</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mem_end</span><span class="p">;</span> <span class="cm">/* shared mem end */</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">mem_start</span><span class="p">;</span> <span class="cm">/* shared mem start */</span>
+
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">base_addr</span><span class="p">;</span> <span class="cm">/* device I/O address */</span>
+
+<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">irq</span><span class="p">;</span> <span class="cm">/* device IRQ number */</span>
+
+<span class="p">...</span>
+
+<span class="cm">/* Management operations */</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">net_device_ops</span> <span class="o">*</span><span class="n">netdev_ops</span><span class="p">;</span><span class="cm">/*网卡设备操作集*/</span>
+
+<span class="k">const</span> <span class="k">struct</span> <span class="n">ethtool_ops</span> <span class="o">*</span><span class="n">ethtool_ops</span><span class="p">;</span>
+
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="struct-netdeviceops">网卡操作描述结构：struct net_device_ops</h3>
+
+<p>和字符设备的原理差不多</p>
+
+<h2 id="section-2">网卡使用函数</h2>
+
+<h3 id="section-3">结构分配：</h3>
+
+<ul>
+  <li>
+    <p>alloc_netdev(….)：回环网卡分配</p>
+  </li>
+  <li>
+    <p>alloc_ieee80211()：WIFI无线网卡分配</p>
+  </li>
+  <li>
+    <p>ndev = alloc_etherdev(sizeof(struct xxx))：对1加工而已，适用于以太网卡</p>
+  </li>
+</ul>
+
+<h3 id="section-4">网卡设备注册：</h3>
+
+<ul>
+  <li>ret = register_netdev(ndev);</li>
+</ul>
+
+<h3 id="section-5">网卡设备注销：</h3>
+
+<ul>
+  <li>free_netdev(ndev);</li>
+</ul>
+
+<h2 id="linux">Linux网络设备驱动体系架构分析</h2>
+
+<h3 id="section-6">设备初始化：</h3>
+
+<ol>
+  <li>申请网络设备：</li>
+</ol>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">net_device</span> <span class="o">*</span><span class="n">dev</span> <span class="o">=</span> <span class="n">alloc_etherdev</span><span class="p">(</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">net_local</span><span class="p">))</span><span class="err">；</span>
+</code></pre>
+</div>
+
+<ol>
+  <li>
+    <p>初始化设备dev</p>
+
+    <ul>
+      <li>
+        <p>中断号</p>
+      </li>
+      <li>
+        <p>I/O基地址</p>
+      </li>
+      <li>
+        <p>填充MAC地址(在捕获设备中进行)</p>
+      </li>
+      <li>
+        <p>关联操作函数集：dev-&gt;netdev_ops = &amp;net_ops;（捕获设备中进行）</p>
+      </li>
+    </ul>
+  </li>
+  <li>
+    <p>捕获设备：初始化硬件（或者在open函数中进行）</p>
+  </li>
+  <li>
+    <p>向内核注册网卡驱动：retval = register_netdev(dev);</p>
+  </li>
+</ol>
+
+<h3 id="ndostartxmit---netsendpacket">网卡发送函数：.ndo_start_xmit  = net_send_packet,</h3>
+
+<ol>
+  <li>
+    <p>通知上层协议停止发送数据：netif_stop_queue(dev);</p>
+  </li>
+  <li>
+    <p>将skb的数据写入发送寄存器中</p>
+  </li>
+  <li>
+    <p>释放skb空间：dev_kfree_skb (skb);</p>
+  </li>
+  <li>
+    <p>在发送中断处理函数中（网卡有多种类型中断：接收数据包可产生 中断，发送数据包也可以产生中断）通知上层协议可以再次向网卡 传输数据netif_wake_queue(dev);–&gt;唤醒发送队列</p>
+  </li>
+</ol>
+
+<h3 id="netrxstruct-netdevice-dev">网卡接收（在中断中进行）：net_rx(struct net_device *dev)</h3>
+
+<ol>
+  <li>
+    <p>读取接收状态</p>
+  </li>
+  <li>
+    <p>读取接收数据长度</p>
+  </li>
+  <li>
+    <p>分配SKB结构：skb = dev_alloc_skb(length + 2); /<em>构造新数据包</em>/</p>
+  </li>
+  <li>
+    <p>从网卡寄存器中读取数据填入SKB结构</p>
+  </li>
+  <li>
+    <p>使用netif_rx(skb);将skb数据包发送给上层协议去处理</p>
+  </li>
+</ol>
+
+
+        
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/网络设备驱动模型" data-title="网络设备驱动 " data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" class="btn" title="串行设备驱动模型 ">Previous</a>
+      
+      
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" class="btn" title="回环网卡驱动设计 ">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

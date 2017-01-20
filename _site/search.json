@@ -10,6 +10,78 @@
 
   
     ,{
+      "title"			: "USB子系统",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/",
+      "excerpt"		: "该博文主要描述linux块设备驱动"
+    }
+  
+
+  
+    ,{
+      "title"			: "块设备驱动",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/",
+      "excerpt"		: "该博文主要描述linux块设备驱动"
+    }
+  
+
+  
+    ,{
+      "title"			: "SPI总线",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/",
+      "excerpt"		: "该博文主要描述linux SPI总线"
+    }
+  
+
+  
+    ,{
+      "title"			: "I2C子系统",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/",
+      "excerpt"		: "该博文主要描述linux I2C子系统"
+    }
+  
+
+  
+    ,{
+      "title"			: "输入子系统浅析",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/",
+      "excerpt"		: "该博文主要描述linux 驱动网络设备驱动"
+    }
+  
+
+  
+    ,{
+      "title"			: "回环网卡驱动设计 ",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/",
+      "excerpt"		: "该博文主要描述linux 驱动网络设备驱动"
+    }
+  
+
+  
+    ,{
+      "title"			: "网络设备驱动 ",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/",
+      "excerpt"		: "该博文主要描述linux 驱动网络设备驱动"
+    }
+  
+
+  
+    ,{
+      "title"			: "串行设备驱动模型 ",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/",
+      "excerpt"		: "该博文主要描述linux 驱动串行设备驱动模型"
+    }
+  
+
+  
+    ,{
+      "title"			: "平台总线驱动模型 ",
+      "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/",
+      "excerpt"		: "该博文主要描述linux 驱动平台总线驱动模型"
+    }
+  
+
+  
+    ,{
       "title"			: "总线设备驱动模型 ",
       "link"			: "http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/",
       "excerpt"		: "该博文主要描述linux 驱动总线设备驱动模型"
