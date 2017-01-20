@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T15:13:13+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T15:29:52+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section&quot;&gt;安装依赖环境&lt;/h1&gt;
 
@@ -233,9 +233,40 @@ git commit -m &quot;信息记录&quot;
   &lt;li&gt;
     &lt;p&gt;点击我要安装，创建站点，名字取自己喜欢的。&lt;/p&gt;
   &lt;/li&gt;
-  &lt;li&gt;进入后台操作界面如下所示，并将代码复制过来，粘贴到
-    &lt;h1 id=&quot;section-6&quot;&gt;购买并绑定域名&lt;/h1&gt;
-  &lt;/li&gt;
+  &lt;li&gt;进入后台操作界面如下所示，并将代码复制过来，修改多说的中文修改部分，具体操作如下：&lt;/li&gt;
 &lt;/ol&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&amp;lt;div class=&quot;entry-content&quot;&amp;gt;
+	
+	
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;在尾部添加多说的代码即可，具体修改如下&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;data-thread-key 字段改成&quot;/blog/Github-Pages与Jekyll博客搭建&quot;
+data-title 字段改成&quot;Github-Pages与Jekyll博客搭建&quot;
+data-url 字段改成 &quot;web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/ &quot;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;比如：“http://localhost:4000//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/”&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;同时在 _config.yml 文件中添加如下代码&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;comments :
+  provider : duoshuo
+  duoshuo :
+    short_name : hntea //这里是你在多说注册的站点名字
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h1 id=&quot;section-6&quot;&gt;购买并绑定域名&lt;/h1&gt;
 
 &lt;p&gt;…穷&lt;/p&gt;</content><category term="玩转系统" /><summary type="html">本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry></feed>

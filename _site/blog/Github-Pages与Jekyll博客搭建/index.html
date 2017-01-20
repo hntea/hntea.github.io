@@ -385,10 +385,41 @@ git commit -m "信息记录"
   <li>
     <p>点击我要安装，创建站点，名字取自己喜欢的。</p>
   </li>
-  <li>进入后台操作界面如下所示，并将代码复制过来，粘贴到
-    <h1 id="section-6">购买并绑定域名</h1>
-  </li>
+  <li>进入后台操作界面如下所示，并将代码复制过来，修改多说的中文修改部分，具体操作如下：</li>
 </ol>
+
+<ul>
+  <li>找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>&lt;div class="entry-content"&gt;
+	
+	
+
+</code></pre>
+</div>
+<p>在尾部添加多说的代码即可，具体修改如下</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>data-thread-key 字段改成"/blog/Github-Pages与Jekyll博客搭建"
+data-title 字段改成"Github-Pages与Jekyll博客搭建"
+data-url 字段改成 "web site//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/ "
+</code></pre>
+</div>
+<p>比如：“http://localhost:4000//blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/”</p>
+
+<ul>
+  <li>同时在 _config.yml 文件中添加如下代码</li>
+</ul>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>comments :
+  provider : duoshuo
+  duoshuo :
+    short_name : hntea //这里是你在多说注册的站点名字
+
+</code></pre>
+</div>
+
+<h1 id="section-6">购买并绑定域名</h1>
 
 <p>…穷</p>
 

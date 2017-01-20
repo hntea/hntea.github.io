@@ -227,7 +227,39 @@ git push -u origin master
 　
 2. 点击我要安装，创建站点，名字取自己喜欢的。
 
-3. 进入后台操作界面如下所示，并将代码复制过来，粘贴到
+3. 进入后台操作界面如下所示，并将代码复制过来，修改多说的中文修改部分，具体操作如下：
+
+- 找到模板文件，如我的主题是在 _layout/post.html 文件中，找到如下代码片段（博客内容）
+
+```
+<div class="entry-content">
+	{{ content }}
+	{% if site.owner.disqus-shortname and page.comments or site.comments %}
+ 	<div id="disqus_thread"></div><!-- /#disqus_thread -->
+  {% include disqus-comments.html %}
+{% endif %}
+
+```
+在尾部添加多说的代码即可，具体修改如下
+
+```
+data-thread-key 字段改成"{{ page.id }}"
+data-title 字段改成"{{ page.title }}"
+data-url 字段改成 "web site/{{ page.url }} "
+```
+比如：“http://localhost:4000/{{ page.url }}”
+
+
+- 同时在 _config.yml 文件中添加如下代码
+
+```
+comments :
+  provider : duoshuo
+  duoshuo :
+    short_name : hntea //这里是你在多说注册的站点名字
+
+```
+
 # 购买并绑定域名
 
 ...穷
