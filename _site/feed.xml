@@ -1,8 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T14:43:39+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-01-20T15:13:13+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong Hntea</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages与Jekyll博客搭建</title><link href="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages与Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/blog/Github-Pages与Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/blog/Github-Pages%E4%B8%8EJekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h1 id=&quot;section&quot;&gt;安装依赖环境&lt;/h1&gt;
 
-&lt;h3 id=&quot;ruby-installhttpswwwruby-langorgendocumentationinstallationapt&quot;&gt;1.&lt;a href=&quot;https://www.ruby-lang.org/en/documentation/installation/#apt&quot;&gt;Ruby Install&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;uruby-installuhttpswwwruby-langorgendocumentationinstallationapt&quot;&gt;1.&lt;a href=&quot;https://www.ruby-lang.org/en/documentation/installation/#apt&quot;&gt;&lt;u&gt;Ruby Install&lt;/u&gt;&lt;/a&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;注意版本：Ruby version &amp;gt;= 2.0&lt;/li&gt;
@@ -23,7 +23,7 @@ sudo make install
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;rubygems-installhttpsrubygemsorgpagesdownload&quot;&gt;2.&lt;a href=&quot;https://rubygems.org/pages/download&quot;&gt;RubyGems Install&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;urubygems-installuhttpsrubygemsorgpagesdownload&quot;&gt;2.&lt;a href=&quot;https://rubygems.org/pages/download&quot;&gt;&lt;u&gt;RubyGems Install&lt;/u&gt;&lt;/a&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;进入官网下载源码，解压进入目录&lt;/li&gt;
@@ -35,7 +35,7 @@ sudo ruby setup.rb
 &lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 
-&lt;h3 id=&quot;nodejs-installhttpsnodejsorgendownloadpackage-managerdebian-and-ubuntu-based-linux-distributions&quot;&gt;3.&lt;a href=&quot;https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions&quot;&gt;NodeJS Install&lt;/a&gt;&lt;/h3&gt;
+&lt;h3 id=&quot;unodejs-installuhttpsnodejsorgendownloadpackage-managerdebian-and-ubuntu-based-linux-distributions&quot;&gt;3.&lt;a href=&quot;https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions&quot;&gt;&lt;u&gt;NodeJS Install&lt;/u&gt;&lt;/a&gt;&lt;/h3&gt;
 
 &lt;ul&gt;
   &lt;li&gt;安装最新版，执行以下命令&lt;/li&gt;
@@ -186,27 +186,56 @@ git commit -m &quot;信息记录&quot;
 &lt;hr /&gt;
 
 &lt;h1 id=&quot;section-2&quot;&gt;更换主题&lt;/h1&gt;
+&lt;h2 id=&quot;section-3&quot;&gt;1.挑选中意的主题&lt;/h2&gt;
+&lt;p&gt;首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;挑选：主题大全：&lt;a href=&quot;https://jekyllthemes.io/&quot;&gt;Jekyll Themes&lt;/a&gt;&lt;/li&gt;
-  &lt;li&gt;这里选择 &lt;strong&gt;so-simple-theme&lt;/strong&gt; 主题进行示范：
-    &lt;ul&gt;
-      &lt;li&gt;
-        &lt;p&gt;下载 &lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/mmistakes/so-simple-theme.git&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓&lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt;已经有文件，记得保存好）&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;安装，执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt; 并配置 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;&lt;/li&gt;
-      &lt;li&gt;
-        &lt;p&gt;格式化，编译执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll build&lt;/code&gt;&lt;/p&gt;
-      &lt;/li&gt;
-      &lt;li&gt;本地服务查看：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;;在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况&lt;/li&gt;
-      &lt;li&gt;对于主题中的博客，如果不想要直接删除就好了。&lt;/li&gt;
-    &lt;/ul&gt;
+  &lt;li&gt;挑选：请戳主题大全链接：&lt;a href=&quot;https://jekyllthemes.io/&quot;&gt;&lt;u&gt;Jekyll Themes&lt;/u&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;2.安装配置&lt;/h2&gt;
+&lt;p&gt;这里选择 &lt;strong&gt;so-simple-theme&lt;/strong&gt; 主题进行示范：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;下载 :
+&lt;code class=&quot;highlighter-rouge&quot;&gt;git clone https://github.com/mmistakes/so-simple-theme.git&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓&lt;code class=&quot;highlighter-rouge&quot;&gt;_posts&lt;/code&gt;已经有文件，记得保存好）&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;安装执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle install&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;格式化，编译执行：&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll build&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;启动服务:&lt;code class=&quot;highlighter-rouge&quot;&gt;bundle exec jekyll serve&lt;/code&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;配置：直接修改配置文件 &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.yml&lt;/code&gt;在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于主题中的博客，如果不想要直接删除就好了。&lt;/p&gt;
   &lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;h1 id=&quot;section-3&quot;&gt;购买并绑定域名&lt;/h1&gt;
+&lt;hr /&gt;
 
-&lt;p&gt;…穷&lt;/p&gt;</content><summary type="html">本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry></feed>
+&lt;h1 id=&quot;section-5&quot;&gt;添加博客评论&lt;/h1&gt;
+
+&lt;p&gt;由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　&lt;strong&gt;Disqus&lt;/strong&gt;，若不想被墙，那么综合考虑下来就还是使用　&lt;a href=&quot;http://dev.duoshuo.com/docs&quot;&gt;多说&lt;/a&gt;比较给好点，当然没有&lt;strong&gt;Disqus&lt;/strong&gt;功能好。至于如何添加，具体操作如下：&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;进入&lt;a href=&quot;http://duoshuo.com/&quot;&gt;多说&lt;/a&gt;，先注册登陆
+　&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;点击我要安装，创建站点，名字取自己喜欢的。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;进入后台操作界面如下所示，并将代码复制过来，粘贴到
+    &lt;h1 id=&quot;section-6&quot;&gt;购买并绑定域名&lt;/h1&gt;
+  &lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;…穷&lt;/p&gt;</content><category term="玩转系统" /><summary type="html">本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry></feed>

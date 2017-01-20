@@ -4,7 +4,7 @@ title: "Github-Pages与Jekyll博客搭建"
 modified:
 categories: blog
 excerpt:
-tags: []
+tags: [玩转系统]
 image:
   feature:
 date: 2017-01-18T15:39:55-04:00
@@ -14,7 +14,7 @@ date: 2017-01-18T15:39:55-04:00
 
 # 安装依赖环境
 
-### 1.[Ruby Install](https://www.ruby-lang.org/en/documentation/installation/#apt)
+### 1.[<u>Ruby Install</u>](https://www.ruby-lang.org/en/documentation/installation/#apt)
 
 - 注意版本：Ruby version >= 2.0
 - 若使用这种安装方式，会有版本太老的问题：
@@ -33,7 +33,7 @@ make
 sudo make install
 ```
 
-### 2.[RubyGems Install](https://rubygems.org/pages/download)
+### 2.[<u>RubyGems Install</u>](https://rubygems.org/pages/download)
 
 - 进入官网下载源码，解压进入目录
 - 执行
@@ -44,7 +44,7 @@ cd rubygems-2.6.8/
 sudo ruby setup.rb
 ```
 
-### 3.[NodeJS Install](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
+### 3.[<u>NodeJS Install</u>](https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions)
 
 - 安装最新版，执行以下命令
 
@@ -192,20 +192,42 @@ git push -u origin master
 ---
 
 # 更换主题
+## 1.挑选中意的主题
+首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。
 
--	挑选：主题大全：[Jekyll Themes](https://jekyllthemes.io/)
--	这里选择 **so-simple-theme** 主题进行示范：
-	-	下载 `git clone https://github.com/mmistakes/so-simple-theme.git`
+- 挑选：请戳主题大全链接：[<u>Jekyll Themes</u>](https://jekyllthemes.io/)
 
-	-	进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓`_posts`已经有文件，记得保存好）
+## 2.安装配置
+  这里选择 **so-simple-theme** 主题进行示范：
 
-	-	安装，执行：`bundle install` 并配置 `_config.yml`
-	-	格式化，编译执行：`bundle exec jekyll build`
+- 下载 :
+`git clone https://github.com/mmistakes/so-simple-theme.git`
 
-	-	本地服务查看：`bundle exec jekyll serve`;在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况
-	-	对于主题中的博客，如果不想要直接删除就好了。
+- 进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓`_posts`已经有文件，记得保存好）
+
+- 安装执行：`bundle install` 
 
 
+- 格式化，编译执行：`bundle exec jekyll build`
+
+- 启动服务:`bundle exec jekyll serve`
+
+- 配置：直接修改配置文件 `_config.yml`在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况
+    
+- 对于主题中的博客，如果不想要直接删除就好了。
+
+
+---
+
+# 添加博客评论
+
+由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　**Disqus**，若不想被墙，那么综合考虑下来就还是使用　[多说](http://dev.duoshuo.com/docs)比较给好点，当然没有**Disqus**功能好。至于如何添加，具体操作如下：
+
+1. 进入[多说](http://duoshuo.com/)，先注册登陆
+　
+2. 点击我要安装，创建站点，名字取自己喜欢的。
+
+3. 进入后台操作界面如下所示，并将代码复制过来，粘贴到
 # 购买并绑定域名
 
 ...穷

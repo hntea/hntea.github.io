@@ -9,7 +9,7 @@
 <meta name="description" content="本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统
 
 ">
-<meta name="keywords" content="">
+<meta name="keywords" content="玩转系统">
 
 
 <!-- Twitter Cards -->
@@ -131,7 +131,7 @@
     <div class="entry-wrapper">
       <header class="entry-header">
         <ul class="entry-tags">
-          
+          <li><a href="http://localhost:4000/tags/#玩转系统" title="Pages tagged 玩转系统">玩转系统</a></li>
         </ul>
         
           <h1 class="entry-title">Github-Pages与Jekyll博客搭建</h1>
@@ -154,7 +154,7 @@
 
 <h1 id="section">安装依赖环境</h1>
 
-<h3 id="ruby-installhttpswwwruby-langorgendocumentationinstallationapt">1.<a href="https://www.ruby-lang.org/en/documentation/installation/#apt">Ruby Install</a></h3>
+<h3 id="uruby-installuhttpswwwruby-langorgendocumentationinstallationapt">1.<a href="https://www.ruby-lang.org/en/documentation/installation/#apt"><u>Ruby Install</u></a></h3>
 
 <ul>
   <li>注意版本：Ruby version &gt;= 2.0</li>
@@ -175,7 +175,7 @@ sudo make install
 </code></pre>
 </div>
 
-<h3 id="rubygems-installhttpsrubygemsorgpagesdownload">2.<a href="https://rubygems.org/pages/download">RubyGems Install</a></h3>
+<h3 id="urubygems-installuhttpsrubygemsorgpagesdownload">2.<a href="https://rubygems.org/pages/download"><u>RubyGems Install</u></a></h3>
 
 <ul>
   <li>进入官网下载源码，解压进入目录</li>
@@ -187,7 +187,7 @@ sudo ruby setup.rb
 </code></pre>
 </div>
 
-<h3 id="nodejs-installhttpsnodejsorgendownloadpackage-managerdebian-and-ubuntu-based-linux-distributions">3.<a href="https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions">NodeJS Install</a></h3>
+<h3 id="unodejs-installuhttpsnodejsorgendownloadpackage-managerdebian-and-ubuntu-based-linux-distributions">3.<a href="https://nodejs.org/en/download/package-manager/#debian-and-ubuntu-based-linux-distributions"><u>NodeJS Install</u></a></h3>
 
 <ul>
   <li>安装最新版，执行以下命令</li>
@@ -338,28 +338,57 @@ git commit -m "信息记录"
 <hr />
 
 <h1 id="section-2">更换主题</h1>
+<h2 id="section-3">1.挑选中意的主题</h2>
+<p>首先需要感谢各路开源大师提供的各种高逼格的模板，敢肯定的是一定有一种能俘虏你的模板，耐心看看找找。</p>
 
 <ul>
-  <li>挑选：主题大全：<a href="https://jekyllthemes.io/">Jekyll Themes</a></li>
-  <li>这里选择 <strong>so-simple-theme</strong> 主题进行示范：
-    <ul>
-      <li>
-        <p>下载 <code class="highlighter-rouge">git clone https://github.com/mmistakes/so-simple-theme.git</code></p>
-      </li>
-      <li>
-        <p>进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓<code class="highlighter-rouge">_posts</code>已经有文件，记得保存好）</p>
-      </li>
-      <li>安装，执行：<code class="highlighter-rouge">bundle install</code> 并配置 <code class="highlighter-rouge">_config.yml</code></li>
-      <li>
-        <p>格式化，编译执行：<code class="highlighter-rouge">bundle exec jekyll build</code></p>
-      </li>
-      <li>本地服务查看：<code class="highlighter-rouge">bundle exec jekyll serve</code>;在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况</li>
-      <li>对于主题中的博客，如果不想要直接删除就好了。</li>
-    </ul>
+  <li>挑选：请戳主题大全链接：<a href="https://jekyllthemes.io/"><u>Jekyll Themes</u></a></li>
+</ul>
+
+<h2 id="section-4">2.安装配置</h2>
+<p>这里选择 <strong>so-simple-theme</strong> 主题进行示范：</p>
+
+<ul>
+  <li>
+    <p>下载 :
+<code class="highlighter-rouge">git clone https://github.com/mmistakes/so-simple-theme.git</code></p>
+  </li>
+  <li>
+    <p>进入本地仓库，复制主题目录下的所有文件到该目录下（若本地仓<code class="highlighter-rouge">_posts</code>已经有文件，记得保存好）</p>
+  </li>
+  <li>
+    <p>安装执行：<code class="highlighter-rouge">bundle install</code></p>
+  </li>
+  <li>
+    <p>格式化，编译执行：<code class="highlighter-rouge">bundle exec jekyll build</code></p>
+  </li>
+  <li>
+    <p>启动服务:<code class="highlighter-rouge">bundle exec jekyll serve</code></p>
+  </li>
+  <li>
+    <p>配置：直接修改配置文件 <code class="highlighter-rouge">_config.yml</code>在修改网页文件时可以保持服务在启动状态，每次修改完文件后，可以刷新网页查看对应的修改情况</p>
+  </li>
+  <li>
+    <p>对于主题中的博客，如果不想要直接删除就好了。</p>
   </li>
 </ul>
 
-<h1 id="section-3">购买并绑定域名</h1>
+<hr />
+
+<h1 id="section-5">添加博客评论</h1>
+
+<p>由于静态博客没有评论功能，不过想要评论功能也可以通过第三方提供的相关插件来处理。若不考虑国墙，可以使用　<strong>Disqus</strong>，若不想被墙，那么综合考虑下来就还是使用　<a href="http://dev.duoshuo.com/docs">多说</a>比较给好点，当然没有<strong>Disqus</strong>功能好。至于如何添加，具体操作如下：</p>
+
+<ol>
+  <li>进入<a href="http://duoshuo.com/">多说</a>，先注册登陆
+　</li>
+  <li>
+    <p>点击我要安装，创建站点，名字取自己喜欢的。</p>
+  </li>
+  <li>进入后台操作界面如下所示，并将代码复制过来，粘贴到
+    <h1 id="section-6">购买并绑定域名</h1>
+  </li>
+</ol>
 
 <p>…穷</p>
 
