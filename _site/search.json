@@ -12,7 +12,7 @@
     ,{
       "title"			: "USB子系统",
       "link"			: "https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/",
-      "excerpt"		: "该博文主要描述linux块设备驱动"
+      "excerpt"		: "该博文主要描述linux usb驱动子系统"
     }
   
 
@@ -44,7 +44,7 @@
     ,{
       "title"			: "输入子系统浅析",
       "link"			: "https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/",
-      "excerpt"		: "该博文主要描述linux 驱动网络设备驱动"
+      "excerpt"		: "该博文主要描述linux驱动的输入子系统"
     }
   
 
