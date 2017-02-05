@@ -12,17 +12,18 @@
 <!-- Add by hntea start-->
 <body style="background-color:hsl(0,5%,65%);"/>
 
-<div class="cinc-postPanel" 
- user-id="https://hntea.github.io/"
- data-key="{{ page.id }}" 
- data-title="{{ page.title }}" 
- data-url="https://hntea.github.io/{{ page.url }}"
- isReadOnly=true>
-</div>
-<script type="text/javascript" async="" 
-src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
-charset="UTF-8"></script>
-
+<!--
+	<div class="cinc-postPanel" 
+	 user-id="https://hntea.github.io/"
+	 data-key="{{ page.id }}" 
+	 data-title="{{ page.title }}" 
+	 data-url="https://hntea.github.io/{{ page.url }}"
+	 isReadOnly=true>
+	</div>
+	<script type="text/javascript" async="" 
+	src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
+	charset="UTF-8"></script>
+-->
 
 <!-- Add by hntea end-->
 {% include navigation.html %}

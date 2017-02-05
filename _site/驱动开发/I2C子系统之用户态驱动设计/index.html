@@ -18,22 +18,22 @@
 
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="hntea.xyz/images/site-logo.png">
+<meta name="twitter:image" content="https://hntea.github.io/images/site-logo.png">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="China">
 <meta property="og:type" content="article">
 <meta property="og:title" content="I2C子系统">
 <meta property="og:description" content="该博文主要描述linux I2C子系统">
-<meta property="og:url" content="hntea.xyz/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<meta property="og:url" content="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
 <meta property="og:site_name" content="Hong-Yixin">
 
 
 
 
 
-<link rel="canonical" href="hntea.xyz/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
-<link href="hntea.xyz/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
+<link rel="canonical" href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">
+<link href="https://hntea.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Hong-Yixin Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -41,7 +41,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="hntea.xyz/assets/css/main.css">
+<link rel="stylesheet" href="https://hntea.github.io/assets/css/main.css">
 <!-- Webfonts -->
 <script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
 
@@ -49,12 +49,12 @@
 
 <!-- HTML5 Shiv and Media Query Support -->
 <!--[if lt IE 9]>
-  <script src="hntea.xyz/assets/js/vendor/html5shiv.min.js"></script>
-  <script src="hntea.xyz/assets/js/vendor/respond.min.js"></script>
+  <script src="https://hntea.github.io/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="https://hntea.github.io/assets/js/vendor/respond.min.js"></script>
 <![endif]-->
 
 <!-- Modernizr -->
-<script src="hntea.xyz/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+<script src="https://hntea.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
 
 
 <!-- MathJax -->
@@ -63,17 +63,17 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="hntea.xyz/favicon.ico">
+<link rel="shortcut icon" href="https://hntea.github.io/favicon.ico">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="hntea.xyz/favicon.png">
+<link rel="shortcut icon" href="https://hntea.github.io/favicon.png">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="hntea.xyz/images/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="https://hntea.github.io/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="hntea.xyz/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hntea.github.io/images/apple-touch-icon-72x72-precomposed.png">
 <!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="hntea.xyz/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hntea.github.io/images/apple-touch-icon-114x114-precomposed.png">
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="hntea.xyz/images/apple-touch-icon-144x144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hntea.github.io/images/apple-touch-icon-144x144-precomposed.png">
 
 </head>
 
@@ -99,16 +99,16 @@ charset="UTF-8"></script>
 	    <ul>
       
 		    
-		    <li><a href="hntea.xyz/about" >作者</a></li>
+		    <li><a href="https://hntea.github.io/about" >作者</a></li>
 		  
 		    
-		    <li><a href="hntea.xyz/category/" >分类</a></li>
+		    <li><a href="https://hntea.github.io/category/" >分类</a></li>
 		  
 		    
-		    <li><a href="hntea.xyz/blog/" >博客</a></li>
+		    <li><a href="https://hntea.github.io/blog/" >博客</a></li>
 		  
 		    
-		    <li><a href="hntea.xyz/search/" >搜索</a></li>
+		    <li><a href="https://hntea.github.io/search/" >搜索</a></li>
 		  
 	    </ul>
 	</nav>
@@ -119,9 +119,9 @@ charset="UTF-8"></script>
 <header class="masthead">
 	<div class="wrap">
       
-  		<a href="hntea.xyz/" class="site-logo" rel="home" title="Hong-Yixin"><img src="hntea.xyz/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
+  		<a href="https://hntea.github.io/" class="site-logo" rel="home" title="Hong-Yixin"><img src="https://hntea.github.io/images/site-logo.png" width="200" height="200" alt="Hong-Yixin logo" class="animated fadeInDown"></a>
       
-      <h1 class="site-title animated fadeIn"><a href="hntea.xyz/">Hong-Yixin</a></h1>
+      <h1 class="site-title animated fadeIn"><a href="https://hntea.github.io/">Hong-Yixin</a></h1>
 		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
 	</div>
 </header><!-- /.masthead -->
@@ -135,7 +135,7 @@ charset="UTF-8"></script>
     <div class="entry-wrapper">
       <header class="entry-header">
         <ul class="entry-tags">
-          <li><a href="hntea.xyz/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+          <li><a href="https://hntea.github.io/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
         </ul>
         
           <h1 class="entry-title">I2C子系统</h1>
@@ -144,7 +144,7 @@ charset="UTF-8"></script>
       <footer class="entry-meta">
         
         
-          <img src="hntea.xyz/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+          <img src="https://hntea.github.io/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
         
         <span class="author vcard">By <span class="fn">Hntea</span></span>
         <span class="entry-date date published"><time datetime="2016-03-21T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 20, 2016</time></span>
@@ -597,10 +597,10 @@ charset="UTF-8"></script>
     </div><!-- /.entry-wrapper -->
     <nav class="pagination" role="navigation">
       
-        <a href="hntea.xyz/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" class="btn" title="输入子系统浅析">Previous</a>
+        <a href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" class="btn" title="输入子系统浅析">Previous</a>
       
       
-        <a href="hntea.xyz/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" class="btn" title="SPI总线">Next</a>
+        <a href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" class="btn" title="SPI总线">Next</a>
       
     </nav><!-- /.pagination -->
   </article>
@@ -623,19 +623,19 @@ charset="UTF-8"></script>
 	
   
 	
-  <a href="hntea.xyz/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  <a href="https://hntea.github.io/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
 </div><!-- /.social-icons -->
 
   </footer>
 </div><!-- /.footer-wrapper -->
 
 <script type="text/javascript">
-  var BASE_URL = 'hntea.xyz';
+  var BASE_URL = 'https://hntea.github.io';
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="hntea.xyz/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="hntea.xyz/assets/js/scripts.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://hntea.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://hntea.github.io/assets/js/scripts.min.js"></script>
 
 
 
