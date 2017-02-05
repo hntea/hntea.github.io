@@ -1,20 +1,24 @@
 # Site navigation links
 
 
-- title: 作者
+- title: Author
   url: /about
 
-- title: 分类
+- title: Category
   url: /category/
 
 #- title: 文章
 #  url: /articles/
 
-- title: 博客
+- title: Blog
   url: /blog/
+
+- title: GitHub
+  url: https://github.com/hntea
+
 
 #- title: Theme Setup
 #  url: /theme-setup/
 
-- title: 搜索
+- title: search
   url: /search/
