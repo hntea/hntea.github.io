@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="https://hntea.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hntea.github.io/" rel="alternate" type="text/html" /><updated>2017-02-06T01:12:09+08:00</updated><id>https://hntea.github.io/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages+Jekyll博客搭建</title><link href="https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages+Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll博客搭建</id><content type="html" xml:base="https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-02-06T22:36:04+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages+Jekyll博客搭建</title><link href="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages+Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;安装依赖环境&lt;/h2&gt;
 
@@ -279,7 +279,317 @@ git commit -m &quot;信息记录&quot;
 
 &lt;p&gt;这样域名就设置好了，接着操作本地数据，进入主题目录，在主题根目录添加文件　&lt;strong&gt;CNAME&lt;/strong&gt;，并在文件中添加刚注册的域名。最后将文件 push到githup代码仓即可。&lt;/p&gt;
 
-&lt;p&gt;打开网页，输入刚注册的域名，这样就可以查看了。&lt;/p&gt;</content><category term="Jekyll" /><summary type="html">该博客简述如何一步步使用 Jekyll 搭建自己的博客</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">USB子系统</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" rel="alternate" type="text/html" title="USB子系统" /><published>2016-03-24T03:39:55+08:00</published><updated>2016-03-24T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB子系统</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;p&gt;打开网页，输入刚注册的域名，这样就可以查看了。&lt;/p&gt;</content><category term="Jekyll" /><summary type="html">该博客简述如何一步步使用 Jekyll 搭建自己的博客</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">搭建Ubuntu开发环境</title><link href="http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html" title="搭建Ubuntu开发环境" /><published>2016-11-05T03:39:55+08:00</published><updated>2016-11-05T03:39:55+08:00</updated><id>http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/搭建Ubuntu开发环境</id><content type="html" xml:base="http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">&lt;p&gt;这些天为了玩个kinect2.0，折腾也是够够的！同志们，别担心你的老爷机没有usb3.0接口，直接买个PCI-E转接卡就行了，一开始还在担心驱动的问题，看来是我多虑了，现在的ubuntu版本高的（博主现在用的是ubuntu14.04）一般都支持的挺好的。&lt;/p&gt;
+
+&lt;p&gt;现在博主重装了系统，之前想使用定制软件定制自己的 Ubuntu 工作系统，可惜尝试了手动与自动的方法还是没能搞出一个比较满意的系统出来。为了针对ROS的相关开发，博主有点强迫症，非得搞到自己满意。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;辅助开发软件&lt;/h2&gt;
+&lt;p&gt;在重装系统之后，为方便以后开发，博主推荐安装下列软件：&lt;/p&gt;
+
+&lt;h3 id=&quot;section-1&quot;&gt;集成开发环境&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Eclipse&lt;/li&gt;
+  &lt;li&gt;Qt&lt;/li&gt;
+  &lt;li&gt;Pycharm&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;Qt直接在ubuntu软件中心就可以安装到了，Pycharm编辑器到官网下载之后解包也就可以了。Eclipse用起来也是顺的很，博主现在的Eclipse安装了 pydev插件，ADT插件，shell插件，JDT插件，感觉已经饱满了…软件太大，无法打包上传…教程多的是，不过博主发现之前在ubuntu15.10下使用eclipse,当时jdk应该是1.7版本的，导致pydev插件无法显示，现在改成jdk1.8就可以了。&lt;/p&gt;
+
+&lt;h3 id=&quot;goldendict&quot;&gt;英语词典： GoldenDict&lt;/h3&gt;
+
+&lt;table&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;对于英语不太好来说应该有些帮助，可以搜索该词典对应的离线词典，这样就可以方便查阅了，软件中心有提供。详细配置可以查看 [Goldendict下优质词典简介及安装&lt;/td&gt;
+      &lt;td&gt;Bill Ryan’s Cyberspace](http://www.360doc.com/content/14/0317/20/14641369_361393326.shtml)&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;音乐播放器: 网易&lt;/h3&gt;
+
+&lt;p&gt;网易官网有Linux版本的。&lt;/p&gt;
+
+&lt;h3 id=&quot;harropad&quot;&gt;即时笔记：Harropad&lt;/h3&gt;
+
+&lt;p&gt;直接上官网链接，下载相应平台安装即可。&lt;a href=&quot;http://pad.haroopress.com/user.html&quot;&gt;Harropad官方下载&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;pdfokular&quot;&gt;PDF阅读器：okular&lt;/h3&gt;
+
+&lt;p&gt;这款阅读器相对系统自带的启动会比较慢，但是功能多点，支持修改背景颜色…,这个软件中心也有提供。&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h2 id=&quot;section-3&quot;&gt;开发环境准备&lt;/h2&gt;
+&lt;p&gt;该装的辅助开发软件已经处理的差不多了。因为要在ROS下玩Kinect2.0，所以驱动还得处理。好在黑客牛早已准备好给我们了。直接去GitHub就OK。&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;ROS Indigo 安装：找官网&lt;/li&gt;
+  &lt;li&gt;Kinect2.0驱动libfreenect2安装：参考GitHup教程 &lt;a href=&quot;https://github.com/OpenKinect/libfreenect2&quot;&gt;OpenKinect/libfreenect2
+&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;局域网工作环境搭建&lt;/h2&gt;
+&lt;p&gt;相信很多人手头上不知一两个嵌入式设备，摆在桌面上感觉乱的不要不要的。就像博主现在这样左边一个小派，右边一个笔记本，下面还有一个..如何让一个屏幕一个键盘控制多台设备这是一个很好的问题，如何搭建自己的工作局域网并且能够畅通的访问外网？下面博主详细操作一番。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;准备设备&lt;/h3&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;路由器&lt;/li&gt;
+  &lt;li&gt;台式机+无线网卡&lt;/li&gt;
+  &lt;li&gt;笔记本&lt;/li&gt;
+  &lt;li&gt;树莓派3&lt;/li&gt;
+  &lt;li&gt;网线若干&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;section-6&quot;&gt;环境说明&lt;/h3&gt;
+&lt;p&gt;博主现在的台式机使用的是&lt;strong&gt;ubuntu14.04&lt;/strong&gt;，现在的目的就是使用台式机的显示器、键盘鼠标来控制笔记本，树莓派。&lt;/p&gt;
+
+&lt;p&gt;为了更好的理解搭建的整个过程，这里指出比较重要的点：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;strong&gt;ubuntu系统下默认只能有一个网关&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;/etc/network/interface 文件用来配置网卡接口，目的是让网卡处于激活状态&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;samba-&quot;&gt;准备辅助软件Samba 方便文件传输方：&lt;/h3&gt;
+
+&lt;h4 id=&quot;samba&quot;&gt;安装Samba&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install samba samba-common
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h4 id=&quot;samba-1&quot;&gt;Samba配置：&lt;/h4&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;创建共享文件：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;mkdir ~/sambaShare &amp;amp;&amp;amp; chmod 777 ~/sambaShare
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;修改配置文件：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo vim /etc/samba/smb.conf
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;修改文件只需在文件最后添加如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[Desk-Samba]
+   path = /home/hntea/sambaShare
+   browseable = yes
+   writeable = yes     
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;注：[Desk-Samba] 只是在window链接时显示的文件名称&lt;/strong&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;添加samba用户：&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; sudo smbpasswd -a hntea
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;重启samba :&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo /etc/init.d/smbd start
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;hr /&gt;
+
+&lt;p&gt;接下来如何操作呢？首先来看看图解。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;局域网结构&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20161104172314454&quot; alt=&quot;局域网环境&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;这里博主使用一个简单的连接示意图，注意到每个机器都有双网卡！因为无线在速度和稳定性没有有线好，所以博主选择有线网卡作为局域网络搭建的通道。前面已经说过，操作系统默认只能有一个网关，这一点很重要。为了让每台机的网卡都处于激活状态，现从左到右一一设置：&lt;/p&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;树莓派3双网卡配置&lt;/h3&gt;
+
+&lt;p&gt;这个在前面的博客中已经说明了，具体查看 &lt;a href=&quot;http://blog.csdn.net/u013494117/article/details/51752521&quot;&gt;树莓派3双网卡通讯&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;ubuntu&quot;&gt;Ubuntu双网卡配置&lt;/h3&gt;
+&lt;p&gt;前面说了，只能有一个网关，配置文件能让网卡处于激活状态，所以先进行如下配置，让无线网卡和有线网卡处于激活状态：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/sambaShare$ cat /etc/network/interfaces
+# interfaces(5) file used by ifup(8) and ifdown(8)
+auto lo
+iface lo inet loopback
+
+auto wlan1
+
+auto eth0
+iface eth0 inet static 
+	address 192.168.5.101
+	netmask 255.255.255.0
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;保存配置文件之后重启网卡：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; sudo /etc/init.d/networking restart
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;&lt;strong&gt;注意：如果重启失败/无效，提示如下信息：&lt;/strong&gt;&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/SambaShare$ sudo /etc/init.d/networking restart
+stop: Job failed while stopping
+start: Job is already running: networking
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;那么是因为 service 不支持此操作命令，改为：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo ifdown --exclude=lo -a &amp;amp;&amp;amp; sudo ifup --exclude=lo -a
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;重启除了回环网卡之外的所有网卡。&lt;/p&gt;
+
+&lt;p&gt;接下来配置网关，那就要操作路由表了，系统默认有缺省的路由表。其实没删除缺省的路由表也是没关系的。具体如何操作，使用 route 命令：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~$ route -n
+内核 IP 路由表
+目标            网关            子网掩码        标志  跃点   引用  使用 接口
+0.0.0.0         192.168.5.1     0.0.0.0         UG    0      0        0 eth0
+192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan1
+192.168.5.0     0.0.0.0         255.255.255.0   U     1      0        0 eth0
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;在无线网卡和有线网卡同时启动时，默认缺省网关使用的网卡是有线网卡，也就是有线的优先级比无线的高。为方便起见，直接删除默认网关，再添加默认网关就行了。不过在这之前你应该查看你的无线网卡的ip地址。添加默认网关如下：&lt;/p&gt;
+
+&lt;p&gt;删除：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo route del default gw 192.168.5.1 dev eth0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;之后添加外网网关：&lt;/p&gt;
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo route add default gw 192.168.1.1 dev wlan1 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;重启网络：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo ifdown --exclude=lo -a &amp;amp;&amp;amp; sudo ifup --exclude=lo -a
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;查看一下修改后的路由表：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/sambaShare$ route -n
+内核 IP 路由表
+目标            网关            子网掩码        标志  跃点   引用  使用 接口
+0.0.0.0         192.168.1.1     0.0.0.0         UG    0      0        0 wlan1
+169.254.0.0     0.0.0.0         255.255.0.0     U     1000   0        0 eth0
+192.168.1.0     0.0.0.0         255.255.255.0   U     9      0        0 wlan1
+192.168.5.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;到这里ubuntu下双网卡配置也就好了。不信你可以打开浏览器测试一下….；这里还有一个问题需要注意，如果你有多个局域网可以链接外网，且突然切换到不同网关的局域网后，或许你需要重新添加一个默认网关，确保路由路径正确以便访问外网。&lt;/p&gt;
+
+&lt;hr /&gt;
+&lt;h3 id=&quot;win10-&quot;&gt;Win10 双网卡配置&lt;/h3&gt;
+
+&lt;p&gt;win10的原理也是一样的，不过在这之前应该了解以下：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;跃点数：这只是决定网卡优先级而已。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;打开win10,一步步操作。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;启动双网卡&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;打开更改网络设配器，然后如下图所示配置网络：
+&lt;img src=&quot;http://img.blog.csdn.net/20161104183416425&quot; alt=&quot;配置步骤1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;对于本地有线网卡来说，使用静态IP：&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20161104183537470&quot; alt=&quot;配置步骤2&quot; /&gt;
+注意这里的跃点数，该数不能大于无线网卡，原因是无线网卡链接外网，优先级要高于本地网卡，还有不要给该本地网卡配置默认网关。&lt;/p&gt;
+
+&lt;p&gt;接下来配置无线网卡，步骤和上面一样，还是注意跃点数。这里博主没有配置默认网关是因为实验室有多台路由器，每个网关都配置不一样，所以让它自动就好了。&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20161104183621767&quot; alt=&quot;配置步骤3&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;到这里无线网卡和有线网卡能同时用了。你可以在 doc 界面下使用：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;ipconfig   
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;查看现在的ip状态。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;路由表配置&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;这是关键的一步，如何配好决定网络是否能够通畅。以系统管理员的身份运行 cmd 命令进入 doc 界面。&lt;/p&gt;
+
+&lt;p&gt;1、首先删除默认的缺省网关&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route delete 0.0.0.0  
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;2、&lt;strong&gt;添加静态路由&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;现在情况是这样的：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;内网网段为192.168.5.x，网关为192.168.5.1
+外网网段为192.168.1.x，网关为192.168.1.1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;先配置内网静态路由：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route add 192.168.5.0 mask 255.255.255.0 192.168.5.1 -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;注：它表示访问192.168.5.0网段的所有数据都要经过网关192.168.5.1，-p表示永久添加，重启后依然有效&lt;/p&gt;
+
+&lt;p&gt;在配置外网静态路由：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;route add 0.0.0.0 mask 0.0.0.0 192.168.1.1 -p
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;注：它表示你可以上外网，访问所有数据都要经过外网网关192.168.1.1，-p表示永久添加，重启后依然有效。&lt;/p&gt;
+
+&lt;p&gt;最后查看配置是否生效，在命令窗口输入&lt;code class=&quot;highlighter-rouge&quot;&gt;route print&lt;/code&gt;&lt;/p&gt;
+
+&lt;p&gt;好了，所有配置都已经成功了。正常的话都能 ping 通了。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;为了 ubuntu能够登录 win10,还要配置 win10的远程登录，这个过程简单就不上图了，直接到管理网络的地方选择远程登录，把相应的地方打勾就可以了。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;section-9&quot;&gt;效果测试&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;使用ubuntu自带的远程登录软件： Remmina&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;添加如下所示：
+&lt;img src=&quot;http://img.blog.csdn.net/20161104185506811&quot; alt=&quot;配&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;保存，链接就可以，到这就可以愉快的玩耍了。&lt;/p&gt;
+
+&lt;p&gt;注意：如果有时突然无法连接，提示 RDP…;那么解决办法就是重启网络，路由器等。如果不行，再重启电脑。还是不行，则删除 .remmina文件，这后再重启该软件 ，在删除之前注意备份:&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~$ ll | grep .remm
+drwx------  2 hntea hntea 4096 11月  4 18:53 .remmina/
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;</content><category term="ubuntu" /><category term="ROS" /><category term="Android" /><summary type="html">该博客简述如何配置自己的Ubuntu工作系统，适合ROS,Android等开发</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-7.jpg&quot;}" /></entry><entry><title type="html">USB子系统</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" rel="alternate" type="text/html" title="USB子系统" /><published>2016-03-24T03:39:55+08:00</published><updated>2016-03-24T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB子系统</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;USB（universal serial bus）总线：通用串行总线，是一种外部总线标准，用于规范电脑与外部设备的连接和通讯。&lt;/p&gt;
 
@@ -719,7 +1029,7 @@ USB 同样是一种总线协议，所以初始化一般是向
 &lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnw_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnw_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux usb驱动子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">块设备驱动</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" rel="alternate" type="text/html" title="块设备驱动" /><published>2016-03-23T03:39:55+08:00</published><updated>2016-03-23T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/块设备驱动</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">&lt;h2 id=&quot;section&quot;&gt;基础概念&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux usb驱动子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">块设备驱动</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" rel="alternate" type="text/html" title="块设备驱动" /><published>2016-03-23T03:39:55+08:00</published><updated>2016-03-23T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/块设备驱动</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">&lt;h2 id=&quot;section&quot;&gt;基础概念&lt;/h2&gt;
 
 &lt;p&gt;块设备是一种能随机访问的存储介质，与字符设备不同，它能保存文件系统数据。&lt;/p&gt;
 
@@ -1127,7 +1437,7 @@ data_dir :数据传输方向
 &lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blk_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blk_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux块设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">SPI总线</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" rel="alternate" type="text/html" title="SPI总线" /><published>2016-03-22T03:39:55+08:00</published><updated>2016-03-22T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI总线</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">&lt;h2 id=&quot;section&quot;&gt;概念：&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux块设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">SPI总线</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" rel="alternate" type="text/html" title="SPI总线" /><published>2016-03-22T03:39:55+08:00</published><updated>2016-03-22T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI总线</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">&lt;h2 id=&quot;section&quot;&gt;概念：&lt;/h2&gt;
 
 &lt;p&gt;SPI(Serial Peripheral Interface,串行外围设备接口)总线，串行 主-从接口；很多集成与微控制器内部。&lt;/p&gt;
 
@@ -1341,7 +1651,7 @@ data_dir :数据传输方向
 &lt;h2 id=&quot;spispi&quot;&gt;SPI控制器和SPI设备驱动的函数联系&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20160529205909368?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&quot; alt=&quot;关系图&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;（国嵌入图）&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux SPI总线</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">I2C子系统</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="I2C子系统" /><published>2016-03-21T03:39:55+08:00</published><updated>2016-03-21T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C子系统之用户态驱动设计</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;子系统架构&lt;/h2&gt;
+&lt;p&gt;（国嵌入图）&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux SPI总线</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">I2C子系统</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="I2C子系统" /><published>2016-03-21T03:39:55+08:00</published><updated>2016-03-21T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C子系统之用户态驱动设计</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;子系统架构&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20160529204139047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&quot; alt=&quot;i2c&quot; /&gt;&lt;/p&gt;
 
@@ -1760,7 +2070,7 @@ data_dir :数据传输方向
 
 &lt;p&gt;写的时候有响应，读的时候无响应了，怎么回事？第二个消息包错了吗？&lt;/p&gt;
 
-&lt;p&gt;要追踪一下了，是不是在等待应答那里超时了？速度太快，咻咻咻的就以为超时了，应该是在控制器驱动中的中断收发。先这样吧，原理清楚了。问题等我有时间再来慢慢解决！&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux I2C子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">输入子系统浅析</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" rel="alternate" type="text/html" title="输入子系统浅析" /><published>2016-03-20T03:39:55+08:00</published><updated>2016-03-20T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/输入子系统浅析</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;p&gt;要追踪一下了，是不是在等待应答那里超时了？速度太快，咻咻咻的就以为超时了，应该是在控制器驱动中的中断收发。先这样吧，原理清楚了。问题等我有时间再来慢慢解决！&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux I2C子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">输入子系统浅析</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" rel="alternate" type="text/html" title="输入子系统浅析" /><published>2016-03-20T03:39:55+08:00</published><updated>2016-03-20T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/输入子系统浅析</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;内核对分散的，多种不同类别的输入设备进行统一处理的驱动程序。&lt;/p&gt;
 
@@ -2158,7 +2468,7 @@ data_dir :数据传输方向
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux驱动的输入子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">回环网卡驱动设计</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="回环网卡驱动设计 " /><published>2016-03-19T03:39:55+08:00</published><updated>2016-03-19T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/回环网卡驱动设计</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux驱动的输入子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">回环网卡驱动设计</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="回环网卡驱动设计 " /><published>2016-03-19T03:39:55+08:00</published><updated>2016-03-19T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/回环网卡驱动设计</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;回环网卡：它是一种虚拟设备，原理是自发自收,形成逻辑上的回路&lt;/p&gt;
 
@@ -2457,7 +2767,7 @@ data_dir :数据传输方向
        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loopback_net_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">网络设备驱动</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="网络设备驱动 " /><published>2016-03-18T03:39:55+08:00</published><updated>2016-03-18T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/网络设备驱动模型</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;p&gt;Linux 网络类设备不在是基于文件操作（没有对应的映射到文件系统中的设备节点），而是套接字socket来实现通讯&lt;/p&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">网络设备驱动</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="网络设备驱动 " /><published>2016-03-18T03:39:55+08:00</published><updated>2016-03-18T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/网络设备驱动模型</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;p&gt;Linux 网络类设备不在是基于文件操作（没有对应的映射到文件系统中的设备节点），而是套接字socket来实现通讯&lt;/p&gt;
 
 &lt;h2 id=&quot;linux-&quot;&gt;Linux 网络子系统的架构图&lt;/h2&gt;
 
@@ -2648,7 +2958,7 @@ data_dir :数据传输方向
   &lt;li&gt;
     &lt;p&gt;使用netif_rx(skb);将skb数据包发送给上层协议去处理&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">串行设备驱动模型</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="串行设备驱动模型 " /><published>2016-03-17T03:39:55+08:00</published><updated>2016-03-17T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/串行总线驱动模型</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;h2 id=&quot;tty&quot;&gt;TTY概念解析&lt;/h2&gt;
+&lt;/ol&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">串行设备驱动模型</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="串行设备驱动模型 " /><published>2016-03-17T03:39:55+08:00</published><updated>2016-03-17T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/串行总线驱动模型</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%B2%E8%A1%8C%E6%80%BB%E7%BA%BF%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;h2 id=&quot;tty&quot;&gt;TTY概念解析&lt;/h2&gt;
 
 &lt;h3 id=&quot;devttys&quot;&gt;串口终端（/dev/ttyS*）&lt;/h3&gt;
 
@@ -3063,603 +3373,4 @@ data_dir :数据传输方向
 
 &lt;p&gt;最后一步：将串口缓存中的数据推送到tty-&amp;gt;read_buf中tty_flip_buffer_push();&lt;/p&gt;
 
-&lt;p&gt;流控：Linux使用的是自动硬件流控 或者是 软件流控–&amp;gt;使用x_char来通讯标识&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动串行设备驱动模型</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">平台总线驱动模型</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="平台总线驱动模型 " /><published>2016-03-16T03:39:55+08:00</published><updated>2016-03-16T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/平台总线设备驱动模型</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%B9%B3%E5%8F%B0%E6%80%BB%E7%BA%BF%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;一种虚拟总线，由内核创建&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;一般在内核代码中已近注册了相应的平台资源，在&lt;strong&gt;sys/bus/platform&lt;/strong&gt;中可以查看平台的设备和驱动&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;documentdriver-model&quot;&gt;平台设备：（查看内核document/driver-model目录下的文档）&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;平台设备是一种典型的自动挂载进系统的设备&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;它包含有设备的端口基地址和设备外设总线&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;很多控制器为完善系统的集成度，在上电时自动引导平台设备到内核中去，平台设备中的资源对应的基地址是直接的物理地址，但是驱动设备获取平台资源要使用平台资源获取函数来获取对应的地址信息。&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;平台设备驱动开发分为两个步骤&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;处理平台设备&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;定义平台设备&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;注册平台设备&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;注销平台设备&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;处理平台驱动&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;定义平台驱动&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;注册平台驱动&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;注销平台驱动&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;section-4&quot;&gt;平台设备驱动模型的匹配机制&lt;/h2&gt;
-
-&lt;p&gt;a) 与总线设备驱动模型的匹配机制是同一个原理&lt;/p&gt;
-
-&lt;p&gt;b) 总线通过其设备名和驱动名的匹配（或者是产品的ID号进行匹配）&lt;/p&gt;
-
-&lt;h2 id=&quot;section-5&quot;&gt;平台设备描述结构&lt;/h2&gt;
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*平台设备名，必须和匹配的驱动名同名*/&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*设备编号，配合设备名使用*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;devicedev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*总线设备，平台驱动需要调用释放函数*/&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;u32num_resources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*资源数量.，看资源的种类*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*设备资源*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id_entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mfd_cell&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;mfd_cell&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* MFD cell pointer */&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pdev_archdata&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;archdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/* arch specific additions */&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;驱动比较关心的是该结构体的名字和资源；对于设备资源，对应的结构体描述为&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;resource_size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*资源的起始地址*/&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;resource_size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*资源的结束地址*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;char&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*资源名称*/&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;long&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*标识资源的类型*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;parent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;sibling&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;child&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*资源链表，内核自行处理*/&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;section-6&quot;&gt;使用资源的好处是：&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;表示某个实体的一部分，这部分被互斥地分配给设备驱动程序&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;一个资源表示I/O端口地址的一个范围&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;每个资源对应的信息存放在resource数据结构中&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;资源类型可以是 I/O内存、中断号、DMA等&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-7&quot;&gt;平台设备相关函数&lt;/h3&gt;
-
-&lt;p&gt;1.平台设备注册&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device_register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;2.平台设备注销&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device_unregister&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;3.平台资源获取&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;platform_get_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;流程：定义平台设备-&amp;gt;注册平台设备-&amp;gt;注销平台设备&lt;/p&gt;
-
-&lt;h2 id=&quot;section-8&quot;&gt;平台驱动描述结构&lt;/h2&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;probe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;shutdown&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;suspend&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;pm_message_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;state&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resume&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;device_driver&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/*需要初始化其中的name成员来匹配平台设备*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device_id&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id_table&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-9&quot;&gt;使用规范：&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;
-    &lt;p&gt;由于平台设备已经初始化了相应的平台资源，既硬件资源，所以在该驱动使用 时，使用平台资源获取函数，然后再进行io映射初始化即可&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;注意平台结构中driver.name需要和平台设备匹配&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;初始化一般放在设备捕获函数中进行&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;资源的释放对应在remove对应的函数中&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;模块入口函数只需要进行平台驱动的 注册/注销 就行了&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;&lt;strong&gt;注册函数：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver_register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;&lt;strong&gt;注销函数：&lt;/strong&gt;&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;platform_driver_unregister&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;section-10&quot;&gt;驱动程序设计&lt;/h2&gt;
-
-&lt;h3 id=&quot;section-11&quot;&gt;平台设备&lt;/h3&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cm&quot;&gt;/************************************
-
-作者：hntea
-
-时间：2016/3/16
-
-函数功能：平台总线测试
-
-************************************/&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/init.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/module.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/device.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/platform_device.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/interrupt.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/fs.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/miscdevice.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/mm.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/io.h&amp;gt;
-&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/***********************************
-
-函数名：
-
-函数功能：混杂设备初始化
-
-函数参数
-
-***********************************/&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key_open&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;inode&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;inode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;filep&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;file_operations&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_fops&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;open&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_open&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;miscdevice&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_miscdev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;keydevices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;minor&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;fops&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_fops&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
- 
-&lt;span class=&quot;cm&quot;&gt;/***********************************
-
-函数名：
-
-函数功能：中断处理
-
-函数参数
-
-***********************************/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irqreturn_t&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key1_hander&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key1 down!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irqreturn_t&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key2_hander&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key2 down!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irqreturn_t&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key3_hander&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key3 down!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irqreturn_t&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key4_hander&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev_id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key4 down!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/***********************************
-
-函数名：
-
-函数功能：定义平台驱动
-
-函数参数：
-
-***********************************/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_iomem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_ioconfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key_probe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;kt&quot;&gt;unsigned&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;temdata&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	 
-
-	&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Probe  Devices Success!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*初始化事就交到这里*/&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*注册混杂设备*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;misc_register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_miscdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*注册中断*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;platform_get_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IORESOURCE_IRQ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	    &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key1_hander&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IRQF_TRIGGER_FALLING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key1&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key2_hander&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IRQF_TRIGGER_FALLING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key2&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key3_hander&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IRQF_TRIGGER_FALLING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key3&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;request_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key4_hander&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;IRQF_TRIGGER_FALLING&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key4&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*硬件初始化*/&lt;/span&gt;
-
-	   &lt;span class=&quot;n&quot;&gt;res_iomem&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;platform_get_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IORESOURCE_MEM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*最后一个参数是索引*/&lt;/span&gt;
-
-	   &lt;span class=&quot;n&quot;&gt;size&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_iomem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res_iomem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*8个字节*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;key_ioconfig&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioremap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_iomem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;size&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;  
-
-	&lt;span class=&quot;n&quot;&gt;temdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ioread32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_ioconfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;temdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;mh&quot;&gt;0xfffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;temdata&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|=&lt;/span&gt; &lt;span class=&quot;mh&quot;&gt;0xfffff&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;iowrite32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;temdata&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_ioconfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;key_remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;pdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*注销设备*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;misc_deregister&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_miscdev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*释放中断*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;free_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;free_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;free_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;free_irq&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res_irq&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;3&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;cm&quot;&gt;/*注销内存*/&lt;/span&gt;
-
-	&lt;span class=&quot;n&quot;&gt;iounmap&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_ioconfig&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-	&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;cm&quot;&gt;/*平台驱动成员初始化*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_driver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;probe&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_probe&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-	&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;remove&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_remove&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-	&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;driver&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-	&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;owner&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;THIS_MODULE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-	&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;keydevices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-
-&lt;span class=&quot;cm&quot;&gt;/***********************************
-
-函数名：
-
-函数功能：
-
-函数参数
-
-***********************************/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;keyPlatformDriverInit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*平台驱动注册*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_driver_register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;platform_driver_register err!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;keyPlatformDriverExit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*平台驱动注销*/&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;platform_driver_unregister&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_driver&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;n&quot;&gt;MODULE_LICENSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;MODULE_AUTHOR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hntea&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
- 
-
-&lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPlatformDriverInit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPlatformDriverExit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
- &lt;span class=&quot;err&quot;&gt;```&lt;/span&gt;
-
- 
-&lt;span class=&quot;cp&quot;&gt;### 平台设备
-&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;```&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;c&lt;/span&gt;
-&lt;span class=&quot;cm&quot;&gt;/************************************
-
-作者：hntea
-
-时间：2016/3/16
-
-函数功能：平台总线测试
-
-************************************/&lt;/span&gt;
-
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/init.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/module.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/device.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/platform_device.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include&amp;lt;linux/interrupt.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#define KEY_GPH0CON  0xE0200C00
-&lt;/span&gt;
-&lt;span class=&quot;cm&quot;&gt;/*定义平台资源*/&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;device&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;printk&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;key  source release!&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\n&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_resource&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*IO端口资源*/&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_GPH0CON&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;KEY_GPH0CON&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*配置寄存器加上数据寄存器，每个寄存器四个字节*/&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IORESOURCE_MEM&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*外部中断资源*/&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IRQ_EINT0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;IRQ_EINT5&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;flags&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;IORESOURCE_IRQ&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*定义平台设备*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;key_devices&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;name&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;keydevices&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;num_resources&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;  &lt;span class=&quot;n&quot;&gt;ARRAY_SIZE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;cm&quot;&gt;/*用宏来求资源类型的数量*/&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;resource&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_resource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dev&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;release&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;key_release&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,},&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
-
-
-&lt;span class=&quot;cm&quot;&gt;/*设备注册*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;keyPlatformDeviceInit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;platform_device_register&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;cm&quot;&gt;/*设备卸载*/&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;keyPlatformDeviceExit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
- &lt;span class=&quot;n&quot;&gt;platform_device_unregister&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;key_devices&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;MODULE_LICENSE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;GPL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;MODULE_AUTHOR&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Hntea&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPlatformDeviceInit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;keyPlatformDeviceExit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动平台总线驱动模型</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry></feed>
+&lt;p&gt;流控：Linux使用的是自动硬件流控 或者是 软件流控–&amp;gt;使用x_char来通讯标识&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动串行设备驱动模型</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry></feed>
