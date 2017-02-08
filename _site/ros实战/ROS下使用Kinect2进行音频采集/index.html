@@ -1,0 +1,478 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>ROS下使用 Kinect2 进行音频采集 &#8211; Yixin-Hong</title>
+<meta name="description" content="该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集">
+<meta name="keywords" content="Linux, ALSA, ROS">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="ROS下使用 Kinect2 进行音频采集">
+<meta name="twitter:description" content="该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集">
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://hntea.github.io/images/so-simple-sample-image-6.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ROS下使用 Kinect2 进行音频采集">
+<meta property="og:description" content="该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集">
+<meta property="og:url" content="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/">
+<meta property="og:site_name" content="Yixin-Hong">
+
+
+
+
+
+<link rel="canonical" href="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/">
+<link href="https://hntea.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="https://hntea.github.io/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="https://hntea.github.io/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="https://hntea.github.io/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="https://hntea.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="https://hntea.github.io/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="https://hntea.github.io/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="https://hntea.github.io/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hntea.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hntea.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hntea.github.io/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+
+<!--
+<div class="cinc-postPanel" 
+ user-id="https://hntea.github.io/"
+ data-key="/ros%E5%AE%9E%E6%88%98/ROS下使用Kinect2进行音频采集" 
+ data-title="ROS下使用 Kinect2 进行音频采集" 
+ data-url="https://hntea.github.io//ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/"
+ isReadOnly=true>
+</div>
+<script type="text/javascript" async="" 
+src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
+charset="UTF-8"></script>
+-->
+
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="https://hntea.github.io/about" >Author</a></li>
+		  
+		    
+		    <li><a href="https://hntea.github.io/category/" >Category</a></li>
+		  
+		    
+		    <li><a href="https://hntea.github.io/blog/" >Blog</a></li>
+		  
+		    
+		    <li><a href="https://github.com/hntea" target="_blank">GitHub</a></li>
+		  
+		    
+		    <li><a href="https://hntea.github.io/search/" >search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	
+		<div class="wrap">
+			<a href="https://hntea.github.io/" class="site-logo" rel="home" title="Yixin-Hong"><img src="https://hntea.github.io/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
+		</div>
+	
+</header><!-- /.masthead -->
+
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <img src="https://hntea.github.io/images/so-simple-sample-image-6.jpg" class="entry-feature-image" alt="ROS下使用 Kinect2 进行音频采集" >
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="https://hntea.github.io/tags/#Linux" title="Pages tagged Linux">Linux</a></li><li><a href="https://hntea.github.io/tags/#ALSA" title="Pages tagged ALSA">ALSA</a></li><li><a href="https://hntea.github.io/tags/#ROS" title="Pages tagged ROS">ROS</a></li>
+        </ul>
+        
+          <h1 class="entry-title">ROS下使用 Kinect2 进行音频采集</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="https://hntea.github.io/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2016-08-22T03:39:55+08:00"><i class="fa fa-calendar-o"></i> August 21, 2016</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <p>ROS是基于Linux的二次操作系统，就好比如说是安装在Linux系统下的大型软件，既然它是Linux的一款大型软件，那么Linux下的应用开发套路必然也适用于ROS系统。因此，适合 ROS 的音频开发库也就容易搜索，只需要适用 Linux即可。其实对于嵌入式系统来说，若对应的类库支持该嵌入式平台，那么在PC上开发的上层应用通过相应的交叉编译也能在嵌入式平台上正常运行。不过正确的开发方式是边开发边测试。</p>
+
+<p>下面简要列举较为常用的基础类库</p>
+
+<h2 id="linux">Linux下的音频开发库</h2>
+
+<ul>
+  <li>
+    <p><a href="http://www.alsa-project.org/alsa-doc/alsa-lib/">ALSA</a></p>
+  </li>
+  <li>
+    <p><a href="http://portaudio.com/docs/v19-doxydocs/tutorial_start.html">PortAudio</a></p>
+  </li>
+  <li>
+    <p><a href="https://gstreamer.freedesktop.org/">GStreamer</a></p>
+  </li>
+</ul>
+
+<p>在使用音频开发库之前，简单的了解相关概念有助于我们的进一步开发。</p>
+
+<h2 id="section">音频相关概念</h2>
+
+<p>音频采集首先要了解的几个概念：</p>
+
+<ul>
+  <li>
+    <p>样本精度：样本是记录音频数据最基本的单位,常见有8位和16</p>
+  </li>
+  <li>
+    <p>采样频率：每秒采样次数，可类比成每次中断读取一次数据</p>
+  </li>
+  <li>
+    <p>通道数：分单声道(1)、立体声(2)、多通道</p>
+  </li>
+  <li>
+    <p>桢：桢记录了一个声音单元,其长度为样本长度与通道数的乘积</p>
+  </li>
+  <li>
+    <p>交错模式(interleaved):是一种音频数据的记录方式,在交错模式下,数据以连续桢的形式存放,即首先记录完桢1的左声道样本和右声道样本(假设为立体声格式),再开始桢2的记录。</p>
+  </li>
+  <li>
+    <p>非交错模式：首先记录的是一个周期内所有桢的左声道样本,再记录右声道样本,数据是以连续通道的方式存储。<strong>假如需要对多通道的音频信号分离各自通道的音频信号，使用这种数据存储方式比较合适。</strong></p>
+  </li>
+</ul>
+
+<p>注意：本文主要针对<strong>Kinect2麦克风阵列</strong>，由于该麦克风阵列是四个麦克风，在采集上可使用单通道或多通道的方式，鉴于接下去任务的衔接，该文会使用<strong>4通道</strong>来进行介绍，而对于信号的存储，将会采用<strong>非交错模式</strong>，这样有利于对每一通道进行单独分析。</p>
+
+<hr />
+
+<h2 id="section-1">工作环境测试</h2>
+
+<p>概念了解清楚了，接下来就找找工具来操练一下，现在准备以下几样东西：</p>
+
+<h3 id="section-2">硬件配备</h3>
+
+<ul>
+  <li>USB麦克风(也可以是带有麦克风的USB摄像头,Kinect2.0)</li>
+</ul>
+
+<h3 id="section-3">软件配备</h3>
+
+<p>ALSA是 Linux 的先进音频库来说，适用于绝大多数音频设备，所以在测试硬件是否能正常工作可以先安装该库，只需在终端简单输入一下命令安装即可（树莓派3同样适用）：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2-dev
+</code></pre>
+</div>
+
+<p>简要说明一下重要的库：</p>
+
+<ul>
+  <li>alsa-tools: 该库提供了对音频操作的相关指令</li>
+  <li>libasound2-dev：提供alsa应用编程API，如果使用c/c++编程会用到该库的一些函数。</li>
+</ul>
+
+<h3 id="section-4">测试</h3>
+
+<p>首先查看系统上的声卡，在终端上执行</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hntea@HnteaPC:~/gitSoft$ arecord -l
+**** CAPTURE 硬體裝置清單 ****
+card 1: PCH [HDA Intel PCH], device 0: ALC887-VD Analog [ALC887-VD Analog]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 1: PCH [HDA Intel PCH], device 2: ALC887-VD Alt Analog [ALC887-VD Alt Analog]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 2: U0x46d0x825 [USB Device 0x46d:0x825], device 0: USB Audio [USB Audio]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 3: Sensor [Xbox NUI Sensor], device 0: USB Audio [USB Audio]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+</code></pre>
+</div>
+
+<p>或者</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>hntea@HnteaPC:~/gitSoft$ cat /proc/asound/pcm 
+00-03: HDMI 0 : HDMI 0 : playback 1
+01-00: ALC887-VD Analog : ALC887-VD Analog : playback 1 : capture 1
+01-02: ALC887-VD Alt Analog : ALC887-VD Alt Analog : capture 1
+02-00: USB Audio : USB Audio : capture 1
+03-00: USB Audio : USB Audio : capture 1
+</code></pre>
+</div>
+
+<p>通过上面的指令,就可以具体指定使用哪个录音设备来测试了，假如要使用[Xbox NUI Sensor],那么只需将下面指令的设备名改成：plughw:3,0</p>
+
+<p>在终端执行以下命令录制一段音频</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>arecord -d 10 -D plughw:1,0 test.wav
+</code></pre>
+</div>
+
+<p>arecord 参数说明：</p>
+
+<ul>
+  <li>-d: 录制时间（秒）</li>
+  <li><strong>-D: 指明设备名（plughw:i,j）:其中i是卡号,j是这块声卡上的设备号</strong></li>
+  <li>plughw:,表示一个插件,ALSA库使用逻辑设备名而不是设备文件,详细介绍如下：
+    <ul>
+      <li>默认设备名： default</li>
+      <li>硬件名字使用<strong>hw:i,j</strong>格式：i是卡号,j是这块声卡上的设备号</li>
+    </ul>
+  </li>
+</ul>
+
+<p>更多详细内容请在终端输入</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>arecord -help
+</code></pre>
+</div>
+<p>录制完之后肯定播放一下啦，你可以使用简单的应用工具打开音频文件，当然也可以用命令方式，当先安装如下工具</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install sox
+</code></pre>
+</div>
+<p>之后插上耳机执行如下：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>play xxx.wav 
+</code></pre>
+</div>
+<p>不出意外，你应该能成功录音并且播放，到现在为止，硬件方面的测试已经成功了！基础搭好了，现在该如何做呢？</p>
+
+<hr />
+
+<p>ROS为开发者提供了一套分布式的通信框架，其主要目的是避免重复造轮子。既然如此，就本着拿来主义的精神，先到收集有没有相应的功能包。</p>
+
+<h2 id="ros-audiocommon-">使用ROS下的通用音频包 audio_common 进行音频采集</h2>
+
+<p>官网介绍，该功能包具有音频捕获，音频播放的功能，那么，依照给出的步骤安装并测试:<br /></p>
+
+<p><a href="http://wiki.ros.org/audio_common/Tutorials/Streaming%20audio"><u>audio_common 使用说明</u></a></p>
+
+<h3 id="section-5">操作音频包</h3>
+
+<p>默认情况下，该包已随版本一起发布:** ros-&lt;*&gt;-audio-common**</p>
+
+<p>简单测试该包有没有被安装，只需在终端简单执行以下命令：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>roslaunch audio_capture capture.launch
+</code></pre>
+</div>
+
+<p>倘若没有再执行以下命令进行安装</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install ros-indigo-audio-common
+</code></pre>
+</div>
+
+<p>官网说明已经很详细，这里就不再说明。不过，该包使用的音频设备是系统默认的录音设备，也就是说对于使用使用像 罗技USB摄像头和 Kinect2 所携带的麦克风，运行音频捕获节点会不起作用。</p>
+
+<p>到这里应该注意到，既然该节点配置了启动文件，那么我们是不是可以去看看配置文件呢？很幸运在 <code class="highlighter-rouge">/opt/ros/indigo/share/audio_capture/launch</code> 中找到了启动选项，启动有<strong>device</strong>配置项，可如何修改并没有作相应的说名，按照Linux系统的音频设备挂载规则来修改，不幸的并没有起任何作用。</p>
+
+<p>简单查看了一下源码，该包使用的是<strong>GStreamer</strong>库，本着试一下修改源码的态度，直接下载源码自行编译：</p>
+
+<p>按照官网指示，很不幸无法成功编译通过，原因在于库文件少了！按照提示错误：</p>
+
+<blockquote>
+  <p>无法找到<code class="highlighter-rouge">gst/app/gstappsink.h</code></p>
+</blockquote>
+
+<p>该文件是存在于插件中，这样就容易处理了，安装对应的版本插件即可，执行：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo apt-get install libgstreamer1.0-dev
+sudo apt-get install libgstreamer-plugins-base1.0-dev
+</code></pre>
+</div>
+
+<p>解决缺少库文件后还需要修改对应的源码，以适用于自己的硬件设备，由于是针对Kinect2的，所以需要对源码进行适当的修改。具体修改地方请参考：</p>
+
+<blockquote>
+  <p>http://answers.ros.org/question/48684/kinect-microphone-array-linux-hark-in-combination-with-openni/</p>
+</blockquote>
+
+<p>注意：一个问题是单通道与多通道的差别，该包对于有多通道要求不适应！搜索到一个日本开发的音频包，感觉很厉害的样子，有兴趣的人可以去了解下：</p>
+
+<p>[<u>HARK 一个堪比 OpenCV的音频工具包&lt;/&gt;](http://www.hark.jp/wiki.cgi?page=HARK%2DKINECT)</u></p>
+
+<hr />
+
+<h2 id="section-6">自己动手写应用</h2>
+
+<p>前面辛辛苦苦走了很多弯路，到头来感觉还白忙活一场。不过看别人源码也是学习的过程，也不冤。下面介绍使用 ALAS库来开发自己的音频捕获程序。在使用库之前，很多时候官网给出的例程已经可以直接拿来使用了，对于详细的说明也要仔细的查看API文档。</p>
+
+<h3 id="section-7">伪代码</h3>
+
+<p>对于 Linux 来说，一切皆文件，除了套接字有点不一样。那么操作音频设备也像操作文件一样简单。</p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code>
+<span class="err">打开回放或录音接口</span>
+
+<span class="err">设置硬件参数</span><span class="p">(</span><span class="err">访问模式</span><span class="p">,</span><span class="err">数据格式</span><span class="p">,</span><span class="err">信道数</span><span class="p">,</span><span class="err">采样率</span><span class="p">,</span><span class="err">等等</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="err">有数据要被处理</span>
+<span class="p">{</span>
+<span class="err">　　　读</span><span class="n">PCM</span><span class="err">数据</span><span class="p">(</span><span class="err">录音</span><span class="p">)</span><span class="err">　或</span> <span class="err">写</span><span class="n">PCM</span><span class="err">数据</span><span class="p">(</span><span class="err">回放</span><span class="p">)</span>
+<span class="p">}</span>
+
+<span class="err">关闭接口</span>
+
+</code></pre>
+</div>
+
+<h3 id="section-8">注意关键点</h3>
+
+<ul>
+  <li>
+    <p>打开设备时返回会话语句柄与打开一个文件返回的fd参数一个道理，对于C++对象编程时，需要注意该语句柄的生存周期，需要长期有效直到对象销毁</p>
+  </li>
+  <li>
+    <p>对于多通道，硬件的设置参数推荐使用非交错模式</p>
+  </li>
+</ul>
+
+<h3 id="section-9">详细实现代码请查阅</h3>
+
+<ul>
+  <li><a href="https://github.com/hntea/speech-system-zh/tree/master/src/lib/audio_bace">ALSA音频捕获封装</a></li>
+</ul>
+
+<p>该库文件可以直接使用。直接包含该库文件并在主函数中调用即可，如</p>
+
+<ul>
+  <li><a href="https://github.com/hntea/speech-system-zh/blob/master/src/audio_capture/src/kinect2_capture.cpp">Kinect2.0 麦克风阵列捕获音频节点例程</a></li>
+</ul>
+
+
+        
+    <!--add by hntea start-->
+    <img src="https://hntea.github.io/images/pagement2.jpg" alt="pagement image"></img>
+    <!--add by hntea end-->
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/ros%E5%AE%9E%E6%88%98/ROS下使用Kinect2进行音频采集" data-title="ROS下使用 Kinect2 进行音频采集" data-url="http://hntea.com//ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" class="btn" title="USB子系统">Previous</a>
+      
+      
+        <a href="https://hntea.github.io/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" class="btn" title="搭建Ubuntu开发环境">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="https://hntea.github.io/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'https://hntea.github.io';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="https://hntea.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="https://hntea.github.io/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>
