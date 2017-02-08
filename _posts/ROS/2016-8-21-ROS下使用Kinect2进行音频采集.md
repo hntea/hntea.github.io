@@ -1,13 +1,13 @@
 ---
 layout: post
-title: "ROS下使用 Kinect2 进行音频采集"
+title: "ROS+Kinect2 音频采集"
 modified:
 categories: [ROS实战]
 excerpt: 该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集
-tags: [Linux,ALSA,ROS]
+tags: [Linux,ALSA,ROS,Kinect2]
 image: 
-  feature: so-simple-sample-image-6.jpg
-date: 2016-8-21T15:39:55-04:00
+  feature: so-simple-sample-image-7.jpg
+date: 2017-1-21T15:39:55-04:00
 ---
 
 ROS是基于Linux的二次操作系统，就好比如说是安装在Linux系统下的大型软件，既然它是Linux的一款大型软件，那么Linux下的应用开发套路必然也适用于ROS系统。因此，适合 ROS 的音频开发库也就容易搜索，只需要适用 Linux即可。其实对于嵌入式系统来说，若对应的类库支持该嵌入式平台，那么在PC上开发的上层应用通过相应的交叉编译也能在嵌入式平台上正常运行。不过正确的开发方式是边开发边测试。
@@ -135,9 +135,11 @@ play xxx.wav
 
 ---
 
-ROS为开发者提供了一套分布式的通信框架，其主要目的是避免重复造轮子。既然如此，就本着拿来主义的精神，先到收集有没有相应的功能包。
 
 ## 使用ROS下的通用音频包 audio_common 进行音频采集
+
+
+ROS为开发者提供了一套分布式的通信框架，其主要目的是避免重复造轮子。既然如此，就本着拿来主义的精神，先到收集有没有相应的功能包。<br>
 
 官网介绍，该功能包具有音频捕获，音频播放的功能，那么，依照给出的步骤安装并测试:<br>
 
@@ -145,7 +147,7 @@ ROS为开发者提供了一套分布式的通信框架，其主要目的是避�
 
 ### 操作音频包
 
-默认情况下，该包已随版本一起发布:** ros-<*>-audio-common**
+默认情况下，该包已随版本一起发布:**ros-<*>-audio-common**
 
 简单测试该包有没有被安装，只需在终端简单执行以下命令：
 
@@ -176,16 +178,19 @@ sudo apt-get install libgstreamer1.0-dev
 sudo apt-get install libgstreamer-plugins-base1.0-dev
 ```
 	
-解决缺少库文件后还需要修改对应的源码，以适用于自己的硬件设备，由于是针对Kinect2的，所以需要对源码进行适当的修改。具体修改地方请参考：
+解决缺少库文件后还需要修改对应的源码，以适用于自己的硬件设备，由于是针对Kinect2的，所以需要对源码进行适当的修改。具体修改地方请参考：<br>
 
->http://answers.ros.org/question/48684/kinect-microphone-array-linux-hark-in-combination-with-openni/
+[<u> audio_common 音频捕获源码修改指南 </u>](http://answers.ros.org/question/48684/kinect-microphone-array-linux-hark-in-combination-with-openni/)
+
+
 
 注意：一个问题是单通道与多通道的差别，该包对于有多通道要求不适应！搜索到一个日本开发的音频包，感觉很厉害的样子，有兴趣的人可以去了解下：
 
-[<u>HARK 一个堪比 OpenCV的音频工具包</>](http://www.hark.jp/wiki.cgi?page=HARK%2DKINECT)
+[<u>HARK 一个堪比 OpenCV的音频工具包</u>](http://www.hark.jp/wiki.cgi?page=HARK%2DKINECT)
 
 
 ---
+
 
 ## 自己动手写应用
 
@@ -197,7 +202,7 @@ sudo apt-get install libgstreamer-plugins-base1.0-dev
 对于 Linux 来说，一切皆文件，除了套接字有点不一样。那么操作音频设备也像操作文件一样简单。
 
 
-```c
+```
 
 打开回放或录音接口
 
@@ -212,11 +217,13 @@ while 有数据要被处理
 
 ```
 
-### 注意关键点
+### 关键点
 
 - 打开设备时返回会话语句柄与打开一个文件返回的fd参数一个道理，对于C++对象编程时，需要注意该语句柄的生存周期，需要长期有效直到对象销毁
 
 - 对于多通道，硬件的设置参数推荐使用非交错模式
+
+- ROS 无非就是一套通信框架，只要适当修改即可实现不同节点间的通信，也就是不同进程间通信，只不过它使用的是ROS TCP/IP 协议，本质上也是网络协议。
 
 ### 详细实现代码请查阅
 
@@ -224,6 +231,6 @@ while 有数据要被处理
 
 该库文件可以直接使用。直接包含该库文件并在主函数中调用即可，如
 
-- [Kinect2.0 麦克风阵列捕获音频节点例程](https://github.com/hntea/speech-system-zh/blob/master/src/audio_capture/src/kinect2_capture.cpp)
+- [Kinect2.0 麦克风阵列捕获音频节点例程](https://github.com/hntea/speech-system-zh/blob/master/src/audio_capture/src/kinect2_capture.cpp)<br>
 
 

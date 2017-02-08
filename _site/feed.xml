@@ -1,4 +1,250 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="https://hntea.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://hntea.github.io/" rel="alternate" type="text/html" /><updated>2017-02-08T18:28:18+08:00</updated><id>https://hntea.github.io/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">Github-Pages+Jekyll博客搭建</title><link href="https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages+Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll博客搭建</id><content type="html" xml:base="https://hntea.github.io/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-02-08T18:52:32+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">ROS+Kinect2 音频采集</title><link href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/" rel="alternate" type="text/html" title="ROS+Kinect2 音频采集" /><published>2017-01-22T03:39:55+08:00</published><updated>2017-01-22T03:39:55+08:00</updated><id>http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS下使用Kinect2进行音频采集</id><content type="html" xml:base="http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/">&lt;p&gt;ROS是基于Linux的二次操作系统，就好比如说是安装在Linux系统下的大型软件，既然它是Linux的一款大型软件，那么Linux下的应用开发套路必然也适用于ROS系统。因此，适合 ROS 的音频开发库也就容易搜索，只需要适用 Linux即可。其实对于嵌入式系统来说，若对应的类库支持该嵌入式平台，那么在PC上开发的上层应用通过相应的交叉编译也能在嵌入式平台上正常运行。不过正确的开发方式是边开发边测试。&lt;/p&gt;
+
+&lt;p&gt;下面简要列举较为常用的基础类库&lt;/p&gt;
+
+&lt;h2 id=&quot;linux&quot;&gt;Linux下的音频开发库&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://www.alsa-project.org/alsa-doc/alsa-lib/&quot;&gt;ALSA&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;http://portaudio.com/docs/v19-doxydocs/tutorial_start.html&quot;&gt;PortAudio&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;&lt;a href=&quot;https://gstreamer.freedesktop.org/&quot;&gt;GStreamer&lt;/a&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;在使用音频开发库之前，简单的了解相关概念有助于我们的进一步开发。&lt;/p&gt;
+
+&lt;h2 id=&quot;section&quot;&gt;音频相关概念&lt;/h2&gt;
+
+&lt;p&gt;音频采集首先要了解的几个概念：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;样本精度：样本是记录音频数据最基本的单位,常见有8位和16&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;采样频率：每秒采样次数，可类比成每次中断读取一次数据&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;通道数：分单声道(1)、立体声(2)、多通道&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;桢：桢记录了一个声音单元,其长度为样本长度与通道数的乘积&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;交错模式(interleaved):是一种音频数据的记录方式,在交错模式下,数据以连续桢的形式存放,即首先记录完桢1的左声道样本和右声道样本(假设为立体声格式),再开始桢2的记录。&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;非交错模式：首先记录的是一个周期内所有桢的左声道样本,再记录右声道样本,数据是以连续通道的方式存储。&lt;strong&gt;假如需要对多通道的音频信号分离各自通道的音频信号，使用这种数据存储方式比较合适。&lt;/strong&gt;&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;注意：本文主要针对&lt;strong&gt;Kinect2麦克风阵列&lt;/strong&gt;，由于该麦克风阵列是四个麦克风，在采集上可使用单通道或多通道的方式，鉴于接下去任务的衔接，该文会使用&lt;strong&gt;4通道&lt;/strong&gt;来进行介绍，而对于信号的存储，将会采用&lt;strong&gt;非交错模式&lt;/strong&gt;，这样有利于对每一通道进行单独分析。&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;section-1&quot;&gt;工作环境测试&lt;/h2&gt;
+
+&lt;p&gt;概念了解清楚了，接下来就找找工具来操练一下，现在准备以下几样东西：&lt;/p&gt;
+
+&lt;h3 id=&quot;section-2&quot;&gt;硬件配备&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;USB麦克风(也可以是带有麦克风的USB摄像头,Kinect2.0)&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;软件配备&lt;/h3&gt;
+
+&lt;p&gt;ALSA是 Linux 的先进音频库来说，适用于绝大多数音频设备，所以在测试硬件是否能正常工作可以先安装该库，只需在终端简单输入一下命令安装即可（树莓派3同样适用）：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2-dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;简要说明一下重要的库：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;alsa-tools: 该库提供了对音频操作的相关指令&lt;/li&gt;
+  &lt;li&gt;libasound2-dev：提供alsa应用编程API，如果使用c/c++编程会用到该库的一些函数。&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-4&quot;&gt;测试&lt;/h3&gt;
+
+&lt;p&gt;首先查看系统上的声卡，在终端上执行&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/gitSoft$ arecord -l
+**** CAPTURE 硬體裝置清單 ****
+card 1: PCH [HDA Intel PCH], device 0: ALC887-VD Analog [ALC887-VD Analog]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 1: PCH [HDA Intel PCH], device 2: ALC887-VD Alt Analog [ALC887-VD Alt Analog]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 2: U0x46d0x825 [USB Device 0x46d:0x825], device 0: USB Audio [USB Audio]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+card 3: Sensor [Xbox NUI Sensor], device 0: USB Audio [USB Audio]
+  子设备: 1/1
+  子设备 #0: subdevice #0
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;或者&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/gitSoft$ cat /proc/asound/pcm 
+00-03: HDMI 0 : HDMI 0 : playback 1
+01-00: ALC887-VD Analog : ALC887-VD Analog : playback 1 : capture 1
+01-02: ALC887-VD Alt Analog : ALC887-VD Alt Analog : capture 1
+02-00: USB Audio : USB Audio : capture 1
+03-00: USB Audio : USB Audio : capture 1
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;通过上面的指令,就可以具体指定使用哪个录音设备来测试了，假如要使用[Xbox NUI Sensor],那么只需将下面指令的设备名改成：plughw:3,0&lt;/p&gt;
+
+&lt;p&gt;在终端执行以下命令录制一段音频&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arecord -d 10 -D plughw:1,0 test.wav
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;arecord 参数说明：&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;-d: 录制时间（秒）&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;-D: 指明设备名（plughw:i,j）:其中i是卡号,j是这块声卡上的设备号&lt;/strong&gt;&lt;/li&gt;
+  &lt;li&gt;plughw:,表示一个插件,ALSA库使用逻辑设备名而不是设备文件,详细介绍如下：
+    &lt;ul&gt;
+      &lt;li&gt;默认设备名： default&lt;/li&gt;
+      &lt;li&gt;硬件名字使用&lt;strong&gt;hw:i,j&lt;/strong&gt;格式：i是卡号,j是这块声卡上的设备号&lt;/li&gt;
+    &lt;/ul&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;更多详细内容请在终端输入&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arecord -help
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;录制完之后肯定播放一下啦，你可以使用简单的应用工具打开音频文件，当然也可以用命令方式，当先安装如下工具&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install sox
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;之后插上耳机执行如下：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;play xxx.wav 
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;不出意外，你应该能成功录音并且播放，到现在为止，硬件方面的测试已经成功了！基础搭好了，现在该如何做呢？&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;ros-audiocommon-&quot;&gt;使用ROS下的通用音频包 audio_common 进行音频采集&lt;/h2&gt;
+
+&lt;p&gt;ROS为开发者提供了一套分布式的通信框架，其主要目的是避免重复造轮子。既然如此，就本着拿来主义的精神，先到收集有没有相应的功能包。&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;官网介绍，该功能包具有音频捕获，音频播放的功能，那么，依照给出的步骤安装并测试:&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://wiki.ros.org/audio_common/Tutorials/Streaming%20audio&quot;&gt;&lt;u&gt;audio_common 使用说明&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;section-5&quot;&gt;操作音频包&lt;/h3&gt;
+
+&lt;p&gt;默认情况下，该包已随版本一起发布:&lt;strong&gt;ros-&amp;lt;*&amp;gt;-audio-common&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;简单测试该包有没有被安装，只需在终端简单执行以下命令：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;roslaunch audio_capture capture.launch
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;倘若没有再执行以下命令进行安装&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ros-indigo-audio-common
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;官网说明已经很详细，这里就不再说明。不过，该包使用的音频设备是系统默认的录音设备，也就是说对于使用使用像 罗技USB摄像头和 Kinect2 所携带的麦克风，运行音频捕获节点会不起作用。&lt;/p&gt;
+
+&lt;p&gt;到这里应该注意到，既然该节点配置了启动文件，那么我们是不是可以去看看配置文件呢？很幸运在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/ros/indigo/share/audio_capture/launch&lt;/code&gt; 中找到了启动选项，启动有&lt;strong&gt;device&lt;/strong&gt;配置项，可如何修改并没有作相应的说名，按照Linux系统的音频设备挂载规则来修改，不幸的并没有起任何作用。&lt;/p&gt;
+
+&lt;p&gt;简单查看了一下源码，该包使用的是&lt;strong&gt;GStreamer&lt;/strong&gt;库，本着试一下修改源码的态度，直接下载源码自行编译：&lt;/p&gt;
+
+&lt;p&gt;按照官网指示，很不幸无法成功编译通过，原因在于库文件少了！按照提示错误：&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;无法找到&lt;code class=&quot;highlighter-rouge&quot;&gt;gst/app/gstappsink.h&lt;/code&gt;&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;该文件是存在于插件中，这样就容易处理了，安装对应的版本插件即可，执行：&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install libgstreamer1.0-dev
+sudo apt-get install libgstreamer-plugins-base1.0-dev
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;解决缺少库文件后还需要修改对应的源码，以适用于自己的硬件设备，由于是针对Kinect2的，所以需要对源码进行适当的修改。具体修改地方请参考：&lt;br /&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://answers.ros.org/question/48684/kinect-microphone-array-linux-hark-in-combination-with-openni/&quot;&gt;&lt;u&gt; audio_common 音频捕获源码修改指南 &lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;注意：一个问题是单通道与多通道的差别，该包对于有多通道要求不适应！搜索到一个日本开发的音频包，感觉很厉害的样子，有兴趣的人可以去了解下：&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.hark.jp/wiki.cgi?page=HARK%2DKINECT&quot;&gt;&lt;u&gt;HARK 一个堪比 OpenCV的音频工具包&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h2 id=&quot;section-6&quot;&gt;自己动手写应用&lt;/h2&gt;
+
+&lt;p&gt;前面辛辛苦苦走了很多弯路，到头来感觉还白忙活一场。不过看别人源码也是学习的过程，也不冤。下面介绍使用 ALAS库来开发自己的音频捕获程序。在使用库之前，很多时候官网给出的例程已经可以直接拿来使用了，对于详细的说明也要仔细的查看API文档。&lt;/p&gt;
+
+&lt;h3 id=&quot;section-7&quot;&gt;伪代码&lt;/h3&gt;
+
+&lt;p&gt;对于 Linux 来说，一切皆文件，除了套接字有点不一样。那么操作音频设备也像操作文件一样简单。&lt;/p&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
+打开回放或录音接口
+
+设置硬件参数(访问模式,数据格式,信道数,采样率,等等)
+
+while 有数据要被处理
+{
+　　　读PCM数据(录音)　或 写PCM数据(回放)
+}
+
+关闭接口
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;h3 id=&quot;section-8&quot;&gt;关键点&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;
+    &lt;p&gt;打开设备时返回会话语句柄与打开一个文件返回的fd参数一个道理，对于C++对象编程时，需要注意该语句柄的生存周期，需要长期有效直到对象销毁&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;对于多通道，硬件的设置参数推荐使用非交错模式&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;ROS 无非就是一套通信框架，只要适当修改即可实现不同节点间的通信，也就是不同进程间通信，只不过它使用的是ROS TCP/IP 协议，本质上也是网络协议。&lt;/p&gt;
+  &lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h3 id=&quot;section-9&quot;&gt;详细实现代码请查阅&lt;/h3&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/hntea/speech-system-zh/tree/master/src/lib/audio_bace&quot;&gt;ALSA音频捕获封装&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;该库文件可以直接使用。直接包含该库文件并在主函数中调用即可，如&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/hntea/speech-system-zh/blob/master/src/audio_capture/src/kinect2_capture.cpp&quot;&gt;Kinect2.0 麦克风阵列捕获音频节点例程&lt;/a&gt;&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Linux" /><category term="ALSA" /><category term="ROS" /><category term="Kinect2" /><summary type="html">该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-7.jpg&quot;}" /></entry><entry><title type="html">Github-Pages+Jekyll博客搭建</title><link href="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/" rel="alternate" type="text/html" title="Github-Pages+Jekyll博客搭建" /><published>2017-01-19T03:39:55+08:00</published><updated>2017-01-19T03:39:55+08:00</updated><id>http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll博客搭建</id><content type="html" xml:base="http://localhost:4000/%E7%BD%91%E9%A1%B5%E6%90%AD%E5%BB%BA/Github-Pages+Jekyll%E5%8D%9A%E5%AE%A2%E6%90%AD%E5%BB%BA/">&lt;p&gt;&lt;strong&gt;本次搭建依赖系统环境：ubuntu14.04，搭建原理同样适合其它操作系统&lt;/strong&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;section&quot;&gt;安装依赖环境&lt;/h2&gt;
 
@@ -279,7 +525,7 @@ git commit -m &quot;信息记录&quot;
 
 &lt;p&gt;这样域名就设置好了，接着操作本地数据，进入主题目录，在主题根目录添加文件　&lt;strong&gt;CNAME&lt;/strong&gt;，并在文件中添加刚注册的域名。最后将文件 push到githup代码仓即可。&lt;/p&gt;
 
-&lt;p&gt;打开网页，输入刚注册的域名，这样就可以查看了。&lt;/p&gt;</content><category term="Jekyll" /><summary type="html">该博客简述如何一步步使用 Jekyll 搭建自己的博客</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">搭建Ubuntu开发环境</title><link href="https://hntea.github.io/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html" title="搭建Ubuntu开发环境" /><published>2016-11-05T03:39:55+08:00</published><updated>2016-11-05T03:39:55+08:00</updated><id>https://hntea.github.io/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/搭建Ubuntu开发环境</id><content type="html" xml:base="https://hntea.github.io/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">&lt;p&gt;这些天为了玩个kinect2.0，折腾也是够够的！同志们，别担心你的老爷机没有usb3.0接口，直接买个PCI-E转接卡就行了，一开始还在担心驱动的问题，看来是我多虑了，现在的ubuntu版本高的（博主现在用的是ubuntu14.04）一般都支持的挺好的。&lt;/p&gt;
+&lt;p&gt;打开网页，输入刚注册的域名，这样就可以查看了。&lt;/p&gt;</content><category term="Jekyll" /><summary type="html">该博客简述如何一步步使用 Jekyll 搭建自己的博客</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">搭建Ubuntu开发环境</title><link href="http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/" rel="alternate" type="text/html" title="搭建Ubuntu开发环境" /><published>2016-11-05T03:39:55+08:00</published><updated>2016-11-05T03:39:55+08:00</updated><id>http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/搭建Ubuntu开发环境</id><content type="html" xml:base="http://localhost:4000/linux%E7%B3%BB%E7%BB%9F%E6%9E%84%E5%BB%BA/%E6%90%AD%E5%BB%BAUbuntu%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83/">&lt;p&gt;这些天为了玩个kinect2.0，折腾也是够够的！同志们，别担心你的老爷机没有usb3.0接口，直接买个PCI-E转接卡就行了，一开始还在担心驱动的问题，看来是我多虑了，现在的ubuntu版本高的（博主现在用的是ubuntu14.04）一般都支持的挺好的。&lt;/p&gt;
 
 &lt;p&gt;现在博主重装了系统，之前想使用定制软件定制自己的 Ubuntu 工作系统，可惜尝试了手动与自动的方法还是没能搞出一个比较满意的系统出来。为了针对ROS的相关开发，博主有点强迫症，非得搞到自己满意。&lt;/p&gt;
 
@@ -603,252 +849,7 @@ start: Job is already running: networking
 &lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~$ ll | grep .remm
 drwx------  2 hntea hntea 4096 11月  4 18:53 .remmina/
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="ubuntu" /><category term="ROS" /><category term="Android" /><summary type="html">该博客简述如何配置自己的Ubuntu工作系统，适合ROS,Android等开发</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-7.jpg&quot;}" /></entry><entry><title type="html">ROS下使用 Kinect2 进行音频采集</title><link href="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/" rel="alternate" type="text/html" title="ROS下使用 Kinect2 进行音频采集" /><published>2016-08-22T03:39:55+08:00</published><updated>2016-08-22T03:39:55+08:00</updated><id>https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS下使用Kinect2进行音频采集</id><content type="html" xml:base="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/">&lt;p&gt;ROS是基于Linux的二次操作系统，就好比如说是安装在Linux系统下的大型软件，既然它是Linux的一款大型软件，那么Linux下的应用开发套路必然也适用于ROS系统。因此，适合 ROS 的音频开发库也就容易搜索，只需要适用 Linux即可。其实对于嵌入式系统来说，若对应的类库支持该嵌入式平台，那么在PC上开发的上层应用通过相应的交叉编译也能在嵌入式平台上正常运行。不过正确的开发方式是边开发边测试。&lt;/p&gt;
-
-&lt;p&gt;下面简要列举较为常用的基础类库&lt;/p&gt;
-
-&lt;h2 id=&quot;linux&quot;&gt;Linux下的音频开发库&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;http://www.alsa-project.org/alsa-doc/alsa-lib/&quot;&gt;ALSA&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;http://portaudio.com/docs/v19-doxydocs/tutorial_start.html&quot;&gt;PortAudio&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;&lt;a href=&quot;https://gstreamer.freedesktop.org/&quot;&gt;GStreamer&lt;/a&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;在使用音频开发库之前，简单的了解相关概念有助于我们的进一步开发。&lt;/p&gt;
-
-&lt;h2 id=&quot;section&quot;&gt;音频相关概念&lt;/h2&gt;
-
-&lt;p&gt;音频采集首先要了解的几个概念：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;样本精度：样本是记录音频数据最基本的单位,常见有8位和16&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;采样频率：每秒采样次数，可类比成每次中断读取一次数据&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;通道数：分单声道(1)、立体声(2)、多通道&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;桢：桢记录了一个声音单元,其长度为样本长度与通道数的乘积&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;交错模式(interleaved):是一种音频数据的记录方式,在交错模式下,数据以连续桢的形式存放,即首先记录完桢1的左声道样本和右声道样本(假设为立体声格式),再开始桢2的记录。&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;非交错模式：首先记录的是一个周期内所有桢的左声道样本,再记录右声道样本,数据是以连续通道的方式存储。&lt;strong&gt;假如需要对多通道的音频信号分离各自通道的音频信号，使用这种数据存储方式比较合适。&lt;/strong&gt;&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;注意：本文主要针对&lt;strong&gt;Kinect2麦克风阵列&lt;/strong&gt;，由于该麦克风阵列是四个麦克风，在采集上可使用单通道或多通道的方式，鉴于接下去任务的衔接，该文会使用&lt;strong&gt;4通道&lt;/strong&gt;来进行介绍，而对于信号的存储，将会采用&lt;strong&gt;非交错模式&lt;/strong&gt;，这样有利于对每一通道进行单独分析。&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;section-1&quot;&gt;工作环境测试&lt;/h2&gt;
-
-&lt;p&gt;概念了解清楚了，接下来就找找工具来操练一下，现在准备以下几样东西：&lt;/p&gt;
-
-&lt;h3 id=&quot;section-2&quot;&gt;硬件配备&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;USB麦克风(也可以是带有麦克风的USB摄像头,Kinect2.0)&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-3&quot;&gt;软件配备&lt;/h3&gt;
-
-&lt;p&gt;ALSA是 Linux 的先进音频库来说，适用于绝大多数音频设备，所以在测试硬件是否能正常工作可以先安装该库，只需在终端简单输入一下命令安装即可（树莓派3同样适用）：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install alsa-tools alsa-oss flex zlib1g-dev libc-bin libc-dev-bin python-pexpect libasound2-dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;简要说明一下重要的库：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;alsa-tools: 该库提供了对音频操作的相关指令&lt;/li&gt;
-  &lt;li&gt;libasound2-dev：提供alsa应用编程API，如果使用c/c++编程会用到该库的一些函数。&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-4&quot;&gt;测试&lt;/h3&gt;
-
-&lt;p&gt;首先查看系统上的声卡，在终端上执行&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/gitSoft$ arecord -l
-**** CAPTURE 硬體裝置清單 ****
-card 1: PCH [HDA Intel PCH], device 0: ALC887-VD Analog [ALC887-VD Analog]
-  子设备: 1/1
-  子设备 #0: subdevice #0
-card 1: PCH [HDA Intel PCH], device 2: ALC887-VD Alt Analog [ALC887-VD Alt Analog]
-  子设备: 1/1
-  子设备 #0: subdevice #0
-card 2: U0x46d0x825 [USB Device 0x46d:0x825], device 0: USB Audio [USB Audio]
-  子设备: 1/1
-  子设备 #0: subdevice #0
-card 3: Sensor [Xbox NUI Sensor], device 0: USB Audio [USB Audio]
-  子设备: 1/1
-  子设备 #0: subdevice #0
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;或者&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;hntea@HnteaPC:~/gitSoft$ cat /proc/asound/pcm 
-00-03: HDMI 0 : HDMI 0 : playback 1
-01-00: ALC887-VD Analog : ALC887-VD Analog : playback 1 : capture 1
-01-02: ALC887-VD Alt Analog : ALC887-VD Alt Analog : capture 1
-02-00: USB Audio : USB Audio : capture 1
-03-00: USB Audio : USB Audio : capture 1
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;通过上面的指令,就可以具体指定使用哪个录音设备来测试了，假如要使用[Xbox NUI Sensor],那么只需将下面指令的设备名改成：plughw:3,0&lt;/p&gt;
-
-&lt;p&gt;在终端执行以下命令录制一段音频&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arecord -d 10 -D plughw:1,0 test.wav
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;arecord 参数说明：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;-d: 录制时间（秒）&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;-D: 指明设备名（plughw:i,j）:其中i是卡号,j是这块声卡上的设备号&lt;/strong&gt;&lt;/li&gt;
-  &lt;li&gt;plughw:,表示一个插件,ALSA库使用逻辑设备名而不是设备文件,详细介绍如下：
-    &lt;ul&gt;
-      &lt;li&gt;默认设备名： default&lt;/li&gt;
-      &lt;li&gt;硬件名字使用&lt;strong&gt;hw:i,j&lt;/strong&gt;格式：i是卡号,j是这块声卡上的设备号&lt;/li&gt;
-    &lt;/ul&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;更多详细内容请在终端输入&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;arecord -help
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;录制完之后肯定播放一下啦，你可以使用简单的应用工具打开音频文件，当然也可以用命令方式，当先安装如下工具&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install sox
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;之后插上耳机执行如下：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;play xxx.wav 
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-&lt;p&gt;不出意外，你应该能成功录音并且播放，到现在为止，硬件方面的测试已经成功了！基础搭好了，现在该如何做呢？&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;p&gt;ROS为开发者提供了一套分布式的通信框架，其主要目的是避免重复造轮子。既然如此，就本着拿来主义的精神，先到收集有没有相应的功能包。&lt;/p&gt;
-
-&lt;h2 id=&quot;ros-audiocommon-&quot;&gt;使用ROS下的通用音频包 audio_common 进行音频采集&lt;/h2&gt;
-
-&lt;p&gt;官网介绍，该功能包具有音频捕获，音频播放的功能，那么，依照给出的步骤安装并测试:&lt;br /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://wiki.ros.org/audio_common/Tutorials/Streaming%20audio&quot;&gt;&lt;u&gt;audio_common 使用说明&lt;/u&gt;&lt;/a&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;section-5&quot;&gt;操作音频包&lt;/h3&gt;
-
-&lt;p&gt;默认情况下，该包已随版本一起发布:** ros-&amp;lt;*&amp;gt;-audio-common**&lt;/p&gt;
-
-&lt;p&gt;简单测试该包有没有被安装，只需在终端简单执行以下命令：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;roslaunch audio_capture capture.launch
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;倘若没有再执行以下命令进行安装&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install ros-indigo-audio-common
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;官网说明已经很详细，这里就不再说明。不过，该包使用的音频设备是系统默认的录音设备，也就是说对于使用使用像 罗技USB摄像头和 Kinect2 所携带的麦克风，运行音频捕获节点会不起作用。&lt;/p&gt;
-
-&lt;p&gt;到这里应该注意到，既然该节点配置了启动文件，那么我们是不是可以去看看配置文件呢？很幸运在 &lt;code class=&quot;highlighter-rouge&quot;&gt;/opt/ros/indigo/share/audio_capture/launch&lt;/code&gt; 中找到了启动选项，启动有&lt;strong&gt;device&lt;/strong&gt;配置项，可如何修改并没有作相应的说名，按照Linux系统的音频设备挂载规则来修改，不幸的并没有起任何作用。&lt;/p&gt;
-
-&lt;p&gt;简单查看了一下源码，该包使用的是&lt;strong&gt;GStreamer&lt;/strong&gt;库，本着试一下修改源码的态度，直接下载源码自行编译：&lt;/p&gt;
-
-&lt;p&gt;按照官网指示，很不幸无法成功编译通过，原因在于库文件少了！按照提示错误：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;无法找到&lt;code class=&quot;highlighter-rouge&quot;&gt;gst/app/gstappsink.h&lt;/code&gt;&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;该文件是存在于插件中，这样就容易处理了，安装对应的版本插件即可，执行：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo apt-get install libgstreamer1.0-dev
-sudo apt-get install libgstreamer-plugins-base1.0-dev
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;解决缺少库文件后还需要修改对应的源码，以适用于自己的硬件设备，由于是针对Kinect2的，所以需要对源码进行适当的修改。具体修改地方请参考：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;http://answers.ros.org/question/48684/kinect-microphone-array-linux-hark-in-combination-with-openni/&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;注意：一个问题是单通道与多通道的差别，该包对于有多通道要求不适应！搜索到一个日本开发的音频包，感觉很厉害的样子，有兴趣的人可以去了解下：&lt;/p&gt;
-
-&lt;p&gt;[&lt;u&gt;HARK 一个堪比 OpenCV的音频工具包&amp;lt;/&amp;gt;](http://www.hark.jp/wiki.cgi?page=HARK%2DKINECT)&lt;/u&gt;&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;section-6&quot;&gt;自己动手写应用&lt;/h2&gt;
-
-&lt;p&gt;前面辛辛苦苦走了很多弯路，到头来感觉还白忙活一场。不过看别人源码也是学习的过程，也不冤。下面介绍使用 ALAS库来开发自己的音频捕获程序。在使用库之前，很多时候官网给出的例程已经可以直接拿来使用了，对于详细的说明也要仔细的查看API文档。&lt;/p&gt;
-
-&lt;h3 id=&quot;section-7&quot;&gt;伪代码&lt;/h3&gt;
-
-&lt;p&gt;对于 Linux 来说，一切皆文件，除了套接字有点不一样。那么操作音频设备也像操作文件一样简单。&lt;/p&gt;
-
-&lt;div class=&quot;language-c highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-&lt;span class=&quot;err&quot;&gt;打开回放或录音接口&lt;/span&gt;
-
-&lt;span class=&quot;err&quot;&gt;设置硬件参数&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;访问模式&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;数据格式&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;信道数&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;采样率&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;等等&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;有数据要被处理&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;　　　读&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PCM&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;数据&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;录音&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;　或&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;写&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PCM&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;数据&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;回放&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;err&quot;&gt;关闭接口&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;h3 id=&quot;section-8&quot;&gt;注意关键点&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;
-    &lt;p&gt;打开设备时返回会话语句柄与打开一个文件返回的fd参数一个道理，对于C++对象编程时，需要注意该语句柄的生存周期，需要长期有效直到对象销毁&lt;/p&gt;
-  &lt;/li&gt;
-  &lt;li&gt;
-    &lt;p&gt;对于多通道，硬件的设置参数推荐使用非交错模式&lt;/p&gt;
-  &lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;section-9&quot;&gt;详细实现代码请查阅&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/hntea/speech-system-zh/tree/master/src/lib/audio_bace&quot;&gt;ALSA音频捕获封装&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;该库文件可以直接使用。直接包含该库文件并在主函数中调用即可，如&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/hntea/speech-system-zh/blob/master/src/audio_capture/src/kinect2_capture.cpp&quot;&gt;Kinect2.0 麦克风阵列捕获音频节点例程&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;</content><category term="Linux" /><category term="ALSA" /><category term="ROS" /><summary type="html">该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-6.jpg&quot;}" /></entry><entry><title type="html">USB子系统</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" rel="alternate" type="text/html" title="USB子系统" /><published>2016-03-24T03:39:55+08:00</published><updated>2016-03-24T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB子系统</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;/div&gt;</content><category term="ubuntu" /><category term="ROS" /><category term="Android" /><summary type="html">该博客简述如何配置自己的Ubuntu工作系统，适合ROS,Android等开发</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;&quot;so-simple-sample-image-7.jpg&quot;}" /></entry><entry><title type="html">USB子系统</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/" rel="alternate" type="text/html" title="USB子系统" /><published>2016-03-24T03:39:55+08:00</published><updated>2016-03-24T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB子系统</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/USB%E5%AD%90%E7%B3%BB%E7%BB%9F/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;USB（universal serial bus）总线：通用串行总线，是一种外部总线标准，用于规范电脑与外部设备的连接和通讯。&lt;/p&gt;
 
@@ -1288,7 +1289,7 @@ USB 同样是一种总线协议，所以初始化一般是向
 &lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnw_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;dnw_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux usb驱动子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">块设备驱动</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" rel="alternate" type="text/html" title="块设备驱动" /><published>2016-03-23T03:39:55+08:00</published><updated>2016-03-23T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/块设备驱动</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">&lt;h2 id=&quot;section&quot;&gt;基础概念&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux usb驱动子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">块设备驱动</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/" rel="alternate" type="text/html" title="块设备驱动" /><published>2016-03-23T03:39:55+08:00</published><updated>2016-03-23T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/块设备驱动</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9D%97%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8/">&lt;h2 id=&quot;section&quot;&gt;基础概念&lt;/h2&gt;
 
 &lt;p&gt;块设备是一种能随机访问的存储介质，与字符设备不同，它能保存文件系统数据。&lt;/p&gt;
 
@@ -1696,7 +1697,7 @@ data_dir :数据传输方向
 &lt;span class=&quot;n&quot;&gt;module_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blk_init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;span class=&quot;n&quot;&gt;module_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;blk_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux块设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">SPI总线</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" rel="alternate" type="text/html" title="SPI总线" /><published>2016-03-22T03:39:55+08:00</published><updated>2016-03-22T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI总线</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">&lt;h2 id=&quot;section&quot;&gt;概念：&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux块设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">SPI总线</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/" rel="alternate" type="text/html" title="SPI总线" /><published>2016-03-22T03:39:55+08:00</published><updated>2016-03-22T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI总线</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/SPI%E6%80%BB%E7%BA%BF/">&lt;h2 id=&quot;section&quot;&gt;概念：&lt;/h2&gt;
 
 &lt;p&gt;SPI(Serial Peripheral Interface,串行外围设备接口)总线，串行 主-从接口；很多集成与微控制器内部。&lt;/p&gt;
 
@@ -1910,7 +1911,7 @@ data_dir :数据传输方向
 &lt;h2 id=&quot;spispi&quot;&gt;SPI控制器和SPI设备驱动的函数联系&lt;/h2&gt;
 &lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20160529205909368?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&quot; alt=&quot;关系图&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;（国嵌入图）&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux SPI总线</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">I2C子系统</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="I2C子系统" /><published>2016-03-21T03:39:55+08:00</published><updated>2016-03-21T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C子系统之用户态驱动设计</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;子系统架构&lt;/h2&gt;
+&lt;p&gt;（国嵌入图）&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux SPI总线</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">I2C子系统</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="I2C子系统" /><published>2016-03-21T03:39:55+08:00</published><updated>2016-03-21T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C子系统之用户态驱动设计</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/I2C%E5%AD%90%E7%B3%BB%E7%BB%9F%E4%B9%8B%E7%94%A8%E6%88%B7%E6%80%81%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;子系统架构&lt;/h2&gt;
 
 &lt;p&gt;&lt;img src=&quot;http://img.blog.csdn.net/20160529204139047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center&quot; alt=&quot;i2c&quot; /&gt;&lt;/p&gt;
 
@@ -2329,7 +2330,7 @@ data_dir :数据传输方向
 
 &lt;p&gt;写的时候有响应，读的时候无响应了，怎么回事？第二个消息包错了吗？&lt;/p&gt;
 
-&lt;p&gt;要追踪一下了，是不是在等待应答那里超时了？速度太快，咻咻咻的就以为超时了，应该是在控制器驱动中的中断收发。先这样吧，原理清楚了。问题等我有时间再来慢慢解决！&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux I2C子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">输入子系统浅析</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" rel="alternate" type="text/html" title="输入子系统浅析" /><published>2016-03-20T03:39:55+08:00</published><updated>2016-03-20T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/输入子系统浅析</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;p&gt;要追踪一下了，是不是在等待应答那里超时了？速度太快，咻咻咻的就以为超时了，应该是在控制器驱动中的中断收发。先这样吧，原理清楚了。问题等我有时间再来慢慢解决！&lt;/p&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux I2C子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">输入子系统浅析</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/" rel="alternate" type="text/html" title="输入子系统浅析" /><published>2016-03-20T03:39:55+08:00</published><updated>2016-03-20T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/输入子系统浅析</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E8%BE%93%E5%85%A5%E5%AD%90%E7%B3%BB%E7%BB%9F%E6%B5%85%E6%9E%90/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;内核对分散的，多种不同类别的输入设备进行统一处理的驱动程序。&lt;/p&gt;
 
@@ -2727,7 +2728,7 @@ data_dir :数据传输方向
 &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
 
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux驱动的输入子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">回环网卡驱动设计</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="回环网卡驱动设计 " /><published>2016-03-19T03:39:55+08:00</published><updated>2016-03-19T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/回环网卡驱动设计</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux驱动的输入子系统</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">回环网卡驱动设计</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/" rel="alternate" type="text/html" title="回环网卡驱动设计 " /><published>2016-03-19T03:39:55+08:00</published><updated>2016-03-19T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/回环网卡驱动设计</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E5%9B%9E%E7%8E%AF%E7%BD%91%E5%8D%A1%E9%A9%B1%E5%8A%A8%E8%AE%BE%E8%AE%A1/">&lt;h2 id=&quot;section&quot;&gt;概念&lt;/h2&gt;
 
 &lt;p&gt;回环网卡：它是一种虚拟设备，原理是自发自收,形成逻辑上的回路&lt;/p&gt;
 
@@ -3026,7 +3027,7 @@ data_dir :数据传输方向
        &lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;exit&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;loopback_net_exit&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
 &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">网络设备驱动</title><link href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="网络设备驱动 " /><published>2016-03-18T03:39:55+08:00</published><updated>2016-03-18T03:39:55+08:00</updated><id>https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/网络设备驱动模型</id><content type="html" xml:base="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;p&gt;Linux 网络类设备不在是基于文件操作（没有对应的映射到文件系统中的设备节点），而是套接字socket来实现通讯&lt;/p&gt;
+&lt;/div&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry><entry><title type="html">网络设备驱动</title><link href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/" rel="alternate" type="text/html" title="网络设备驱动 " /><published>2016-03-18T03:39:55+08:00</published><updated>2016-03-18T03:39:55+08:00</updated><id>http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/网络设备驱动模型</id><content type="html" xml:base="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E7%BD%91%E7%BB%9C%E8%AE%BE%E5%A4%87%E9%A9%B1%E5%8A%A8%E6%A8%A1%E5%9E%8B/">&lt;p&gt;Linux 网络类设备不在是基于文件操作（没有对应的映射到文件系统中的设备节点），而是套接字socket来实现通讯&lt;/p&gt;
 
 &lt;h2 id=&quot;linux-&quot;&gt;Linux 网络子系统的架构图&lt;/h2&gt;
 
@@ -3217,4 +3218,4 @@ data_dir :数据传输方向
   &lt;li&gt;
     &lt;p&gt;使用netif_rx(skb);将skb数据包发送给上层协议去处理&lt;/p&gt;
   &lt;/li&gt;
-&lt;/ol&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://hntea.github.io{&quot;feature&quot;=&gt;nil}" /></entry></feed>
+&lt;/ol&gt;</content><category term="Linux驱动" /><summary type="html">该博文主要描述linux 驱动网络设备驱动</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000{&quot;feature&quot;=&gt;nil}" /></entry></feed>
