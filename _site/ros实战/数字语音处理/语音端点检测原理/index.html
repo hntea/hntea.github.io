@@ -1,0 +1,471 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if (IE 7)&!(IEMobile)]><html class="no-js lt-ie9 lt-ie8" lang="en"><![endif]-->
+<!--[if (IE 8)&!(IEMobile)]><html class="no-js lt-ie9" lang="en"><![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"><!--<![endif]-->
+
+<head>
+<meta charset="utf-8">
+<title>语音端点检测(VAD)原理 &#8211; Yixin-Hong</title>
+<meta name="description" content="该博客简单介绍语音端点检测（也称活性检测）的工作原理，包括端点检测的一些常见特征判定算法，同时一步步介绍推进编程实现并测试。">
+<meta name="keywords" content="Linux, ALSA, ROS, Kinect2, 语音信号处理">
+
+
+<!-- Twitter Cards -->
+<meta name="twitter:title" content="语音端点检测(VAD)原理">
+<meta name="twitter:description" content="该博客简单介绍语音端点检测（也称活性检测）的工作原理，包括端点检测的一些常见特征判定算法，同时一步步介绍推进编程实现并测试。">
+
+
+
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="http://localhost:4000/images/so-simple-sample-image-7.jpg">
+
+<!-- Open Graph -->
+<meta property="og:locale" content="China">
+<meta property="og:type" content="article">
+<meta property="og:title" content="语音端点检测(VAD)原理">
+<meta property="og:description" content="该博客简单介绍语音端点检测（也称活性检测）的工作原理，包括端点检测的一些常见特征判定算法，同时一步步介绍推进编程实现并测试。">
+<meta property="og:url" content="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
+<meta property="og:site_name" content="Yixin-Hong">
+
+
+
+
+
+<link rel="canonical" href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
+
+<!-- https://t.co/dKP3o1e -->
+<meta name="HandheldFriendly" content="True">
+<meta name="MobileOptimized" content="320">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- For all browsers -->
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
+<!-- Webfonts -->
+<script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
+
+<meta http-equiv="cleartype" content="on">
+
+<!-- HTML5 Shiv and Media Query Support -->
+<!--[if lt IE 9]>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
+<![endif]-->
+
+<!-- Modernizr -->
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+
+
+<!-- MathJax -->
+<script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+<!-- Icons -->
+<!-- 16x16 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
+<!-- 32x32 -->
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
+<!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
+<!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
+<!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
+<!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
+
+</head>
+
+<body id="post">
+<!-- Add by hntea start-->
+<body style="background-color:hsl(0,5%,65%);"/>
+
+<!--
+<div class="cinc-postPanel" 
+ user-id="https://hntea.github.io/"
+ data-key="/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/语音端点检测原理" 
+ data-title="语音端点检测(VAD)原理" 
+ data-url="https://hntea.github.io//ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/"
+ isReadOnly=true>
+</div>
+<script type="text/javascript" async="" 
+src="http://kelresource.oss-cn-shenzhen.aliyuncs.com/postPanel.min.js" 
+charset="UTF-8"></script>
+-->
+
+<!-- Add by hntea end-->
+<div class="navigation-wrapper">
+	<nav role="navigation" id="site-nav" class="animated drop">
+	    <ul>
+      
+		    
+		    <li><a href="http://localhost:4000/about" >Author</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/category/" >Category</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/blog/" >Blog</a></li>
+		  
+		    
+		    <li><a href="https://github.com/hntea" target="_blank">GitHub</a></li>
+		  
+		    
+		    <li><a href="http://localhost:4000/search/" >search</a></li>
+		  
+	    </ul>
+	</nav>
+</div><!-- /.navigation-wrapper -->
+
+<!--[if lt IE 9]><div class="upgrade"><strong><a href="http://whatbrowser.org/">Your browser is quite old!</strong> Why not upgrade to a different browser to better enjoy this site?</a></div><![endif]-->
+
+<header class="masthead">
+	
+		<div class="wrap">
+			<a href="http://localhost:4000/" class="site-logo" rel="home" title="Yixin-Hong"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
+		</div>
+	
+</header><!-- /.masthead -->
+
+
+<div class="js-menu-screen menu-screen"></div>
+
+
+<div id="main" role="main">
+  <article class="hentry">
+    <img src="http://localhost:4000/images/so-simple-sample-image-7.jpg" class="entry-feature-image" alt="语音端点检测(VAD)原理" >
+    <div class="entry-wrapper">
+      <header class="entry-header">
+        <ul class="entry-tags">
+          <li><a href="http://localhost:4000/tags/#Linux" title="Pages tagged Linux">Linux</a></li><li><a href="http://localhost:4000/tags/#ALSA" title="Pages tagged ALSA">ALSA</a></li><li><a href="http://localhost:4000/tags/#ROS" title="Pages tagged ROS">ROS</a></li><li><a href="http://localhost:4000/tags/#Kinect2" title="Pages tagged Kinect2">Kinect2</a></li><li><a href="http://localhost:4000/tags/#语音信号处理" title="Pages tagged 语音信号处理">语音信号处理</a></li>
+        </ul>
+        
+          <h1 class="entry-title">语音端点检测(VAD)原理</h1>
+        
+      </header>
+      <footer class="entry-meta">
+        
+        
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+        
+        <span class="author vcard">By <span class="fn">Hntea</span></span>
+        <span class="entry-date date published"><time datetime="2017-01-29T03:39:55+08:00"><i class="fa fa-calendar-o"></i> January 28, 2017</time></span>
+        
+        
+        
+        
+      </footer>
+      <div class="entry-content">
+        <p>一般而言，端点检测定义为从连续音频信号中检测出实际语音片段的起始点和终止点，从而提取出有效的语音片段，排除噪声等其他非语音信号的干扰，为后续语音处理系统提供可靠的语音信号；同时，语音端点检测去除了不必要的非语音片段，减少了后续语音处理系统的计算压力，有利于提高系统的响应速度。</p>
+
+<p>对于语音处理，有必要简单了解一下简单的知识点，语音可粗略分为清音和浊音两大类：</p>
+
+<ul>
+  <li>浊音：在时域上呈现出明显的周期性，在频域上出现共振峰且能量大部分集中在较低频段内。</li>
+  <li>清音：相对于很大一类噪声没有明显的时域和频域特征，类似于白噪声。　</li>
+</ul>
+
+<p>一般情况下，语音信号是一种典型的<strong>非平稳信号</strong>，但是我们认为人说话是突然的，即：语音信号可假定为<strong>短时平稳的(10-30ms)</strong>；因此在对语音信号进行分析时，需要将语音信号以10-30ms的间隔将连续的音频信号截取成一段一段来进行分析。</p>
+
+<hr />
+
+<h2 id="section"># 常见端点检测特征分类及处理过程</h2>
+
+<h3 id="section-1">特征分类</h3>
+
+<p><strong>时域特征：</strong></p>
+<ul>
+  <li>短时能量：音信号的能量随着时间变化比较明显，一般清音部分的能量比浊音的能量小的多，所以在区分清音和浊音，有声段和无声段的应用中效果比较明显。</li>
+  <li>短时过零率：表示一帧语音中语音信号波形穿过横轴（零电平）的次数。它可以用来区分清音和浊音，这是因为语音信号中的高频段有高的过零率，低频段过零率较低</li>
+  <li>自相关函数、基频等</li>
+</ul>
+
+<p><strong>频域特征：</strong></p>
+<ul>
+  <li>倒谱距离、 频率方差、谱熵等</li>
+</ul>
+
+<h3 id="section-2">处理过程</h3>
+
+<ol>
+  <li>预处理：通常包括分帧和预滤波等。
+    <ul>
+      <li>分帧是指将语音信号分段（称为语音帧，各帧通常是有交叠的）</li>
+      <li>预滤波一般是指采用高通滤波器滤除低频噪声</li>
+    </ul>
+  </li>
+  <li>特征提取
+    <ul>
+      <li>能量、过零、频谱这些常见的特征</li>
+    </ul>
+  </li>
+  <li>端点判决：是指采用一种判决准则（如门限判决或模式分类等）来区分语音帧与非语音帧；
+    <ul>
+      <li>短时特征判别</li>
+      <li>模板匹配</li>
+    </ul>
+  </li>
+  <li>后处理：是指对上述判决结果进行间断检测，得到最终的语音端点判决结果。</li>
+</ol>
+
+<hr />
+
+<h2 id="section-3"># 语音信号预处理原理</h2>
+
+<h3 id="section-4">预加重</h3>
+
+<p>由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，高频端大约在800Hz以上按6dB/倍频程跌落,即6dB/oct(2倍频)或20dB/dec(10倍频)，所以求语音信号频谱时，频率越高相应的成分越小，高频部分的频谱比低频部分的难求，为此要在预处理中进行预加重(Pre-emphasis)处理．</p>
+
+<p>预加重的目的是提升高频部分，使信号的频谱变得平坦，保持在低频到高频的整个频带中，能用同样的信噪比求频谱，以便于频谱分析或声道参数分析．预加重可在语音信号数字化时在反混叠滤波器之前进行，这样不仅可以进行预加重，而且可以压缩信号的动态范围，有效地提高信噪比．但预加重一般是在语音信号数字化之后，在参数分析之前在计算机里用6dB/倍频程的提升高频特性的预加重数字滤波器来实现，一般：<br /></p>
+
+<p>滤波器的传递函数为：</p>
+
+<script type="math/tex; mode=display">H(Z) = 1-uZ^{-1}</script>
+
+<p>反变换后在时域上的形式为:</p>
+
+<script type="math/tex; mode=display">h[n] = \xi[n] - u\xi[n-1]</script>
+
+<p>其中 <script type="math/tex">\xi[n]</script> : 脉冲响应		u： 一般取接近于 1 的值</p>
+
+<p>由于我们需要自己将预加重的程序实现，那么这种表达方法还不完整，接下去还需要简单推导，由以上时域表达形式，那么对于离散信号来说，只需要：<br /></p>
+
+<p><strong>用单位样本输入的响应来表征，即用输入x[n]与单位响应h[n]作卷积</strong></p>
+
+<script type="math/tex; mode=display">y[n]=\sum_{k=-\infty}^{\infty}x[n]h[n-k] = x[n]*h[n]</script>
+
+<p>式中：* 表示卷积运算操作，下面操作与上面等效</p>
+
+<script type="math/tex; mode=display">y[n]=\sum_{k=-\infty}^{\infty}x[n-k]h[n] = x[n]*h[n]</script>
+
+<p>利用卷积的运算规则，计算出响应表达式如下：</p>
+
+<script type="math/tex; mode=display">y[n]=x[n]*h[n] - ux[n-1]*h[n]= x[n] - ux[n-1]</script>
+
+<h4 id="c-">C++ 示例代码</h4>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ * 函数功能：一阶滤波器 H(Z) = 1-uZ^{-1}
+ * 离散卷积响应表示：
+ * 			y[n] = x[n] - ux[n-1]
+ * 参数说明：
+ *	des：计算结果存放
+ *	src: 原始音频采样
+ *	u: 调节因子（一般接近于0）
+ * */</span>
+<span class="k">static</span> <span class="kt">void</span> <span class="n">preEmphasis</span><span class="p">(</span><span class="n">audio_msgs</span><span class="o">::</span><span class="n">AudioData</span> <span class="o">&amp;</span><span class="n">des</span><span class="p">,</span><span class="k">const</span> <span class="n">audio_msgs</span><span class="o">::</span><span class="n">AudioData</span> <span class="o">&amp;</span><span class="n">src</span><span class="p">,</span><span class="kt">float</span> <span class="n">u</span><span class="o">=</span><span class="n">_u</span><span class="p">){</span>
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">des</span><span class="p">.</span><span class="n">data_size</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+		<span class="k">if</span><span class="p">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span><span class="p">){</span>
+			<span class="n">des</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+		<span class="p">}</span><span class="k">else</span><span class="p">{</span>
+			<span class="n">des</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">src</span><span class="p">.</span><span class="n">data</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">u</span><span class="p">;</span>
+		<span class="p">}</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<hr />
+
+<h3 id="section-5">分帧与加窗</h3>
+
+<p>对于一般的语音信号分析，这个环节必不可少。下面简单了解相关处理术语：</p>
+
+<ol>
+  <li>
+    <p>加窗分帧：这很容易理解，即使用一个窗口将音频信号分成一段一段的，可以连续分段，但一般推荐使用交叠分段方法，这是为了使帧与帧之间平滑过度。</p>
+  </li>
+  <li>
+    <p>帧移：前一帧与后一帧交叠部分，一般取　0~1/2</p>
+  </li>
+  <li>
+    <p>加窗函数：对语音处理来说，短时分析的方法是有效的解决途径。就是用一个长度有限的窗序列(w(m)}截取一段语音信号来进行分析，并让这个窗滑动以便分析任一时刻附近的信号，即加窗函数。容易理解，对于一段音频信号，其中包括不同的频率的采样值，若能够对其中的每个采样点进行权重处理，就相当于滤除一部分频率的信号，这样我们需要的信号就会更加明显，方便我们分析。常见的窗函数有：矩形窗和汉明窗等</p>
+  </li>
+</ol>
+
+<p>解析：因为声音信号在10–30ms内具有短时平稳性，选择帧长在20–30ms，例如一帧里面有160个采样点，且通道数为1，采样率为8K：那么帧长就是：160×1/8000=20ms。帧移为10ms。</p>
+
+<h4 id="section-6">窗函数的定义</h4>
+
+<p>一般对于采样得到原始信号后，我们会将得到的信号与窗函数进行卷积运算，以便给每个采样点设置不同的权重，从而达到一定的滤波效果。具体实现形式如下：</p>
+
+<script type="math/tex; mode=display">s_w(n)=s(n)*w(n)</script>
+
+<p>其中: <br />
+<script type="math/tex">s_w(n)</script>：加窗语音信号    ;   <script type="math/tex">w(n)</script>：为窗口函数     <br />
+<script type="math/tex">s(n)</script>：原始音频信号    ;  n: 窗口长度</p>
+
+<p>比较常用的窗口函数分别为：</p>
+
+<h5 id="br">矩形窗<br /></h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+w(n) =\begin{cases}
+1,  & {0 \le n\le N-1} \\
+0, & \text{else}
+\end{cases} %]]></script>
+
+<h5 id="br-1">汉明窗<br /></h5>
+
+<script type="math/tex; mode=display">% <![CDATA[
+w(n) =\begin{cases}
+0.54-0.46cos(2*3.14*n/(N-1)),  　& {0 \le n \le N-1} \\
+0, & \text{else}
+\end{cases} %]]></script>
+
+<p><br />
+下面就汉民窗的数学定义用C++实现说明</p>
+
+<h4 id="c--1">C++ 示例代码</h4>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">SampleType</span><span class="o">&gt;</span> <span class="n">source</span><span class="p">;</span>
+<span class="n">source</span><span class="p">.</span><span class="n">reserve</span><span class="p">(</span><span class="n">size</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="kt">size_t</span> <span class="n">n</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="n">size</span><span class="p">;</span> <span class="o">++</span><span class="n">n</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">source</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span>
+        <span class="mf">0.53836</span> <span class="o">-</span> <span class="mf">0.46164</span> <span class="o">*</span> <span class="n">std</span><span class="o">::</span><span class="n">cos</span><span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">M_PI</span> <span class="o">*</span> <span class="n">n</span> <span class="o">/</span> <span class="kt">double</span><span class="p">(</span><span class="n">size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>简单理解就是使用一个容器来存放对应的乘积结果，当使用时就可以直接访问容器的内容就好了。</p>
+
+<hr />
+
+<h2 id="section-7"># 特征提取</h2>
+
+<p>对于选取哪种特征来进行分析，不同的平台与不同的环境可以采取不同的策略。一般来说，对于嵌入式设备这种处理能力受到限制的平台，时域分析压力比较小。但就现在的趋势，拥有较强处理能力的嵌入式设备价格不再是太大的问题，所以将信号进行频域转换分析也是可行的。不过，能够做到在尽量少的运算得到尽量高的准确率肯定都是大家追求的。本文只对提取简单的特征作相应的分析，如能量与过零，其它比较繁琐特征的不做详细讨论。</p>
+
+<hr />
+
+<p><strong>短时能量</strong></p>
+
+<script type="math/tex; mode=display">E_n=\sum_{m=-\infty}^{m=+\infty} [x(m)w(n-m)]^2=\sum_{m=n-(N-1)}^{n}[x(m)w(n-m)]^2</script>
+
+<p>其中:<br /></p>
+
+<script type="math/tex; mode=display">x(m):语音信号	w(m):窗函数   N:窗长</script>
+
+<p>根据上方定义，为编程方便，暂时使用矩形窗口来实现分帧，且帧移为零。后续如果没有达到满意的实验效果再来添加处理方法不迟。为计算方便，我们使用对数形式减少数值的大小，统一取对数如下所示:<br /></p>
+
+<script type="math/tex; mode=display">E_l=logE_n=log\sum_{i=0}^{n} x_i^2</script>
+
+<hr />
+
+<p><strong>短时过零</strong></p>
+
+<script type="math/tex; mode=display">Z_n=1/2\sum_{m=0}^{N-1} {|sgn[x_n(m)]-sgn[x_n(m-1)]|}</script>
+
+<p>其中sgn(x)为符号函数：</p>
+
+<script type="math/tex; mode=display">% <![CDATA[
+sgn(x) =
+\begin{cases}
+ 1,  & {x \ge0} \\ 
+-1, & x\lt0
+\end{cases} %]]></script>
+
+<p>上面两个特征的定义相对简单，编程实现也比较容易。不过为了方便与统一说明，这里采用C++的信号处理库<strong>Aquila</strong>对函数实现进行简单说明，这里将要列举了<strong>能量的计算</strong>，对于<strong>过零</strong>也相对简单，可以自行设计</p>
+
+<h4 id="c--2">C++ 示例代码</h4>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="kt">double</span> <span class="nf">energy</span><span class="p">(</span><span class="k">const</span> <span class="n">SignalSource</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">)</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span>
+	    <span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+	    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
+	    <span class="mf">0.0</span><span class="p">,</span>
+	    <span class="p">[]</span> <span class="p">(</span><span class="kt">double</span> <span class="n">acc</span><span class="p">,</span> <span class="n">SampleType</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">value</span> <span class="o">*</span> <span class="n">value</span><span class="p">;</span>
+	    <span class="p">}</span>
+	<span class="p">);</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>这里面传递进去的是一个信号对象，其里面具体运算过程实际上是取对存放在对象里面的信号值进行运算而已。</p>
+
+<hr />
+
+<p>一般来说，到这里已经能够进行简单语音端点检测开发工作了。接下来会具体描述如何使用ROS设计语音端点检测的节点。</p>
+
+<hr />
+
+<h2 id="section-8">参考</h2>
+
+<ul>
+  <li><a href="http://scispeech.sourceforge.net/Chinese/Dev-pre.htm">语音概念解析</a></li>
+  <li><a href="https://zh.wikipedia.org/wiki/%E5%8D%B7%E7%A7%AF">卷积运算-Wiki百科</a></li>
+</ul>
+
+        
+    <!--add by hntea start-->
+    <img src="http://localhost:4000/images/pagement2.jpg" alt="pagement image"></img>
+    <!--add by hntea end-->
+      <!-- 多说评论框 start -->
+      <div class="ds-thread" data-thread-key="/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/语音端点检测原理" data-title="语音端点检测(VAD)原理" data-url="http://hntea.com//ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/"></div>
+      <!-- 多说评论框 end -->
+      <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+      <script type="text/javascript">
+      var duoshuoQuery = {short_name:"hntea"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+    </script>
+    <!-- 多说公共JS代码 end -->
+      </div><!-- /.entry-content -->
+    </div><!-- /.entry-wrapper -->
+    <nav class="pagination" role="navigation">
+      
+        <a href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/" class="btn" title="ROS+Kinect2 音频采集">Previous</a>
+      
+      
+        <a href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="btn" title="ROS下端点检测节点设计及实现">Next</a>
+      
+    </nav><!-- /.pagination -->
+  </article>
+</div><!-- /#main -->
+
+
+
+<div class="footer-wrapper">
+  <footer role="contentinfo" class="entry-wrapper">
+    
+
+<span>&copy; 2017 Hntea. Powered by <a href="http://jekyllrb.com" rel="nofollow">Jekyll</a> using the <a href="https://mademistakes.com/work/so-simple-jekyll-theme/" rel="nofollow">So Simple Theme</a>.</span>
+<div class="social-icons">
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://github.com/hntea" title="Hntea on Github" target="_blank"><i class="fa fa-github-square fa-2x"></i></a>
+	
+  
+	
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+</div><!-- /.social-icons -->
+
+  </footer>
+</div><!-- /.footer-wrapper -->
+
+<script type="text/javascript">
+  var BASE_URL = 'http://localhost:4000';
+</script>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
+
+
+
+
+</body>
+</html>

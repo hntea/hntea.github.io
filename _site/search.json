@@ -2,6 +2,22 @@
 
   
     {
+      "title"			: "ROS下端点检测节点设计及实现",
+      "link"			: "http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/",
+      "excerpt"		: "该博客简单介绍语音信号处理中常见端点检测算法，同时一步步介绍推进编程实现并测试。"
+    }
+  
+
+  
+    ,{
+      "title"			: "语音端点检测(VAD)原理",
+      "link"			: "http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/",
+      "excerpt"		: "该博客简单介绍语音端点检测（也称活性检测）的工作原理，包括端点检测的一些常见特征判定算法，同时一步步介绍推进编程实现并测试。"
+    }
+  
+
+  
+    ,{
       "title"			: "ROS+Kinect2 音频采集",
       "link"			: "http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/",
       "excerpt"		: "该博客详细介绍在ROS系统下使如何用ALSA音频库结合 Kinect2.0 的麦克风阵列进行音频信号采集"

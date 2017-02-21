@@ -163,11 +163,13 @@ charset="UTF-8"></script>
 <p><img src="http://img.blog.csdn.net/20160529204139047?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="i2c" /></p>
 
 <h3 id="i2c">I2C核心</h3>
+
 <p>I2C 总线和 I2C设备驱动的中间枢纽，它提供了I2C总线驱动和设备驱动的注册、注销方法等。</p>
 
 <h3 id="i2c-dev">i2c-dev</h3>
 
 <h2 id="section-1">通用驱动</h2>
+
 <h3 id="i2c-1">I2C控制器（适配器）驱动</h3>
 
 <p>对I2C 控制器驱动的实现，属于总线驱动程序，通常由适配器驱动(i2c_adapter)和adapter.algo成员（算法驱动程序；控制器（适配器）可在CPU外部，也可以集成在CPU 内部</p>
@@ -228,8 +230,10 @@ charset="UTF-8"></script>
 
 <p>向核心注册驱动：主要说明的是device_create这个函数：既在sys文件下创建设备文件</p>
 
-<p>文件所在类名是
-<img src="http://img.blog.csdn.net/20160529204210002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="at" /></p>
+<p>文件所在类名是<br /></p>
+
+<p><img src="http://img.blog.csdn.net/20160529204210002?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="at" /></p>
+
 <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">device_create</span><span class="p">(</span><span class="k">struct</span> <span class="n">class</span> <span class="o">*</span><span class="n">class</span><span class="p">,</span> <span class="k">struct</span> <span class="n">device</span> <span class="o">*</span><span class="n">parent</span><span class="p">,</span>
      <span class="n">dev_t</span> <span class="n">devt</span><span class="p">,</span> <span class="kt">void</span> <span class="o">*</span><span class="n">drvdata</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">fmt</span><span class="p">,</span> <span class="p">...)</span>
  <span class="err">```</span>
@@ -249,6 +253,7 @@ charset="UTF-8"></script>
 </code></pre>
 </div>
 <hr />
+
 <h2 id="i2c-corec">i2c-core.c</h2>
 
 <p>进击open函数，这里面做怎么搞？</p>
@@ -430,18 +435,21 @@ charset="UTF-8"></script>
 
 <p>如果我么要对i2c设备进行操作，那么就是读写操作了，当我们发送控制信号I2C_RDWR就可以进行操作了，进入</p>
 
-<p>static noinline int i2cdev_ioctl_rdrw(struct i2c_client *client,unsigned long arg)，查看函数信息：</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">static</span> <span class="n">noinline</span> <span class="kt">int</span> <span class="n">i2cdev_ioctl_rdrw</span><span class="p">(</span><span class="k">struct</span> <span class="n">i2c_client</span> <span class="o">*</span><span class="n">client</span><span class="p">,</span><span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">arg</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>查看函数信息：</p>
 
 <p>第一眼就看到重要数据结构：</p>
 
-<p>struct i2c_msg *rdwr_pa;</p>
+<p><strong>struct i2c_msg *rdwr_pa;</strong></p>
 
-<p>该函数通过copy_from_user(&amp;rdwr_arg,</p>
+<p>该函数通过</p>
 
-<p>(struct i2c_rdwr_ioctl_data __user <em>)arg,/</em>重点就在这个消怎么构造*/</p>
-
-<p>sizeof(rdwr_arg))</p>
-
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="cm">/*重点就在这个消怎么构造*/</span>
+<span class="n">copy_from_user</span><span class="p">(</span><span class="o">&amp;</span><span class="n">rdwr_arg</span><span class="p">,</span> <span class="p">(</span><span class="k">struct</span> <span class="n">i2c_rdwr_ioctl_data</span> <span class="n">__user</span> <span class="o">*</span><span class="p">)</span><span class="n">arg</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="n">rdwr_arg</span><span class="p">))</span>
+</code></pre>
+</div>
 <p>将用户程序传递进来的“消息”复制到指定的位置去，之后调用</p>
 
 <p>res = i2c_transfer(client-&gt;adapter, rdwr_pa, rdwr_arg.nmsgs); 向下一层传递消息….</p>
