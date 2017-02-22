@@ -18,22 +18,22 @@
 
 
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://hntea.github.io/images/site-logo.png">
+<meta name="twitter:image" content="http://localhost:4000/images/site-logo.png">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="China">
 <meta property="og:type" content="article">
 <meta property="og:title" content="中断分层机制 Tasklet">
 <meta property="og:description" content="文件主要描述linux 驱动终端处理机制">
-<meta property="og:url" content="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
+<meta property="og:url" content="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
 <meta property="og:site_name" content="Yixin-Hong">
 
 
 
 
 
-<link rel="canonical" href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
-<link href="https://hntea.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
+<link rel="canonical" href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -41,7 +41,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="https://hntea.github.io/assets/css/main.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
 <!-- Webfonts -->
 <script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
 
@@ -49,12 +49,12 @@
 
 <!-- HTML5 Shiv and Media Query Support -->
 <!--[if lt IE 9]>
-  <script src="https://hntea.github.io/assets/js/vendor/html5shiv.min.js"></script>
-  <script src="https://hntea.github.io/assets/js/vendor/respond.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
 <![endif]-->
 
 <!-- Modernizr -->
-<script src="https://hntea.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
 
 
 <!-- MathJax -->
@@ -63,23 +63,26 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.ico">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.png">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="https://hntea.github.io/images/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hntea.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
 <!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hntea.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hntea.github.io/images/apple-touch-icon-144x144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
 
 </head>
 
 <body id="post">
 <!-- Add by hntea start-->
+
+<!--
 <body style="background-color:hsl(0,5%,65%);"/>
+-->
 
 <!--
 <div class="cinc-postPanel" 
@@ -100,19 +103,19 @@ charset="UTF-8"></script>
 	    <ul>
       
 		    
-		    <li><a href="https://hntea.github.io/about" >Author</a></li>
+		    <li><a href="http://localhost:4000/about" >Author</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/category/" >Category</a></li>
+		    <li><a href="http://localhost:4000/category/" >Category</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/blog/" >Blog</a></li>
+		    <li><a href="http://localhost:4000/blog/" >Blog</a></li>
 		  
 		    
 		    <li><a href="https://github.com/hntea" target="_blank">GitHub</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/search/" >search</a></li>
+		    <li><a href="http://localhost:4000/search/" >search</a></li>
 		  
 	    </ul>
 	</nav>
@@ -123,9 +126,9 @@ charset="UTF-8"></script>
 <header class="masthead">
 	<div class="wrap">
       
-  		<a href="https://hntea.github.io/" class="site-logo" rel="home" title="Yixin-Hong"><img src="https://hntea.github.io/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
+  		<a href="http://localhost:4000/" class="site-logo" rel="home" title="Yixin-Hong"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
       
-      <h1 class="site-title animated fadeIn"><a href="https://hntea.github.io/">Yixin-Hong</a></h1>
+      <h1 class="site-title animated fadeIn"><a href="http://localhost:4000/">Yixin-Hong</a></h1>
 		<h2 class="site-description animated fadeIn" itemprop="description">To Be Better</h2>
 	</div>
 </header><!-- /.masthead -->
@@ -139,7 +142,7 @@ charset="UTF-8"></script>
     <div class="entry-wrapper">
       <header class="entry-header">
         <ul class="entry-tags">
-          <li><a href="https://hntea.github.io/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
+          <li><a href="http://localhost:4000/tags/#Linux驱动" title="Pages tagged Linux驱动">Linux驱动</a></li>
         </ul>
         
           <h1 class="entry-title">中断分层机制 Tasklet</h1>
@@ -148,7 +151,7 @@ charset="UTF-8"></script>
       <footer class="entry-meta">
         
         
-          <img src="https://hntea.github.io/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
         
         <span class="author vcard">By <span class="fn">Hntea</span></span>
         <span class="entry-date date published"><time datetime="2016-03-09T03:39:55+08:00"><i class="fa fa-calendar-o"></i> March 08, 2016</time></span>
@@ -418,7 +421,7 @@ module_exit(yyyy)
 
         
     <!--add by hntea start-->
-    <img src="https://hntea.github.io/images/pagement2.jpg" alt="pagement image"></img>
+    <img src="http://localhost:4000/images/pagement2.jpg" alt="pagement image"></img>
     <!--add by hntea end-->
       <!-- 多说评论框 start -->
       <div class="ds-thread" data-thread-key="/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/中断分层机制" data-title="中断分层机制 Tasklet" data-url="http://hntea.com//%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6/"></div>
@@ -440,10 +443,10 @@ module_exit(yyyy)
     </div><!-- /.entry-wrapper -->
     <nav class="pagination" role="navigation">
       
-        <a href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/" class="btn" title="中断处理模型">Previous</a>
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%A4%84%E7%90%86%E6%A8%A1%E5%9E%8B/" class="btn" title="中断处理模型">Previous</a>
       
       
-        <a href="https://hntea.github.io/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/" class="btn" title="中断分层机制 Workqueue">Next</a>
+        <a href="http://localhost:4000/%E9%A9%B1%E5%8A%A8%E5%BC%80%E5%8F%91/%E4%B8%AD%E6%96%AD%E5%88%86%E5%B1%82%E6%9C%BA%E5%88%B6%E4%B9%8B%E5%B7%A5%E4%BD%9C%E9%98%9F%E5%88%97/" class="btn" title="中断分层机制 Workqueue">Next</a>
       
     </nav><!-- /.pagination -->
   </article>
@@ -468,19 +471,19 @@ module_exit(yyyy)
 	
   
 	
-  <a href="https://hntea.github.io/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
 </div><!-- /.social-icons -->
 
   </footer>
 </div><!-- /.footer-wrapper -->
 
 <script type="text/javascript">
-  var BASE_URL = 'https://hntea.github.io';
+  var BASE_URL = 'http://localhost:4000';
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="https://hntea.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="https://hntea.github.io/assets/js/scripts.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
 
 
 
