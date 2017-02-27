@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-02-22T09:40:20+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">ROS下端点检测节点设计及实现</title><link href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/" rel="alternate" type="text/html" title="ROS下端点检测节点设计及实现" /><published>2017-02-06T03:39:55+08:00</published><updated>2017-02-06T03:39:55+08:00</updated><id>http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS下端点检测节点设计及实现</id><content type="html" xml:base="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/">&lt;h2 id=&quot;ros&quot;&gt;# ROS框架下的端点检测节点设计&lt;/h2&gt;
+<?xml version="1.0" encoding="utf-8"?><?xml-stylesheet type="text/xml" href="/feed.xslt.xml"?><feed xmlns="http://www.w3.org/2005/Atom"><generator uri="http://jekyllrb.com" version="3.2.1">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2017-02-27T21:36:29+08:00</updated><id>http://localhost:4000/</id><title type="html">Yixin-Hong</title><subtitle>To Be Better</subtitle><entry><title type="html">ROS下端点检测节点设计及实现</title><link href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/" rel="alternate" type="text/html" title="ROS下端点检测节点设计及实现" /><published>2017-02-06T03:39:55+08:00</published><updated>2017-02-06T03:39:55+08:00</updated><id>http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS下端点检测节点设计及实现</id><content type="html" xml:base="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/">&lt;h2 id=&quot;ros&quot;&gt;# ROS框架下的端点检测节点设计&lt;/h2&gt;
 
 &lt;p&gt;在简单理解了上面的相关概念之后，接下来我们将使用 &lt;a href=&quot;http://aquila-dsp.org/articles/examples/&quot;&gt;Aquila C++ 开源信号处理库&lt;/a&gt; 来完成基于ROS通信框架下的&lt;strong&gt;VAD&lt;/strong&gt;算法。&lt;/p&gt;
 
@@ -31,16 +31,114 @@
 &lt;ul&gt;
   &lt;li&gt;AudioData.msg : 原始音频数据&lt;/li&gt;
   &lt;li&gt;AudioFeature.msg : 单独特征&lt;/li&gt;
-  &lt;li&gt;AudioFeatures.msg : 组合特征&lt;/li&gt;
+  &lt;li&gt;AudioFeatureSet.msg : 组合特征&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;详细内容可以查看：&lt;a href=&quot;https://github.com/hntea/speech-system-zh/tree/master/src/audio_msgs&quot;&gt;audio_msgs 消息文件设计&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;消息文件已经确定，并且能够使用音频捕获节点获取信息。那么接下来就是对采集的音频信号进行特征提取。本次只采用过零和能量两种特征，其它特征先不考虑。&lt;/p&gt;
 
-&lt;h3 id=&quot;aquila&quot;&gt;运用Aquila库提取特征&lt;/h3&gt;
+&lt;h3 id=&quot;section&quot;&gt;提取特征&lt;/h3&gt;
 
-&lt;h2 id=&quot;section&quot;&gt;参考&lt;/h2&gt;
+&lt;p&gt;在进行特征提取之前，需要明确接下去的端点判决说需要的特征。为了在端点判决时比较容易处理，这次特征提取后将不同的特征打包后再通过节点发送。如果后续还需要添加其它特征，那么依据文件来修改会比较简单。具体该如何设计好？要不就设计一个类，方便自己再次扩展。这次的类设计头文件如下：&lt;/p&gt;
+
+&lt;h4 id=&quot;section-1&quot;&gt;特征类设计&lt;/h4&gt;
+
+&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Hntea&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FeatureSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Aquila&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;SignalSource&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;public&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;:&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;FeatureSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+	&lt;span class=&quot;n&quot;&gt;FeatureSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;vector&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int16_t&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;frequence&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+	&lt;span class=&quot;k&quot;&gt;virtual&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;~&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;FeatureSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+
+	&lt;span class=&quot;cm&quot;&gt;/*
+	 * 函数功能：均值统计
+	 * 参数说明：
+	 * 返回值：均值
+	 * */&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;mean&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+	&lt;span class=&quot;cm&quot;&gt;/*
+	 * 函数功能：统计过零率
+	 * 参数说明：
+	 * 返回值：过零率
+	 * */&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;zeroCrossing&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+	&lt;span class=&quot;cm&quot;&gt;/*
+	 * 函数功能：统计对数能量
+	 * 参数说明：
+	 * 返回值：对数能量
+	 * */&lt;/span&gt;
+	&lt;span class=&quot;kt&quot;&gt;float&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;logEnergy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+
+&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;这个类直接继承了信号处理库中的类，这里没有什么目的，只是觉得这个信号类设计的很好，想直接拿下来用而已。具体的实现文件也比较简单。若有兴趣可以&lt;a href=&quot;https://github.com/hntea/speech-system-zh/blob/master/src/audio_fectures/src/feature_set/FeatureSet.cpp&quot;&gt;跳转到此处查看源码.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;我们一直想让每个节点的任务尽可能的简单的原因是，当出现问题时，可以很容易的定位到相应的节点文件中去。那么对于特征节点采集这个节点，有了上面的实现类，下面只需要在节点文件中直接调用并配合消息文件就好了。&lt;/p&gt;
+
+&lt;h4 id=&quot;section-2&quot;&gt;特征发布节点设计&lt;/h4&gt;
+
+&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;/*
+ * feature_set.cpp
+ *
+ *  Created on: 2017年2月27日
+ *      Author: hntea
+ *
+ * 函数功能：多特征采集
+ */
+
+#include &amp;lt;iostream&amp;gt;
+#include &amp;lt;vector&amp;gt;
+#include &quot;audio_msgs/AudioData.h&quot;
+#include &quot;audio_msgs/AudioFeatureSet.h&quot;
+#include &quot;ros/ros.h&quot;
+#include &quot;FeatureSet.h&quot;
+
+
+ros::Publisher _pub;
+float _frq;
+
+void callback(const audio_msgs::AudioData &amp;amp;msgs)
+{
+	std::vector&amp;lt;int16_t&amp;gt; src(msgs.data);
+	Hntea::FeatureSet features(src,_frq);
+	audio_msgs::AudioFeatureSet features_msgs;
+	features_msgs.logenergy = features.logEnergy();
+	features_msgs.mean = features.mean();
+	features_msgs.zerocrossing = features.zeroCrossing();
+	_pub.publish(features_msgs);
+}
+
+int main (int argc, char **argv)
+{
+	ros::init(argc, argv, &quot;feature_set&quot;);
+	if(!ros::param::get(&quot;/audio_capture/sample_rate&quot;,_frq))
+	{
+		_frq = 16000;
+	}
+	ros::NodeHandle n;
+	ros::Subscriber sb = n.subscribe(&quot;hamming_window&quot;,50,callback);
+	_pub = n.advertise&amp;lt;audio_msgs::AudioFeatureSet&amp;gt;(&quot;audio_feature/feature_set&quot;,1000);
+	ros::spin();
+	return 0;
+}
+
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;p&gt;是不是很简单？只要把ROS的节点模板一套，然后通过我们自定义的消息文件（简单的说就是自定义的数据结构），万事大吉。下面只需要简单的编译，之后运行节点就能够正常发布消息了。接下来如何使用消息订阅来完成端点检测呢？&lt;/p&gt;
+
+&lt;hr /&gt;
+
+&lt;h3 id=&quot;section-3&quot;&gt;端点检测设计&lt;/h3&gt;
+
+&lt;h2 id=&quot;section-4&quot;&gt;参考&lt;/h2&gt;
 
 &lt;ul&gt;
   &lt;li&gt;&lt;a href=&quot;http://scispeech.sourceforge.net/Chinese/Dev-pre.htm&quot;&gt;语音概念解析&lt;/a&gt;&lt;/li&gt;
