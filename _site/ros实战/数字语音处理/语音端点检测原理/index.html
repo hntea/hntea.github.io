@@ -18,22 +18,22 @@
 
 
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://hntea.github.io/images/so-simple-sample-image-7.jpg">
+<meta name="twitter:image" content="http://localhost:4000/images/so-simple-sample-image-7.jpg">
 
 <!-- Open Graph -->
 <meta property="og:locale" content="China">
 <meta property="og:type" content="article">
 <meta property="og:title" content="语音端点检测原理">
 <meta property="og:description" content="该博客简单介绍语音端点检测（也称活性检测）的工作原理，包括端点检测的一些常见特征判定算法，同时一步步介绍推进编程实现并测试。">
-<meta property="og:url" content="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
+<meta property="og:url" content="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
 <meta property="og:site_name" content="Yixin-Hong">
 
 
 
 
 
-<link rel="canonical" href="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
-<link href="https://hntea.github.io/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
+<link rel="canonical" href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/%E8%AF%AD%E9%9F%B3%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E5%8E%9F%E7%90%86/">
+<link href="http://localhost:4000/feed.xml" type="application/atom+xml" rel="alternate" title="Yixin-Hong Feed">
 
 <!-- https://t.co/dKP3o1e -->
 <meta name="HandheldFriendly" content="True">
@@ -41,7 +41,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <!-- For all browsers -->
-<link rel="stylesheet" href="https://hntea.github.io/assets/css/main.css">
+<link rel="stylesheet" href="http://localhost:4000/assets/css/main.css">
 <!-- Webfonts -->
 <script src="https://use.edgefonts.net/source-sans-pro:n2,i2,n3,i3,n4,i4,n6,i6,n7,i7,n9,i9;source-code-pro:n4,n7;volkhov.js"></script>
 
@@ -49,12 +49,12 @@
 
 <!-- HTML5 Shiv and Media Query Support -->
 <!--[if lt IE 9]>
-  <script src="https://hntea.github.io/assets/js/vendor/html5shiv.min.js"></script>
-  <script src="https://hntea.github.io/assets/js/vendor/respond.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/html5shiv.min.js"></script>
+  <script src="http://localhost:4000/assets/js/vendor/respond.min.js"></script>
 <![endif]-->
 
 <!-- Modernizr -->
-<script src="https://hntea.github.io/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
+<script src="http://localhost:4000/assets/js/vendor/modernizr-2.7.1.custom.min.js"></script>
 
 
 <!-- MathJax -->
@@ -63,17 +63,17 @@
 
 <!-- Icons -->
 <!-- 16x16 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.ico">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.ico">
 <!-- 32x32 -->
-<link rel="shortcut icon" href="https://hntea.github.io/favicon.png">
+<link rel="shortcut icon" href="http://localhost:4000/favicon.png">
 <!-- 57x57 (precomposed) for iPhone 3GS, pre-2011 iPod Touch and older Android devices -->
-<link rel="apple-touch-icon-precomposed" href="https://hntea.github.io/images/apple-touch-icon-precomposed.png">
+<link rel="apple-touch-icon-precomposed" href="http://localhost:4000/images/apple-touch-icon-precomposed.png">
 <!-- 72x72 (precomposed) for 1st generation iPad, iPad 2 and iPad mini -->
-<link rel="apple-touch-icon-precomposed" sizes="72x72" href="https://hntea.github.io/images/apple-touch-icon-72x72-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="72x72" href="http://localhost:4000/images/apple-touch-icon-72x72-precomposed.png">
 <!-- 114x114 (precomposed) for iPhone 4, 4S, 5 and post-2011 iPod Touch -->
-<link rel="apple-touch-icon-precomposed" sizes="114x114" href="https://hntea.github.io/images/apple-touch-icon-114x114-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="114x114" href="http://localhost:4000/images/apple-touch-icon-114x114-precomposed.png">
 <!-- 144x144 (precomposed) for iPad 3rd and 4th generation -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144" href="https://hntea.github.io/images/apple-touch-icon-144x144-precomposed.png">
+<link rel="apple-touch-icon-precomposed" sizes="144x144" href="http://localhost:4000/images/apple-touch-icon-144x144-precomposed.png">
 
 </head>
 
@@ -103,19 +103,19 @@ charset="UTF-8"></script>
 	    <ul>
       
 		    
-		    <li><a href="https://hntea.github.io/about" >Author</a></li>
+		    <li><a href="http://localhost:4000/about" >Author</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/category/" >Category</a></li>
+		    <li><a href="http://localhost:4000/category/" >Category</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/blog/" >Blog</a></li>
+		    <li><a href="http://localhost:4000/blog/" >Blog</a></li>
 		  
 		    
 		    <li><a href="https://github.com/hntea" target="_blank">GitHub</a></li>
 		  
 		    
-		    <li><a href="https://hntea.github.io/search/" >search</a></li>
+		    <li><a href="http://localhost:4000/search/" >search</a></li>
 		  
 	    </ul>
 	</nav>
@@ -126,7 +126,7 @@ charset="UTF-8"></script>
 <header class="masthead">
 	
 		<div class="wrap">
-			<a href="https://hntea.github.io/" class="site-logo" rel="home" title="Yixin-Hong"><img src="https://hntea.github.io/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
+			<a href="http://localhost:4000/" class="site-logo" rel="home" title="Yixin-Hong"><img src="http://localhost:4000/images/site-logo.png" width="200" height="200" alt="Yixin-Hong logo" class="animated fadeInDown"></a>
 		</div>
 	
 </header><!-- /.masthead -->
@@ -137,11 +137,11 @@ charset="UTF-8"></script>
 
 <div id="main" role="main">
   <article class="hentry">
-    <img src="https://hntea.github.io/images/so-simple-sample-image-7.jpg" class="entry-feature-image" alt="语音端点检测原理" >
+    <img src="http://localhost:4000/images/so-simple-sample-image-7.jpg" class="entry-feature-image" alt="语音端点检测原理" >
     <div class="entry-wrapper">
       <header class="entry-header">
         <ul class="entry-tags">
-          <li><a href="https://hntea.github.io/tags/#Linux" title="Pages tagged Linux">Linux</a></li><li><a href="https://hntea.github.io/tags/#ALSA" title="Pages tagged ALSA">ALSA</a></li><li><a href="https://hntea.github.io/tags/#ROS" title="Pages tagged ROS">ROS</a></li><li><a href="https://hntea.github.io/tags/#Kinect2" title="Pages tagged Kinect2">Kinect2</a></li><li><a href="https://hntea.github.io/tags/#语音信号处理" title="Pages tagged 语音信号处理">语音信号处理</a></li>
+          <li><a href="http://localhost:4000/tags/#Linux" title="Pages tagged Linux">Linux</a></li><li><a href="http://localhost:4000/tags/#ALSA" title="Pages tagged ALSA">ALSA</a></li><li><a href="http://localhost:4000/tags/#ROS" title="Pages tagged ROS">ROS</a></li><li><a href="http://localhost:4000/tags/#Kinect2" title="Pages tagged Kinect2">Kinect2</a></li><li><a href="http://localhost:4000/tags/#语音信号处理" title="Pages tagged 语音信号处理">语音信号处理</a></li>
         </ul>
         
           <h1 class="entry-title">语音端点检测原理</h1>
@@ -150,7 +150,7 @@ charset="UTF-8"></script>
       <footer class="entry-meta">
         
         
-          <img src="https://hntea.github.io/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
+          <img src="http://localhost:4000/images/Hntea-Hong.jpg" class="bio-photo" alt="Hntea bio photo"></a>
         
         <span class="author vcard">By <span class="fn">Hntea</span></span>
         <span class="entry-date date published"><time datetime="2017-01-29T03:39:55+08:00"><i class="fa fa-calendar-o"></i> January 28, 2017</time></span>
@@ -189,28 +189,31 @@ charset="UTF-8"></script>
   <li>倒谱距离、 频率方差、谱熵等</li>
 </ul>
 
-<h3 id="section-2">处理过程</h3>
+<h3 id="section-2">一般算法处理过程</h3>
 
-<ol>
-  <li>预处理：通常包括分帧和预滤波等。
-    <ul>
-      <li>分帧是指将语音信号分段（称为语音帧，各帧通常是有交叠的）</li>
-      <li>预滤波一般是指采用高通滤波器滤除低频噪声</li>
-    </ul>
-  </li>
-  <li>特征提取
-    <ul>
-      <li>能量、过零、频谱这些常见的特征</li>
-    </ul>
-  </li>
-  <li>端点判决：是指采用一种判决准则（如门限判决或模式分类等）来区分语音帧与非语音帧；
-    <ul>
-      <li>短时特征判别</li>
-      <li>模板匹配</li>
-    </ul>
-  </li>
-  <li>后处理：是指对上述判决结果进行间断检测，得到最终的语音端点判决结果。</li>
-</ol>
+<blockquote>
+
+  <ol>
+    <li>预处理：通常包括分帧和预滤波等。
+      <ul>
+        <li>分帧是指将语音信号分段（称为语音帧，各帧通常是有交叠的）</li>
+        <li>预滤波一般是指采用高通滤波器滤除低频噪声</li>
+      </ul>
+    </li>
+    <li>特征提取
+      <ul>
+        <li>能量、过零、频谱这些常见的特征</li>
+      </ul>
+    </li>
+    <li>端点判决：是指采用一种判决准则（如门限判决或模式分类等）来区分语音帧与非语音帧；
+      <ul>
+        <li>短时特征判别</li>
+        <li>模板匹配</li>
+      </ul>
+    </li>
+    <li>后处理：是指对上述判决结果进行间断检测，得到最终的语音端点判决结果。</li>
+  </ol>
+</blockquote>
 
 <hr />
 
@@ -218,7 +221,7 @@ charset="UTF-8"></script>
 
 <h3 id="section-4">预加重</h3>
 
-<p>由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，高频端大约在800Hz以上按6dB/倍频程跌落,即6dB/oct(2倍频)或20dB/dec(10倍频)，所以求语音信号频谱时，频率越高相应的成分越小，高频部分的频谱比低频部分的难求，为此要在预处理中进行预加重(Pre-emphasis)处理．</p>
+<p>由于语音信号的平均功率谱受声门激励和口鼻辐射的影响，高频端大约在800Hz以上按6dB/倍频程跌落,而有效的语音信号能量一般集中在60～3400Hz频段，所以求语音信号频谱时，频率越高相应的成分越小，高频部分的频谱比低频部分的难求，为此要在预处理中进行预加重(Pre-emphasis)处理．</p>
 
 <p>预加重的目的是提升高频部分，使信号的频谱变得平坦，保持在低频到高频的整个频带中，能用同样的信噪比求频谱，以便于频谱分析或声道参数分析．预加重可在语音信号数字化时在反混叠滤波器之前进行，这样不仅可以进行预加重，而且可以压缩信号的动态范围，有效地提高信噪比．但预加重一般是在语音信号数字化之后，在参数分析之前在计算机里用6dB/倍频程的提升高频特性的预加重数字滤波器来实现，一般：<br /></p>
 
@@ -369,20 +372,28 @@ sgn(x) =
 -1, & x\lt0
 \end{cases} %]]></script>
 
-<p>上面两个特征的定义相对简单，编程实现也比较容易。不过为了方便与统一说明，这里采用C++的信号处理库<strong>Aquila</strong>对函数实现进行简单说明，这里将要列举了<strong>能量的计算</strong>，对于<strong>过零</strong>也相对简单，可以自行设计</p>
+<p>上面两个特征的定义相对简单，编程实现也比较容易。不过为了方便与统一说明，这里采用C++的信号处理库<strong>Aquila</strong>对函数实现进行简单说明，这里将要列举了<strong>能量的计算</strong>，对于<strong>过零</strong>也相对简单，可以自行设计。而对于频谱特征提取，这里不多说，若有兴趣了解的，可以使用<strong>Aquila</strong>库进行开发。</p>
 
 <h4 id="c--2">C++ 示例代码</h4>
 
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="kt">double</span> <span class="nf">energy</span><span class="p">(</span><span class="k">const</span> <span class="n">SignalSource</span><span class="o">&amp;</span> <span class="n">source</span><span class="p">)</span>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cm">/*
+ * 函数功能：统计对数能量
+ * 参数说明：
+ * 返回值：对数能量
+ * */</span>
+<span class="kt">float</span> <span class="n">FeatureSet</span><span class="o">::</span><span class="n">logEnergy</span><span class="p">()</span>
 <span class="p">{</span>
-	<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">accumulate</span><span class="p">(</span>
-	    <span class="n">std</span><span class="o">::</span><span class="n">begin</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
-	    <span class="n">std</span><span class="o">::</span><span class="n">end</span><span class="p">(</span><span class="n">source</span><span class="p">),</span>
-	    <span class="mf">0.0</span><span class="p">,</span>
-	    <span class="p">[]</span> <span class="p">(</span><span class="kt">double</span> <span class="n">acc</span><span class="p">,</span> <span class="n">SampleType</span> <span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">acc</span> <span class="o">+</span> <span class="n">value</span> <span class="o">*</span> <span class="n">value</span><span class="p">;</span>
-	    <span class="p">}</span>
-	<span class="p">);</span>
+
+	<span class="kt">float</span> <span class="n">energy</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">;</span>
+
+	<span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">iterator</span> <span class="n">iter</span> <span class="o">=</span> <span class="n">m_data</span><span class="p">.</span><span class="n">begin</span><span class="p">();</span>
+
+	<span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">j</span><span class="o">&lt;</span><span class="n">m_data</span><span class="p">.</span><span class="n">size</span><span class="p">();</span><span class="n">j</span><span class="o">++</span><span class="p">)</span>
+	<span class="p">{</span>
+		<span class="n">energy</span> <span class="o">+=</span> <span class="p">(</span> <span class="p">(</span> <span class="n">iter</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="o">*</span><span class="n">iter</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="p">));</span>
+	<span class="p">}</span>
+	<span class="k">return</span> <span class="n">log</span><span class="p">(</span><span class="n">energy</span><span class="p">);</span>
+
 <span class="p">}</span>
 </code></pre>
 </div>
@@ -390,7 +401,7 @@ sgn(x) =
 
 <hr />
 
-<p>一般来说，到这里已经能够进行简单语音端点检测开发工作了。接下来会具体描述如何使用ROS设计语音端点检测的节点。</p>
+<p>一般来说，当算法执行到特征提取这个步骤时才算是VAD检测算法的开始，如何才能判定是语音信号的端点呢？具体如何做？若根据开始提到的算法流程，只要再搜索相关资料，实现较为简单的<strong>双阈值判决算法</strong>并不会太难。接下来会在另一篇博文中具体描述如何使用ROS设计VAD检测的节点。</p>
 
 <hr />
 
@@ -404,7 +415,7 @@ sgn(x) =
         
     <!--add by hntea start-->
     <!--
-    <img src="https://hntea.github.io/images/pagement2.jpg" alt="pagement image"></img>
+    <img src="http://localhost:4000/images/pagement2.jpg" alt="pagement image"></img>
     -->   
      <!--add by hntea end-->
       <!-- 多说评论框 start -->
@@ -427,10 +438,10 @@ sgn(x) =
     </div><!-- /.entry-wrapper -->
     <nav class="pagination" role="navigation">
       
-        <a href="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/" class="btn" title="ROS+Kinect2 音频采集">Previous</a>
+        <a href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/ROS%E4%B8%8B%E4%BD%BF%E7%94%A8Kinect2%E8%BF%9B%E8%A1%8C%E9%9F%B3%E9%A2%91%E9%87%87%E9%9B%86/" class="btn" title="ROS+Kinect2 音频采集">Previous</a>
       
       
-        <a href="https://hntea.github.io/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="btn" title="ROS下端点检测节点设计及实现">Next</a>
+        <a href="http://localhost:4000/ros%E5%AE%9E%E6%88%98/%E6%95%B0%E5%AD%97%E8%AF%AD%E9%9F%B3%E5%A4%84%E7%90%86/ROS%E4%B8%8B%E7%AB%AF%E7%82%B9%E6%A3%80%E6%B5%8B%E8%8A%82%E7%82%B9%E8%AE%BE%E8%AE%A1%E5%8F%8A%E5%AE%9E%E7%8E%B0/" class="btn" title="ROS+VAD方案与算法设计">Next</a>
       
     </nav><!-- /.pagination -->
   </article>
@@ -455,19 +466,19 @@ sgn(x) =
 	
   
 	
-  <a href="https://hntea.github.io/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
+  <a href="http://localhost:4000/feed.xml" title="Atom/RSS feed"><i class="fa fa-rss-square fa-2x"></i></a>
 </div><!-- /.social-icons -->
 
   </footer>
 </div><!-- /.footer-wrapper -->
 
 <script type="text/javascript">
-  var BASE_URL = 'https://hntea.github.io';
+  var BASE_URL = 'http://localhost:4000';
 </script>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="https://hntea.github.io/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-<script src="https://hntea.github.io/assets/js/scripts.min.js"></script>
+<script>window.jQuery || document.write('<script src="http://localhost:4000/assets/js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
+<script src="http://localhost:4000/assets/js/scripts.min.js"></script>
 
 
 
