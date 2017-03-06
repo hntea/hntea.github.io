@@ -36,11 +36,16 @@ mathjax: true
 include: [".htaccess"]
 exclude: ["lib", "config.rb", "Capfile", "config", "log", "Rakefile", "Rakefile.rb", "tmp", ".less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "Gemfile", "Gemfile.lock", "LICENSE", "README.md", "vendor"]
 
+# add duoshuo
 comments :
   provider : duoshuo
   duoshuo :
     short_name : hntea
 
+# add view
+lean_cloud :
+  app_id   :  mBxHGe9sSEoLWe6MXvbs0OCt-gzGzoHsz
+  app_key  :  dNIgssUI2hKaEmccne92I0pi
 
 # Site owner
 owner:
