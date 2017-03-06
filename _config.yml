@@ -43,9 +43,9 @@ comments :
     short_name : hntea
 
 # add view
-lean_cloud :
-  app_id   :  mBxHGe9sSEoLWe6MXvbs0OCt-gzGzoHsz
-  app_key  :  dNIgssUI2hKaEmccne92I0pi
+#lean_cloud :
+#  app_id   :  mBxHGe9sSEoLWe6MXvbs0OCt-gzGzoHsz
+#  app_key  :  dNIgssUI2hKaEmccne92I0pi
 
 # Site owner
 owner:
