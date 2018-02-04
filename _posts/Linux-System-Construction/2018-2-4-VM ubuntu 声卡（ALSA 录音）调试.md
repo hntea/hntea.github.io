@@ -1,14 +1,14 @@
 
 ---
 layout: post
-title: "虚拟机 ubuntu 声卡（ALSA 录音）调试"
+title:"vm-ubuntu 声卡（ALSA 录音）调试"
 modified:
-categories: [ubuntu]
-excerpt: vm 在启动时如果没有对声卡进行配置，那么默认为使用主机默认的声卡，也就是说，如果你当前有一个USB的声卡，那么不对虚拟机进行配置是无法使用ALSA驱动调用的。如何在虚拟机中使用USB麦克风进行录音就是这篇文章所记录的。
+categories:[ubuntu]
+excerpt: vm在启动时如果没有对声卡进行配置，那么默认为使用主机默认的声卡，也就是说，如果你当前有一个USB的声卡，那么不对虚拟机进行配置是无法使用ALSA驱动调用的。如何在虚拟机中使用USB麦克风进行录音就是这篇文章所记录的。
 tags: [ubuntu]
 image: 
   feature: so-simple-sample-image-7.jpg
-date: 2018-2-4T15:39:55-04:00
+date:2018-2-4T15:39:55-04:00
 ---
 
 vm 在启动时如果没有对声卡进行配置，那么默认为使用主机默认的声卡，也就是说，如果你当前有一个USB的声卡，那么不对虚拟机进行配置是无法使用ALSA驱动调用的。如何在虚拟机中使用USB麦克风进行录音就是这篇文章所记录的。
